@@ -1,2 +1,2 @@
-class placeholderDesc {
+class PlaceholderDesc {
 }
