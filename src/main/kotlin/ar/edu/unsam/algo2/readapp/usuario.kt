@@ -32,7 +32,7 @@ open class Usuario(
 
 }
 
-val persona1 = Usuario("pipo", "alegre", "pipojr10", 2, (LocalDate.of(1990, 1, 1)))
+
 
 
 
