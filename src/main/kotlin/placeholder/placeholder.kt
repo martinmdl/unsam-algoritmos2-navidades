@@ -1,2 +1,4 @@
+package placeholder
+
 class Placeholder {
 }
