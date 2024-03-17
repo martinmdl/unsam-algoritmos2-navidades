@@ -12,7 +12,7 @@ class LibroSpec : DescribeSpec({
             true,
             5,
             listOf(ESP, JAP),
-            10001.0
+            10001
         )
         it("El libro es desafiante"){
             harryPotter.esDesafiante() shouldBe true
