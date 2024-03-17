@@ -15,5 +15,7 @@ class LibroSpec: DescribeSpec({
         it("El libro es desafiante"){
             harrypotter.esDesafiante() shouldBe true
         }
+        it("El libro es BestSeller"){
+            harryPotter.esBestSeller() shouldBe true
     }
 })
