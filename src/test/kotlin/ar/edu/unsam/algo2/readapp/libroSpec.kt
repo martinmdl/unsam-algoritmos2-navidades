@@ -1,4 +1,9 @@
+@file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
 
-class libroSpec {
+class LibroSpec {
+    fun hola(){
+
+    }
 }

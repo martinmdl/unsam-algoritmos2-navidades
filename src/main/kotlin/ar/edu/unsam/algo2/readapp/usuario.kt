@@ -24,12 +24,12 @@ open class Usuario(
         return edad
     }
 
-    fun aumentaVelocidadLectura() {
+    /*fun aumentaVelocidadLectura() {
         if(Libro.esDesafiante()) {
             tiempoLectura * 2
         }
     }
-
+*/
 }
 
 
