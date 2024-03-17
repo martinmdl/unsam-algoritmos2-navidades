@@ -2,8 +2,6 @@
 
 package ar.edu.unsam.algo2.readapp
 
-import java.security.KeyStore.TrustedCertificateEntry
-
 /*De los libros conocemos:
 La cantidad de palabras, páginas, ediciones y ventas semanales. También si es de lectura compleja.
 Sabemos que un libro es desafiante si es de lectura compleja o es largo (tiene más de 600 páginas).
@@ -19,7 +17,7 @@ class Libro(
     var lecturaCompleja: Boolean,
     var ediciones: Int,
     var lenguajes: List<Lenguaje>,
-    var ventasSemanales: Double
+    var ventasSemanales: Int
 ) {
     fun esDesafiante(): Boolean = this.lecturaCompleja || this.paginas > 600
     fun esBestSeller(): Boolean = this.ventasSemanales >=10000 && (this.ediciones> 2 || this.numeroDeLenguajes() > 2)
