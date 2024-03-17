@@ -1,21 +1,24 @@
 package ar.edu.unsam.algo2.readapp
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-class LibroSpec: DescribeSpec({
+
+class LibroSpec : DescribeSpec({
     describe("Test de libro"){
-        val harrypotter = Libro(
+        val harryPotter = Libro(
             "HarryPotter",
             "Salamandra",
             800,
             75000,
             true,
-            1,
+            5,
             listOf(ESP, JAP),
-            10000)
+            10001.0
+        )
         it("El libro es desafiante"){
-            harrypotter.esDesafiante() shouldBe true
+            harryPotter.esDesafiante() shouldBe true
         }
         it("El libro es BestSeller"){
             harryPotter.esBestSeller() shouldBe true
+        }
     }
 })
