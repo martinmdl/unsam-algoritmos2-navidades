@@ -13,11 +13,7 @@ open class Usuario(
     /* Nombre, Apellido, Username (el alias que lo identificará dentro de la aplicación), Fecha de Nacimiento,
     Edad y el Tiempo de Lectura Promcada usuario puede leer una cantidad de palabras por miedio (nutos,
     este valor puede aumentar al doble si el libro es desafiante). */
-
-    fun test() {
-        var date = LocalDate.parse("2018-12-12")
-    }
-
+    //
     fun edad(): Long {
         val hoy = LocalDate.now()
         val edad = ChronoUnit.YEARS.between(fechaNac, hoy)

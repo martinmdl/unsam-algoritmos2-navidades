@@ -5,16 +5,11 @@ import java.time.LocalDate
 
 class UsuarioSpec : DescribeSpec({
     describe("Tests Calculo Edad") {
-        it("si nacio en 01-10-2000 debe tener 23 aÃ±os") {
+        it("si nacio en 01-10-2000 debe tener 24 anios") {
             // Arrange
-            val usuario1 = Usuario("pipo", "alegre", "pipojr10", 2, (LocalDate.of(1990, 1, 1)))
+            val usuario1 = Usuario("pipo", "alegre", "pipojr10", 2, (LocalDate.of(2000, 1, 1)))
             // Assert
-            usuario1.edad() shouldBe 23
+            usuario1.edad() shouldBe 24
         }
     }
 })
-
-
-
-
-
