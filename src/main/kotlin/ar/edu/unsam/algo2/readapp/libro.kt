@@ -16,5 +16,11 @@ class Libro(
     var lenguajes: List<Lenguaje>,
     var ventasSemanales: Double
 ) {
-  
+    fun esDesafiante(): Boolean = this.lecturaCompleja || this.paginas > 600
+    
+    fun esBestSeller(): Boolean = this.ventasSemanales >=10000 && (this.ediciones> 2 || this.numeroDeLenguajes() > 2)
+    
+ /*GETTER*/
+    private fun numeroDeLenguajes(): Int = this.lenguajes.size
+    
     }
