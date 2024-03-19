@@ -19,5 +19,29 @@ class UsuarioSpec : DescribeSpec({
             // Assert
             usuario1.edad() shouldBe 23
         }
+        it("Lectura promedio") {
+            //Arrange
+            val usuario1 = Usuario(
+                "pipo",
+                "alegre",
+                "pipojr10",
+                2,
+                (LocalDate.of(2000, 10, 1))
+            )
+            val harryPotter = Libro(
+                "HarryPotter",
+                "Salamandra",
+                800,
+                750000,
+                true,
+                5,
+                listOf(ESP, JAP),
+                10001
+            )
+            //Act
+            usuario1.aumentaVelocidadLectura(harryPotter)
+            //Assert
+            usuario1.tiempoLectura shouldBe 4
+        }
     }
 })

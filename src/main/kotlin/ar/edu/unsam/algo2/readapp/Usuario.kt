@@ -8,10 +8,9 @@ class Usuario(
     val nombre: String,
     val apellido: String,
     val username: String,
-    private var tiempoLectura: Int,
+    var tiempoLectura: Int,
     private val fechaNac: LocalDate
 ) {
-
     /* Nombre, Apellido, Username (el alias que lo identificará dentro de la aplicación), Fecha de Nacimiento,
     Edad y el Tiempo de Lectura Promcada usuario puede leer una cantidad de palabras por miedio (nutos,
     este valor puede aumentar al doble si el libro es desafiante). */
@@ -22,12 +21,12 @@ class Usuario(
         return edad
     }
 
-    /*fun aumentaVelocidadLectura() {
-        if(Libro.esDesafiante()) {
-            tiempoLectura * 2
+    fun aumentaVelocidadLectura(libroAleer: Libro) {
+        if(libroAleer.esDesafiante()) {
+            this.tiempoLectura *= 2
         }
     }
-*/
+
 }
 
 
