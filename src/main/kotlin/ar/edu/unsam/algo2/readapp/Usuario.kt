@@ -4,12 +4,12 @@ package ar.edu.unsam.algo2.readapp
 import java.time.*
 import java.time.temporal.ChronoUnit
 
-open class Usuario(
+class Usuario(
     val nombre: String,
     val apellido: String,
     val username: String,
     private var tiempoLectura: Int,
-    val fechaNac: LocalDate
+    private val fechaNac: LocalDate
 ) {
 
     /* Nombre, Apellido, Username (el alias que lo identificará dentro de la aplicación), Fecha de Nacimiento,
