@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
 import java.time.*
 import java.time.temporal.ChronoUnit
