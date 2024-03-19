@@ -16,7 +16,7 @@ open class Usuario(
     //
     fun edad(): Long {
         val hoy = LocalDate.now()
-        val edad = ChronoUnit.YEARS.between(fechaNac, hoy)
+        val edad = ChronoUnit.DAYS.between(fechaNac, hoy)/365
         return edad
     }
 
