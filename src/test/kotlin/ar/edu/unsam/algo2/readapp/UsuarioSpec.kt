@@ -35,7 +35,7 @@ class UsuarioSpec : DescribeSpec({
                 750000,
                 true,
                 5,
-                listOf(ESP, JAP),
+                listOf(Lenguaje.ESP, Lenguaje.JAP),
                 10001
             )
             //Act
