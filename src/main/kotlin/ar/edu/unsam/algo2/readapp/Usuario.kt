@@ -8,40 +8,26 @@ class Usuario(
     val nombre: String,
     val apellido: String,
     val username: String,
-    var tiempoLectura: Int,
+    var palabrasPorMinuto: Int,
     private val fechaNac: LocalDate
 ) {
+
     /* Nombre, Apellido, Username (el alias que lo identificará dentro de la aplicación), Fecha de Nacimiento,
     Edad y el Tiempo de Lectura Promcada usuario puede leer una cantidad de palabras por miedio (nutos,
     este valor puede aumentar al doble si el libro es desafiante). */
     //
-    fun edad(): Long {
-        val hoy = LocalDate.now()
-        val edad = ChronoUnit.DAYS.between(fechaNac, hoy)/365
-        return edad
+
+    companion object {
+        const val DISMUNUCION_VELOCIDAD_LECTURA = 2
     }
 
-    fun aumentaVelocidadLectura(libroAleer: Libro) {
-        if(libroAleer.esDesafiante()) {
-            this.tiempoLectura *= 2
+    fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
+
+    fun tiempoDeLectura(libroAleer: Libro) : Int {
+        return if(libroAleer.esDesafiante()) {
+            libroAleer.cantPalabras / (palabrasPorMinuto / DISMUNUCION_VELOCIDAD_LECTURA)
+        } else {
+            libroAleer.cantPalabras / palabrasPorMinuto
         }
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,42 +6,54 @@ import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
 class UsuarioSpec : DescribeSpec({
-    describe("Tests Calculo Edad") {
+    describe("Tests de usuario") {
+
+        // Arrange
+        val usuario1 = Usuario(
+            "pipo",
+            "alegre",
+            "pipojr10",
+            250,
+            (LocalDate.of(2000, 10, 1))
+        )
+
+        // Arrange
+        val libroDesafiante = Libro(
+            "HarryPotter",
+            "Salamandra",
+            800,
+            75000,
+            true,
+            5,
+            listOf(Lenguaje.ESP, Lenguaje.JAP),
+            10001
+        )
+
+        // Arrange
+        val libroNoDesafiante = Libro(
+            "OnePiece",
+            "ivrea",
+            150,
+            10000,
+            false,
+            1,
+            listOf(Lenguaje.ESP, Lenguaje.JAP),
+            10001
+        )
+
         it("si nacio en 01-10-2000 debe tener 23 anios") {
-            // Arrange
-            val usuario1 = Usuario(
-                "pipo",
-                "alegre",
-                "pipojr10",
-                2,
-                (LocalDate.of(2000, 10, 1))
-            )
             // Assert
             usuario1.edad() shouldBe 23
         }
-        it("Lectura promedio") {
-            //Arrange
-            val usuario1 = Usuario(
-                "pipo",
-                "alegre",
-                "pipojr10",
-                2,
-                (LocalDate.of(2000, 10, 1))
-            )
-            val harryPotter = Libro(
-                "HarryPotter",
-                "Salamandra",
-                800,
-                750000,
-                true,
-                5,
-                listOf(Lenguaje.ESP, Lenguaje.JAP),
-                10001
-            )
-            //Act
-            usuario1.aumentaVelocidadLectura(harryPotter)
+
+        it("cuánto tarda en leer un libro desafiante") {
             //Assert
-            usuario1.tiempoLectura shouldBe 4
+            usuario1.tiempoDeLectura(libroDesafiante)  shouldBe 600
+        }
+
+        it("cuánto tarda en leer un libro no desafiante") {
+            //Assert
+            usuario1.tiempoDeLectura(libroNoDesafiante)  shouldBe 40
         }
     }
 })
