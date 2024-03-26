@@ -3,7 +3,7 @@
 package ar.edu.unsam.algo2.readapp
 
 class Recomendaciones(
-    var privacidad: Boolean,
+    var privacidad: Boolean, //privacidad en true es publico, en false es privado
     val creador: Usuario,
     var libroRecomendados: Set<Libro>,
     var descripcion: String
