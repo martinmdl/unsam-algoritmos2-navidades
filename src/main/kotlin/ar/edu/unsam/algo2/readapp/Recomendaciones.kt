@@ -59,9 +59,9 @@ class Recomendaciones(
     /*GETTERS*/
     fun leerRecomendacion(lector: Usuario): Boolean = privacidad || validarUsuario(lector)
 
-    fun tiempoDeLecturaTotal(lector: Usuario): Int {
-        return 0
-    }
+    fun tiempoDeLecturaTotal(lector: Usuario): Int = libroRecomendados.sumOf { lector.tiempoDeLectura(it)}
+
+   //IMPLEMENTAR/fun tiempoDeLecturaRapida(lector: Usuario): Int = libroRecomendados.subtract(lector.librosLeidos).sumOf { lector.tiempoDeLectura(it) }
 
     fun tiempoDeLecturaAhorrado(lector: Usuario): Int {
         return 0
