@@ -5,8 +5,9 @@ package ar.edu.unsam.algo2.readapp
 class Recomendaciones(
     var privacidad: Boolean, //privacidad en true es publico, en false es privado
     val creador: Usuario,
-    var libroRecomendados: Set<Libro>,
+    var libroRecomendados: MutableSet<Libro>,
     var descripcion: String
+    /*var valoraciones: Set<Valoracion>  <-IMPLEMENTAR VALEN*/
 ) {
     /***
     * Los usuarios del sistema pueden crear recomendaciones de una serie de libros para publicar en ReadApp.
@@ -18,9 +19,45 @@ class Recomendaciones(
     Por otro lado, los usuarios que no sean el creador podrán dejarle una valoración siempre y cuando haya leído todos los libros, o si estos pertenecen a un único autor y sea uno de sus autores preferidos. La valoración cuenta con un valor del 1 al 5 y un comentario; los usuarios que ya hayan emitido una valoración no pueden emitir otra nueva, pero sí editar la que emitieron.
      ***/
 
-    fun editar() {
+    /*SETTERS*/
+
+    fun editarPrivacidad(editor: Usuario) {
+        if(validarUsuario(editor)) {
+            alternarPrivacidad()
+        }
+        /*CAPTURAR ERROR*/
+    }
+    fun editarDescripcion(editor: Usuario, descripcionNueva: String) {
+        if(validarUsuario(editor)) {
+            cambioDeValoracion(descripcionNueva)
+        }
+        /*CAPTURAR ERROR*/
+    }
+
+    fun agregarALibrosDeRecomendacion(editor: Usuario, libro: Libro) {
+        if(validarUsuario(editor) && !existeLibro(libro)) {
+            this.libroRecomendados.add(libro)
+        }
+        /*CAPTURAR ERROR*/
+    }
+
+    fun quitarDeLibrosDeRecomendacion(editor: Usuario, libro: Libro) {
+        if(validarUsuario(editor) && existeLibro(libro)) {
+            this.libroRecomendados.remove(libro)
+        }
+        /*CAPTURAR ERROR*/
+    }
+
+    fun crearValoracion(valor: Int, comentario: String, lector: Usuario ){
 
     }
+
+    fun editarValoracion(valor: Int, comentario: String, lector: Usuario) {
+
+    }
+
+    /*GETTERS*/
+    fun leerRecomendacion(lector: Usuario): Boolean = this.privacidad || this.validarUsuario(lector)
 
     fun tiempoDeLecturaTotal(lector: Usuario): Int {
         return 0
@@ -30,14 +67,22 @@ class Recomendaciones(
         return 0
     }
 
-    fun crearValoracion(valor: Int, comentario: String, lector: Usuario ){
 
-    }
+    /*AUX*/
+
+    private fun validarUsuario(lector: Usuario): Boolean = this.creador == lector /*|| this.creador.amigos.contains(lector) [LOS DE USUARIO AGREGAR SET DE AMIGOS]*/
+
     fun validarValoracion(lector: Usuario){
 
     }
-    fun editarValoracion(valor: Int, comentario: String, lector: Usuario) {
-
+    private fun alternarPrivacidad() {
+        privacidad = !privacidad
     }
+    private  fun cambioDeValoracion(texto: String){
+        this.descripcion = texto
+    }
+
+    private fun existeLibro(libro: Libro): Boolean = this.libroRecomendados.contains(libro)
+
 }
 
