@@ -2,5 +2,42 @@
 
 package ar.edu.unsam.algo2.readapp
 
-class Recomendaciones {
+class Recomendaciones(
+    var privacidad: Boolean,
+    val creador: Usuario,
+    var libroRecomendados: Set<Libro>,
+    var descripcion: String
+) {
+    /***
+    * Los usuarios del sistema pueden crear recomendaciones de una serie de libros para publicar en ReadApp.
+    * Estas recomendaciones pueden ser públicas (disponibles para cualquier usuario de la app) o privadas (solo para los amigos).
+    * Las recomendaciones, sólo pueden ser editadas por el usuario creador, o por un amigo, si es que este último leyó todos los libros recomendados.
+    * El creador no puede agregar libros que no haya leído, y en el caso de que un amigo edite una recomendación, no puede agregar un libro que no haya leído él y el creador.
+    En todos los casos se debe emitir una reseña o detalle, necesaria/o para cautivar a otros usuarios.
+    * Debemos poder determinar el tiempo de lectura que puede llevarle a un usuario leer todos los libros recomendados, el tiempo que se puede ahorrar (si ya leyó alguno/s) y el tiempo neto (si al leer los libros de la recomendación evita la relectura).
+    Por otro lado, los usuarios que no sean el creador podrán dejarle una valoración siempre y cuando haya leído todos los libros, o si estos pertenecen a un único autor y sea uno de sus autores preferidos. La valoración cuenta con un valor del 1 al 5 y un comentario; los usuarios que ya hayan emitido una valoración no pueden emitir otra nueva, pero sí editar la que emitieron.
+     ***/
+
+    fun editar() {
+
+    }
+
+    fun tiempoDeLecturaTotal(lector: Usuario): Int {
+        return 0
+    }
+
+    fun tiempoDeLecturaAhorrado(lector: Usuario): Int {
+        return 0
+    }
+
+    fun crearValoracion(valor: Int, comentario: String, lector: Usuario ){
+
+    }
+    fun validarValoracion(lector: Usuario){
+
+    }
+    fun editarValoracion(valor: Int, comentario: String, lector: Usuario) {
+
+    }
 }
+
