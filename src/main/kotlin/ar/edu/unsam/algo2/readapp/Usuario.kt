@@ -23,12 +23,14 @@ class Usuario(
     }
 
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
+    fun tiempoDeLectura(libroAleer: Libro): Int = libroAleer.cantPalabras / velocidadDeLectura(libroAleer)
 
-    fun tiempoDeLectura(libroAleer: Libro) : Int {
+    /*AUX*/
+    private fun velocidadDeLectura(libroAleer: Libro): Int {
         return if(libroAleer.esDesafiante()) {
-            libroAleer.cantPalabras / (palabrasPorMinuto / DISMUNUCION_VELOCIDAD_LECTURA)
+            palabrasPorMinuto / DISMINUCION_VELOCIDAD_LECTURA
         } else {
-            libroAleer.cantPalabras / palabrasPorMinuto
+            palabrasPorMinuto
         }
     }
 }

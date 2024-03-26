@@ -4,16 +4,16 @@ package ar.edu.unsam.algo2.readapp
 
 /*INGLES, ESPAÑOL, ALEMAN, ITALIANO, PORTUGUES, MANDARIN, ARABE, RUSO, HINDI, FRANCES, BENGALI, JAPONES*/
 enum class Lenguaje(val codigoPais: String){
-    USA("en_US"),
-    ESP("es-ES"),
-    ALE("de_DE"),
-    ITA("it_IT"),
-    POR("pt_PT"),
-    MAN("zh_CN"),
-    ARB("ar_AE"),
-    RUS("ru_RU"),
-    HIN("hi_IN"),
-    FRA("fr_FR"),
-    BEN("bn_BD"),
-    JAP("ja-JP")
+    en_US(("INGLES")),
+    es_ES("ESPAÑOL"),
+    de_DE("ALEMAN"),
+    it_IT("ITALIANO"),
+    pt_PT("PORTUGUES"),
+    zh_CN("MANDARIN"),
+    ar_AE("ARABE"),
+    ru_RU("RUSO"),
+    hi_IN("HIN"),
+    fr_FR("FRANCES"),
+    bn_BD("BENGALI"),
+    ja_JP("JAPONES")
 }
