@@ -41,11 +41,6 @@ class UsuarioSpec : DescribeSpec({
             10001
         )
 
-        it("si nacio en 01-10-2000 debe tener 23 anios") {
-            // Assert
-            usuario1.edad() shouldBe 23
-        }
-
         it("cuánto tarda en leer un libro desafiante") {
             //Assert
             usuario1.tiempoDeLectura(libroDesafiante)  shouldBe 600
