@@ -16,7 +16,7 @@ class LibroSpec : DescribeSpec({
                 75000,
                 true,
                 5,
-                listOf(Lenguaje.ESP, Lenguaje.JAP),
+                setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
                 10001
             )
             //Assert
@@ -32,7 +32,7 @@ class LibroSpec : DescribeSpec({
                 75000,
                 false,
                 5,
-                listOf(Lenguaje.RUS, Lenguaje.FRA),
+                setOf(Lenguaje.ru_RU, Lenguaje.fr_FR),
                 10001
             )
             //Assert
