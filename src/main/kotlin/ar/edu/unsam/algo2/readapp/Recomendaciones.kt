@@ -35,15 +35,15 @@ class Recomendaciones(
     }
 
     fun agregarALibrosDeRecomendacion(editor: Usuario, libro: Libro) {
-        if(validarUsuario(editor) && !existeLibro(libro)) {
-            this.libroRecomendados.add(libro)
+        if(validarUsuario(editor) && existeLibro(libro) && validarAgregar(editor, libro)) {
+            libroRecomendados.add(libro)
         }
         /*CAPTURAR ERROR*/
     }
 
     fun quitarDeLibrosDeRecomendacion(editor: Usuario, libro: Libro) {
-        if(validarUsuario(editor) && existeLibro(libro)) {
-            this.libroRecomendados.remove(libro)
+        if(validarUsuario(editor) && existeLibro(libro) && validarAgregar(editor, libro)) {
+            libroRecomendados.remove(libro)
         }
         /*CAPTURAR ERROR*/
     }
@@ -57,7 +57,7 @@ class Recomendaciones(
     }
 
     /*GETTERS*/
-    fun leerRecomendacion(lector: Usuario): Boolean = this.privacidad || this.validarUsuario(lector)
+    fun leerRecomendacion(lector: Usuario): Boolean = privacidad || validarUsuario(lector)
 
     fun tiempoDeLecturaTotal(lector: Usuario): Int {
         return 0
@@ -70,7 +70,20 @@ class Recomendaciones(
 
     /*AUX*/
 
-    private fun validarUsuario(lector: Usuario): Boolean = this.creador == lector /*|| this.creador.amigos.contains(lector) [LOS DE USUARIO AGREGAR SET DE AMIGOS]*/
+    private fun validarUsuario(lector: Usuario): Boolean = this.creador == lector ||  esAmigoPermitido(lector)  //[LOS DE USUARIO AGREGAR SET DE AMIGOS]
+
+    private fun esAmigoPermitido(lector: Usuario): Boolean = esAmigo(lector) && condicionDeLectura(lector)
+
+    private fun condicionDeLectura(lector: Usuario): Boolean = amigoleidosTodos(lector)
+    private fun esAmigo(lector: Usuario) = creador.amigos.contains(lector)
+
+    private fun usuarioYaLeido(usuario: Usuario,libro: Libro,):Boolean = usuario.librosLeidos.contains(libro)
+
+    private fun amigoleidosTodos(lector: Usuario): Boolean = lector.librosLeidos.containsAll(libroRecomendados)
+
+    private fun validarAgregar(editor: Usuario, libro: Libro) = usuarioYaLeido(editor,libro) && creadorYaLeido(libro)
+
+    private fun creadorYaLeido(libro: Libro): Boolean = creador.librosLeidos.contains(libro)
 
     fun validarValoracion(lector: Usuario){
 
@@ -79,10 +92,10 @@ class Recomendaciones(
         privacidad = !privacidad
     }
     private  fun cambioDeValoracion(texto: String){
-        this.descripcion = texto
+        descripcion = texto
     }
 
-    private fun existeLibro(libro: Libro): Boolean = this.libroRecomendados.contains(libro)
+    private fun existeLibro(libro: Libro): Boolean = libroRecomendados.contains(libro)
 
 }
 
