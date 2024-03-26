@@ -16,7 +16,7 @@ class Libro(
     val cantPalabras: Int,
     var lecturaCompleja: Boolean,
     var ediciones: Int,
-    var lenguajes: List<Lenguaje>,
+    var lenguajes: Set<Lenguaje>,
     var ventasSemanales: Int
 ) {
     companion object {
