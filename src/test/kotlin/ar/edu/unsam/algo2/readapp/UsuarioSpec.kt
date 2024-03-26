@@ -3,7 +3,6 @@
 package ar.edu.unsam.algo2.readapp
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import java.time.LocalDate
 
 class UsuarioSpec : DescribeSpec({
     describe("Tests de usuario") {
@@ -13,8 +12,7 @@ class UsuarioSpec : DescribeSpec({
             "pipo",
             "alegre",
             "pipojr10",
-            250,
-            (LocalDate.of(2000, 10, 1))
+            250
         )
 
         // Arrange
