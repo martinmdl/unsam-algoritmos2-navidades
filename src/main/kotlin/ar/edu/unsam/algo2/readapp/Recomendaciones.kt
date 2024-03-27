@@ -2,11 +2,20 @@
 
 package ar.edu.unsam.algo2.readapp
 
+/**
+ * Recomendaciones.
+ *
+ * @property esPrivado Indica si la recomendacion es de acceso publico o privado
+ * @property creador Indica el autor de la recomendacion
+ * @property libroRecomendados Conjunto de libros incluidos en la recomendacion
+ * @property descripcion String que indica una pequeña reseña de la recomendacion
+ */
+
 class Recomendaciones(
-    var privacidad: Boolean, //privacidad en true es publico, en false es privado
-    val creador: Usuario,
-    var libroRecomendados: MutableSet<Libro>,
-    var descripcion: String
+    private var esPrivado: Boolean,
+    private val creador: Usuario,
+    private var libroRecomendados: MutableSet<Libro>,
+    private var descripcion: String
     /*var valoraciones: Set<Valoracion>  <-IMPLEMENTAR VALEN*/
 ) {
     /***
@@ -50,7 +59,7 @@ class Recomendaciones(
     }
 
     /*GETTERS*/
-    fun leerRecomendacion(lector: Usuario): Boolean = privacidad || validarUsuario(lector)
+    fun leerRecomendacion(usuarioQueLee: Usuario): Boolean = !esPrivado || puedeLeerLaRecomendacion(usuarioQueLee)
 
     fun tiempoDeLecturaTotal(lector: Usuario): Int = libroRecomendados.sumOf { lector.tiempoDeLectura(it)}
 
@@ -73,14 +82,8 @@ class Recomendaciones(
 
     private fun existeLibro(libro: Libro): Boolean = libroRecomendados.contains(libro)
 
-    private fun libroYaFueLeido(usuario: Usuario,libro: Libro,):Boolean = usuario.librosLeidos.contains(libro)
     private fun libroYaFueLeidoPorCreador(libro: Libro,):Boolean = creador.librosLeidos.contains(libro)
-
-    private fun puedeAgregarElUsuarioAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean = esAmigo(usuarioQueEdita) && puedeAgregarLibroElAmigo(usuarioQueEdita,libro)
-
-    private fun esAmigo(lector: Usuario) = creador.amigos.contains(lector)
-
-    private fun puedeAgregarLibroElAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean = amigoleidosTodos(usuarioQueEdita) && libroYaFueLeido(usuarioQueEdita,libro) && libroYaFueLeidoPorCreador(libro)
+    private fun libroYaFueLeidoPorAmigo(usuarioQueEdita: Usuario,libro: Libro,):Boolean = usuarioQueEdita.librosLeidos.contains(libro)
 
     private fun amigoleidosTodos(usuarioQueEdita: Usuario): Boolean = usuarioQueEdita.librosLeidos.containsAll(libroRecomendados)
 
@@ -88,13 +91,10 @@ class Recomendaciones(
 
     }
     private fun alternarPrivacidad() {
-        privacidad = !privacidad
+        esPrivado = !esPrivado
     }
     private  fun cambioDeValoracion(texto: String){
         descripcion = texto
     }
-
-
-
 }
 
