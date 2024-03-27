@@ -72,13 +72,24 @@ class Recomendaciones(
 
     /*AUX*/
 
-    private fun validarEdicion(usuarioQueEdita: Usuario, libro: Libro): Boolean = puedeAgregarElCreador(usuarioQueEdita,libro) ||  puedeAgregarElUsuarioAmigo(usuarioQueEdita,libro)
+    private fun puedeLeerLaRecomendacion(usuarioQueLee: Usuario): Boolean {
+        /**
+         * Controlamos que el [usuarioQueLee] cumple con las características para leer la recomendación .
+         * @return si puede leero la recomendacion.
+         */
+        return esAmigo(usuarioQueLee) || esCreador(usuarioQueLee)
+    }
+    private fun esCreador(usuario: Usuario): Boolean = creador == usuario
+    private fun esAmigo(usuario: Usuario) = creador.amigos.contains(usuario)
 
-    private fun puedeAgregarElCreador(usuarioQueEdita: Usuario, libro: Libro): Boolean = esCreador(usuarioQueEdita) && sePuedeAgregarLibro(usuarioQueEdita,libro)
 
-    private fun esCreador(usuarioQueEdita: Usuario): Boolean = creador == usuarioQueEdita
+    private fun validarEdicion(usuarioQueEdita: Usuario, libro: Libro): Boolean = puedeAgregarCreador(usuarioQueEdita,libro) ||  puedeAgregarAmigo(usuarioQueEdita,libro)
 
-    private fun sePuedeAgregarLibro(usuarioQueEdita: Usuario, libro: Libro): Boolean = !existeLibro(libro) && libroYaFueLeidoPorCreador(libro)
+    private fun puedeAgregarCreador(usuarioQueEdita: Usuario, libro: Libro): Boolean = esCreador(usuarioQueEdita) && agregarLibroCreador(libro)
+    private fun puedeAgregarAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean = esAmigo(usuarioQueEdita) && agregarLibroAmigo(usuarioQueEdita,libro) && amigoleidosTodos(usuarioQueEdita)
+
+    private fun agregarLibroCreador(libro: Libro): Boolean = !existeLibro(libro) && libroYaFueLeidoPorCreador(libro)
+    private fun agregarLibroAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean = agregarLibroCreador(libro) && libroYaFueLeidoPorAmigo(usuarioQueEdita, libro)
 
     private fun existeLibro(libro: Libro): Boolean = libroRecomendados.contains(libro)
 
@@ -97,4 +108,3 @@ class Recomendaciones(
         descripcion = texto
     }
 }
-
