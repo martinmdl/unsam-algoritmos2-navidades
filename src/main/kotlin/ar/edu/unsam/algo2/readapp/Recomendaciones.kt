@@ -21,29 +21,22 @@ class Recomendaciones(
 
     /*SETTERS*/
 
-    fun editarPrivacidad(editor: Usuario) {
-        if(validarUsuario(editor)) {
+    fun editarPrivacidad(usuarioQueEdita: Usuario) {
+        if(esCreador(usuarioQueEdita)) {
             alternarPrivacidad()
         }
         /*CAPTURAR ERROR*/
     }
-    fun editarDescripcion(editor: Usuario, descripcionNueva: String) {
-        if(validarUsuario(editor)) {
+    fun editarDescripcion(usuarioQueEdita: Usuario,libro: Libro, descripcionNueva: String) {
+        if(validarEdicion(usuarioQueEdita,libro)) {
             cambioDeValoracion(descripcionNueva)
         }
         /*CAPTURAR ERROR*/
     }
 
-    fun agregarALibrosDeRecomendacion(editor: Usuario, libro: Libro) {
-        if(validarUsuario(editor) && existeLibro(libro) && validarAgregar(editor, libro)) {
+    fun agregarALibrosDeRecomendacion(usuarioQueEdita: Usuario, libro: Libro) {
+        if(validarEdicion(usuarioQueEdita,libro)) {
             libroRecomendados.add(libro)
-        }
-        /*CAPTURAR ERROR*/
-    }
-
-    fun quitarDeLibrosDeRecomendacion(editor: Usuario, libro: Libro) {
-        if(validarUsuario(editor) && existeLibro(libro) && validarAgregar(editor, libro)) {
-            libroRecomendados.remove(libro)
         }
         /*CAPTURAR ERROR*/
     }
@@ -70,20 +63,26 @@ class Recomendaciones(
 
     /*AUX*/
 
-    private fun validarUsuario(lector: Usuario): Boolean = this.creador == lector ||  esAmigoPermitido(lector)  //[LOS DE USUARIO AGREGAR SET DE AMIGOS]
+    private fun validarEdicion(usuarioQueEdita: Usuario, libro: Libro): Boolean = puedeAgregarElCreador(usuarioQueEdita,libro) ||  puedeAgregarElUsuarioAmigo(usuarioQueEdita,libro)
 
-    private fun esAmigoPermitido(lector: Usuario): Boolean = esAmigo(lector) && condicionDeLectura(lector)
+    private fun puedeAgregarElCreador(usuarioQueEdita: Usuario, libro: Libro): Boolean = esCreador(usuarioQueEdita) && sePuedeAgregarLibro(usuarioQueEdita,libro)
 
-    private fun condicionDeLectura(lector: Usuario): Boolean = amigoleidosTodos(lector)
+    private fun esCreador(usuarioQueEdita: Usuario): Boolean = creador == usuarioQueEdita
+
+    private fun sePuedeAgregarLibro(usuarioQueEdita: Usuario, libro: Libro): Boolean = !existeLibro(libro) && libroYaFueLeidoPorCreador(libro)
+
+    private fun existeLibro(libro: Libro): Boolean = libroRecomendados.contains(libro)
+
+    private fun libroYaFueLeido(usuario: Usuario,libro: Libro,):Boolean = usuario.librosLeidos.contains(libro)
+    private fun libroYaFueLeidoPorCreador(libro: Libro,):Boolean = creador.librosLeidos.contains(libro)
+
+    private fun puedeAgregarElUsuarioAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean = esAmigo(usuarioQueEdita) && puedeAgregarLibroElAmigo(usuarioQueEdita,libro)
+
     private fun esAmigo(lector: Usuario) = creador.amigos.contains(lector)
 
-    private fun usuarioYaLeido(usuario: Usuario,libro: Libro,):Boolean = usuario.librosLeidos.contains(libro)
+    private fun puedeAgregarLibroElAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean = amigoleidosTodos(usuarioQueEdita) && libroYaFueLeido(usuarioQueEdita,libro) && libroYaFueLeidoPorCreador(libro)
 
-    private fun amigoleidosTodos(lector: Usuario): Boolean = lector.librosLeidos.containsAll(libroRecomendados)
-
-    private fun validarAgregar(editor: Usuario, libro: Libro) = usuarioYaLeido(editor,libro) && creadorYaLeido(libro)
-
-    private fun creadorYaLeido(libro: Libro): Boolean = creador.librosLeidos.contains(libro)
+    private fun amigoleidosTodos(usuarioQueEdita: Usuario): Boolean = usuarioQueEdita.librosLeidos.containsAll(libroRecomendados)
 
     fun validarValoracion(lector: Usuario){
 
@@ -95,7 +94,7 @@ class Recomendaciones(
         descripcion = texto
     }
 
-    private fun existeLibro(libro: Libro): Boolean = libroRecomendados.contains(libro)
+
 
 }
 
