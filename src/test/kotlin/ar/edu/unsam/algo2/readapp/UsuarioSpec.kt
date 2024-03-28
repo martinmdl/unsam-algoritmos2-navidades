@@ -16,7 +16,8 @@ class UsuarioSpec : DescribeSpec({
             mutableSetOf(),
             mutableSetOf(),
             250,
-            (LocalDate.of(2000, 10, 1))
+            (LocalDate.of(2000, 10, 1)),
+            "alguien"
         )
 
         // Arrange
@@ -28,7 +29,8 @@ class UsuarioSpec : DescribeSpec({
             true,
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
-            10001
+            10001,
+            "alguien"
         )
 
         // Arrange
@@ -39,8 +41,9 @@ class UsuarioSpec : DescribeSpec({
             10000,
             false,
             1,
-          setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
-            10001
+            setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
+            10001,
+            "alguien"
         )
 
         it("cuánto tarda en leer un libro desafiante") {

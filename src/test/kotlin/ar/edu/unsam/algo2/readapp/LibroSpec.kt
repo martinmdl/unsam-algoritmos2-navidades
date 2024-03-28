@@ -17,7 +17,8 @@ class LibroSpec : DescribeSpec({
                 true,
                 5,
                 setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
-                10001
+                10001,
+                "alguien"
             )
             //Assert
             harryPotter.esDesafiante() shouldBe true
@@ -33,10 +34,28 @@ class LibroSpec : DescribeSpec({
                 false,
                 5,
                 setOf(Lenguaje.ru_RU, Lenguaje.fr_FR),
-                10001
+                10001,
+                "alguien"
             )
             //Assert
             skander.esBestSeller() shouldBe true
+        }
+
+        it("El libro no es BestSeller"){
+            //Arrange
+            val jojos = Libro(
+                "jojos",
+                "Salamandra",
+                300,
+                75000,
+                false,
+                1,
+                setOf(Lenguaje.ja_JP),
+                1,
+                "alguien"
+            )
+            //Assert
+            jojos.esBestSeller() shouldBe false
         }
     }
 })

@@ -8,8 +8,11 @@ class Usuario(
     val nombre: String,
     val apellido: String,
     val username: String,
+    var amigos: MutableSet<Usuario>,
+    var librosLeidos: MutableSet<Libro>,
     private var palabrasPorMinuto: Int,
-    private val fechaNac: LocalDate
+    private val fechaNac: LocalDate,
+    val autorFavorito: String
 ) {
 
     /*
