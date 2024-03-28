@@ -2,12 +2,11 @@
 
 package ar.edu.unsam.algo2.readapp
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
-class RecomendacionesSpec : DescribeSpec({
+class RecomendacionSpec : DescribeSpec({
     describe("Test de las Recomendaciones") {
         //Arrange
         /*LIBROS*/
