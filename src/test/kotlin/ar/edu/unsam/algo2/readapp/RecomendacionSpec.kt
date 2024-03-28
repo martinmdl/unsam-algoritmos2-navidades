@@ -6,7 +6,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
-class RecomendacionSpec : DescribeSpec({
+class RecomendacionesSpec : DescribeSpec({
     describe("Test de las Recomendaciones") {
         //Arrange
         /*LIBROS*/

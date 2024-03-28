@@ -58,7 +58,7 @@ class ValoracionSpec:DescribeSpec({
             descripcion = "no se leer",
             mutableMapOf()
         )
-        it("El usuario1 da una valoracion para le recomendacion1 y se verifican que se creo correctamente"){
+        it("El usuario1 da una valoracion para le recomendacion1"){
             //Act
             recomendacion1.crearValoracion(1,"no se leer",usuario1)
             //Assert
