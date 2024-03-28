@@ -18,6 +18,7 @@ class Usuario(
     * (cada usuario puede leer una cantidad de palabras por minutos, este valor puede aumentar al doble si el libro es desafiante).
     */
 
+
     companion object {
         const val DISMINUCION_VELOCIDAD_LECTURA = 2
     }

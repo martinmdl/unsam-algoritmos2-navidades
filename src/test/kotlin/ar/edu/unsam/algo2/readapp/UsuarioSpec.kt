@@ -13,6 +13,8 @@ class UsuarioSpec : DescribeSpec({
             "pipo",
             "alegre",
             "pipojr10",
+            mutableSetOf(),
+            mutableSetOf(),
             250,
             (LocalDate.of(2000, 10, 1))
         )
