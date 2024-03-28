@@ -78,6 +78,14 @@ class ValoracionSpec:DescribeSpec({
             //Assert
             (recomendacion1.valoraciones[usuario1]?.comentario ?: String) shouldBe  "ahora si se leer"
         }
+        it("El usuario2 da una valoracion para le recomendacion1 por autor favorito"){
+            //Act
+            recomendacion1.crearValoracion(3,"no se leer",usuario2)
+            //Assert
+            (recomendacion1.valoraciones[usuario2]?.comentario ?:String) shouldBe  "no se leer"
+            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  3
+            (recomendacion1.valoraciones[usuario2]?.autor ?: Usuario) shouldBe  usuario2
+        }
 
     }
 })

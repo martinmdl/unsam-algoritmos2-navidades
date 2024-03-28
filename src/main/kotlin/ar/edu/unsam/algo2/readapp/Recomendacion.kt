@@ -77,8 +77,8 @@ class Recomendacion(
         //Captura error
     }
 
-    fun collecionAutorFavorito(usuario: Usuario): Boolean =
-        libroRecomendados.all { it -> it.autor == usuario.autorFavorito }
+    private fun collecionAutorFavorito(usuario: Usuario): Boolean =
+        libroRecomendados.all { it.autor == usuario.autorFavorito }
 
     /*GETTERS*/
     fun leerRecomendacion(usuarioQueLee: Usuario): Boolean = !esPrivado || puedeLeerLaRecomendacion(usuarioQueLee)
