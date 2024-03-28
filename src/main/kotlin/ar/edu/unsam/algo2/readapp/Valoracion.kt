@@ -6,7 +6,7 @@ package ar.edu.unsam.algo2.readapp
  * Valoracion.
  *
  * @property autor Indica el nombre: Usuario del autor.
- * @property valoracion Indica el valor numerico: [Int] de la valoracion 1 - 5.
+ * @property valor Indica el valor numerico: [Int] de la valoracion 1 - 5.
  * @property comentario Indica el comentario asociado a la valoracion.
  */
 class Valoracion(
