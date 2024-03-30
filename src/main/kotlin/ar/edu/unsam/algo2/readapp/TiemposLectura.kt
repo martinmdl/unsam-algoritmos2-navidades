@@ -2,33 +2,30 @@
 package ar.edu.unsam.algo2.readapp
 
 import java.time.LocalDate
+import kotlin.time.times
 
 open class LectorRecurrente(
     nombre: String,
     apellido: String,
     username: String,
     palabrasPorMinuto: Int,
-    fechaNac: LocalDate
-) : Usuario(
-    nombre,
-    apellido,
-    username,
-    palabrasPorMinuto,
-    fechaNac
-) {
-
+    fechaNac: LocalDate, direccionDeMail: String, amigos: List<Usuario>, librosLeidos: MutableList<Libro>,
+    recomendaciones: MutableList<Any>
+) : Usuario(nombre, apellido, username, palabrasPorMinuto, fechaNac, direccionDeMail, amigos, librosLeidos,
+    recomendaciones
+){
     companion object {
         const val PORCENTAJE_VELOCIDAD_LECTURA = 0.01
         const val LECTURAS_SIN_VARIACION = 5
     }
-    override fun velocidadDeLectura(libroAleer: Libro): Int {
-        return if (libroAleer.esDesafiante()){
-
+    override fun velocidadDeLectura(libroAleer: Libro): Number {
+        return if (leerLibro()){
+            0
+        } else {
+            0
         }
 
     }
-
-    //override fun leer(libroAleer: Libro)
 }
 
 open class LectorPromedio(
@@ -36,8 +33,11 @@ open class LectorPromedio(
     apellido: String,
     username: String,
     palabrasPorMinuto: Int,
-    fechaNac: LocalDate
-) : Usuario(nombre, apellido, username, palabrasPorMinuto, fechaNac) {
+    fechaNac: LocalDate, direccionDeMail: String, amigos: List<Usuario>, librosLeidos: MutableList<Libro>,
+    recomendaciones: MutableList<Any>
+) : Usuario(nombre, apellido, username, palabrasPorMinuto, fechaNac, direccionDeMail, amigos, librosLeidos,
+    recomendaciones
+) {
 
     override fun velocidadDeLectura(libroAleer: Libro): Int {
         return if(libroAleer.esDesafiante()) {
@@ -53,17 +53,20 @@ open class LectorAnsioso(
     apellido: String,
     username: String,
     palabrasPorMinuto: Int,
-    fechaNac: LocalDate
-) : Usuario(nombre, apellido, username, palabrasPorMinuto, fechaNac) {
-
-    override fun tiempoDeLectura(libroAleer: Libro): {
-        super() * 2
+    fechaNac: LocalDate, direccionDeMail: String, amigos: List<Usuario>, librosLeidos: MutableList<Libro>,
+    recomendaciones: MutableList<Any>
+) : Usuario(nombre, apellido, username, palabrasPorMinuto, fechaNac, direccionDeMail, amigos, librosLeidos,
+    recomendaciones
+) {
+    companion object {
+        const val PORCENTAJE_VELOCIDAD_LECTURA = 0.2
     }
-    fun velocidadDeLectura(libroAleer: Libro): Int {
-        return if(libroAleer.esDesafiante()) {
+    private fun porcentajeVelocidadReducida() : Double = palabrasPorMinuto * PORCENTAJE_VELOCIDAD_LECTURA
+    override fun velocidadDeLectura(libroAleer: Libro): Number {
+        return if(libroAleer.esBestSeller()) {
             palabrasPorMinuto / DISMINUCION_VELOCIDAD_LECTURA
         } else {
-            palabrasPorMinuto
+            palabrasPorMinuto - this.porcentajeVelocidadReducida()
         }
     }
 }

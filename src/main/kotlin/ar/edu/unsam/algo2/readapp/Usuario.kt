@@ -9,14 +9,12 @@ abstract class Usuario(
     val apellido: String,
     val username: String,
     var palabrasPorMinuto: Int,
-    var fechaNac: LocalDate
+    private var fechaNac: LocalDate,
+    var direccionDeMail: String,
+    var amigos: List<Usuario>,
+    var librosLeidos: MutableList<Libro>,
+    var recomendaciones: MutableList<Recomendaciones>
 ) {
-
-    /*
-    * Nombre, Apellido, Username (el alias que lo identificará dentro de la aplicación),
-    * Fecha de Nacimiento, Edad y el Tiempo de Lectura Promedio
-    * (cada usuario puede leer una cantidad de palabras por minutos, este valor puede aumentar al doble si el libro es desafiante).
-    */
 
     companion object {
         const val DISMINUCION_VELOCIDAD_LECTURA = 2
@@ -26,5 +24,15 @@ abstract class Usuario(
     open fun tiempoDeLectura(libroAleer: Libro): Int = libroAleer.cantPalabras / velocidadDeLectura(libroAleer)
 
     // Aux
-    abstract fun velocidadDeLectura(libroAleer: Libro): Int
+    abstract fun velocidadDeLectura(libroAleer: Libro): Number
+
+    fun leerLibro(libroALerr: Libro) {
+        librosLeidos.add(libroALerr)
+    }
+    //chequear
+    fun contieneLibro(libroAleer: Libro) : Boolean = libroAleer.librosLeidos.contains()
+    fun crearRecomendacion(nuevaRecomendacion: Recomendaciones){
+        recomendaciones.add(nuevaRecomendacion)
+    }
+
 }
