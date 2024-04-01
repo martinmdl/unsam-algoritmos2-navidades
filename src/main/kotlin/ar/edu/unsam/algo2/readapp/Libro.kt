@@ -18,7 +18,7 @@ package ar.edu.unsam.algo2.readapp
 class Libro(
     private val nombre: String,
     private val editorial: String,
-    private val paginas: Int,
+    val paginas: Int, // necesario en: 'TiempoDeLectura.kt/LectorFanatico/esLibroLargo()'
     val cantPalabras: Int,
     private var lecturaCompleja: Boolean,
     private var ediciones: Int,
