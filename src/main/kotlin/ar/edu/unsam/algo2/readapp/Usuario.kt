@@ -11,7 +11,7 @@ open class Usuario(
     private val fechaNac: LocalDate,
     val direccionDeMail: String,
     val amigos: List<Usuario>,
-    val librosLeidos: MutableMap<Libro, Int>,
+    val librosLeidos: MutableMap<Libro, Int>, // revisar
     val recomendaciones: MutableList<Recomendacion>,
     val autorFavorito: String
 ) : TipoLector {
