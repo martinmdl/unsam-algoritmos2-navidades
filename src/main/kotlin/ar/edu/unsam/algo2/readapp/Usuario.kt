@@ -11,14 +11,34 @@ open class Usuario(
     private val fechaNac: LocalDate,
     val direccionDeMail: String,
     val amigos: List<Usuario>,
-    val librosLeidos: MutableList<Libro>,
-    val recomendaciones: MutableList<Recomendacion>
-) {
+    val librosLeidos: MutableMap<Libro, Int>,
+    val recomendaciones: MutableList<Recomendacion>,
+    val autorFavorito: String
+) : TipoLector {
+
+    companion object {
+        const val COEFICIENTE_POR_LIBRO_DESAFIANTE = 2 // si el libro es desafiante
+    }
 
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
     fun leerLibro(libroALeer: Libro) {
-        librosLeidos.add(libroALeer)
+//        librosLeidos[libroALeer] = 1
+    }
+
+//    override fun velocidadDeLectura(libro: Libro): Double {
+//        return if(libro.esDesafiante()) {
+//            (palabrasPorMinuto / COEFICIENTE_POR_LIBRO_DESAFIANTE).toDouble()
+//        } else {
+//            palabrasPorMinuto.toDouble()
+//        }
+//    }
+
+    override fun velocidadDeLectura(libro: Libro): Double {
+        return when {
+            libro.esDesafiante() -> (palabrasPorMinuto / COEFICIENTE_POR_LIBRO_DESAFIANTE).toDouble()
+            else -> palabrasPorMinuto.toDouble()
+        }
     }
 
     //chequear
