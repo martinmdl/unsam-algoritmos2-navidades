@@ -11,9 +11,11 @@ open class Usuario(
     private val fechaNac: LocalDate,
     val direccionDeMail: String,
     val amigos: List<Usuario>,
-    val librosLeidos: MutableMap<Libro, Int>, // revisar
+    val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(), // revisar
     val recomendaciones: MutableList<Recomendacion>,
-    val autorFavorito: String
+    val autorFavorito: String,
+    // que tipo de lector es este usuario?
+//    val tipoLector: TipoLector
 ) : TipoLector {
 
     companion object {
@@ -22,17 +24,12 @@ open class Usuario(
 
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
-    fun leerLibro(libroALeer: Libro) {
-//        librosLeidos[libroALeer] = 1
+    fun leerLibro(libro: Libro) {
+        val vecesLeido: Int = librosLeidos.getOrPut(libro) { 0 } + 1
+            // ∃Key -> return Value
+            // ∄Key -> crea Key, Value = 0, return Value
+        librosLeidos[libro] = vecesLeido
     }
-
-//    override fun velocidadDeLectura(libro: Libro): Double {
-//        return if(libro.esDesafiante()) {
-//            (palabrasPorMinuto / COEFICIENTE_POR_LIBRO_DESAFIANTE).toDouble()
-//        } else {
-//            palabrasPorMinuto.toDouble()
-//        }
-//    }
 
     override fun velocidadDeLectura(libro: Libro): Double {
         return when {

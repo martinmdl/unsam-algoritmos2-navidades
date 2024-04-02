@@ -71,8 +71,8 @@ open class LectorAnsioso(
     autorFavorito
 ) {
     companion object {
-        const val COEFICIENTE_POR_NON_BEST_SELLER = 1.2
-        const val COEFICIENTE_POR_BEST_SELLER = 1.5
+        const val COEFICIENTE_POR_NON_BEST_SELLER = 0.8
+        const val COEFICIENTE_POR_BEST_SELLER = 0.5
     }
 
     override fun tiempoDeLectura(libro: Libro): Double {
@@ -81,8 +81,6 @@ open class LectorAnsioso(
             else -> super<TipoLector>.tiempoDeLectura(libro) * COEFICIENTE_POR_NON_BEST_SELLER
         }
     }
-
-    override fun velocidadDeLectura(libro: Libro): Double = palabrasPorMinuto.toDouble()
 }
 
 // CONSIGNA
@@ -182,7 +180,26 @@ open class LectorRecurrente(
     autorFavorito
 ) {
 
+// CONSIGNA
+// Sabemos que hay lectores recurrentes que suelen volver a leer los mismos libros:
+// estos van disminuyendo la velocidad de lectura promedio en 1% cada vez que lo vuelven a leer.
+// A partir de la 5ta lectura la velocidad no varía.
 
+    companion object {
+        const val DISMINUCION_VELOCIDAD_LECTURA_POR_REPETICION = 0.01
+        const val REPETICIONES_QUE_DISMINUYEN_VELOCIDAD = 4
+    }
+
+    override fun velocidadDeLectura(libro: Libro): Double =
+        (super.velocidadDeLectura(libro) * 1 - (cantidadLecturas(libro)!! * DISMINUCION_VELOCIDAD_LECTURA_POR_REPETICION)).toDouble()
+
+    private fun cantidadLecturas(libro: Libro): Int? {
+        return when {
+            librosLeidos[libro] == null -> 0
+            librosLeidos[libro]!! <= REPETICIONES_QUE_DISMINUYEN_VELOCIDAD -> librosLeidos[libro]
+            else -> REPETICIONES_QUE_DISMINUYEN_VELOCIDAD
+        }
+    }
 }
 
 
