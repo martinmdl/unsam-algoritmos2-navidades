@@ -23,10 +23,14 @@ open class LectorNormal(
     palabrasPorMinuto: Int,
     fechaNac: LocalDate,
     direccionDeMail: String,
-    amigos: List<Usuario>,
+    amigos: MutableSet<Usuario> = mutableSetOf(),
     librosLeidos: MutableMap<Libro, Int>,
-    recomendaciones: MutableList<Recomendacion>,
-    autorFavorito: String
+    recomendaciones: MutableSet<Recomendacion> = mutableSetOf(),
+    autorFavorito: String,
+    recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
+    librosPorLeer: MutableSet<Libro> = mutableSetOf(),
+    tipoLector: TipoLector,
+    perfilLector: Perfil
 ) : TipoLector, Usuario(
     nombre,
     apellido,
@@ -37,7 +41,11 @@ open class LectorNormal(
     amigos,
     librosLeidos,
     recomendaciones,
-    autorFavorito
+    autorFavorito,
+    recomendacionesPorValorar,
+    librosPorLeer,
+    tipoLector,
+    perfilLector
 ) {
 
     override fun velocidadDeLectura(libro: Libro): Double = palabrasPorMinuto.toDouble()
@@ -54,10 +62,13 @@ open class LectorAnsioso(
     palabrasPorMinuto: Int,
     fechaNac: LocalDate,
     direccionDeMail: String,
-    amigos: List<Usuario>,
+    amigos: MutableSet<Usuario> = mutableSetOf(),
     librosLeidos: MutableMap<Libro, Int>,
-    recomendaciones: MutableList<Recomendacion>,
-    autorFavorito: String
+    recomendaciones: MutableSet<Recomendacion> = mutableSetOf(),
+    autorFavorito: String,
+    recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
+    librosPorLeer: MutableSet<Libro> = mutableSetOf(),
+    tipoLector: TipoLector
 ) : TipoLector, Usuario(
     nombre,
     apellido,
@@ -68,7 +79,10 @@ open class LectorAnsioso(
     amigos,
     librosLeidos,
     recomendaciones,
-    autorFavorito
+    autorFavorito,
+    recomendacionesPorValorar,
+    librosPorLeer,
+    tipoLector
 ) {
     companion object {
         const val COEFICIENTE_POR_NON_BEST_SELLER = 0.8
@@ -98,10 +112,13 @@ open class LectorFanatico(
     palabrasPorMinuto: Int,
     fechaNac: LocalDate,
     direccionDeMail: String,
-    amigos: List<Usuario>,
+    amigos: MutableSet<Usuario> = mutableSetOf(),
     librosLeidos: MutableMap<Libro, Int>,
-    recomendaciones: MutableList<Recomendacion>,
-    autorFavorito: String
+    recomendaciones: MutableSet<Recomendacion> = mutableSetOf(),
+    autorFavorito: String,
+    recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
+    librosPorLeer: MutableSet<Libro> = mutableSetOf(),
+    tipoLector: TipoLector
 ) : TipoLector, Usuario(
     nombre,
     apellido,
@@ -112,7 +129,10 @@ open class LectorFanatico(
     amigos,
     librosLeidos,
     recomendaciones,
-    autorFavorito
+    autorFavorito,
+    recomendacionesPorValorar,
+    librosPorLeer,
+    tipoLector
 ) {
 
     companion object {
@@ -163,10 +183,13 @@ open class LectorRecurrente(
     palabrasPorMinuto: Int,
     fechaNac: LocalDate,
     direccionDeMail: String,
-    amigos: List<Usuario>,
+    amigos: MutableSet<Usuario> = mutableSetOf(),
     librosLeidos: MutableMap<Libro, Int>,
-    recomendaciones: MutableList<Recomendacion>,
-    autorFavorito: String
+    recomendaciones: MutableSet<Recomendacion> = mutableSetOf(),
+    autorFavorito: String,
+    recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
+    librosPorLeer: MutableSet<Libro> = mutableSetOf(),
+    tipoLector: TipoLector
 ) : TipoLector, Usuario(
     nombre,
     apellido,
@@ -177,7 +200,10 @@ open class LectorRecurrente(
     amigos,
     librosLeidos,
     recomendaciones,
-    autorFavorito
+    autorFavorito,
+    recomendacionesPorValorar,
+    librosPorLeer,
+    tipoLector
 ) {
 
 // CONSIGNA
@@ -191,7 +217,10 @@ open class LectorRecurrente(
     }
 
     override fun velocidadDeLectura(libro: Libro): Double =
-        (super.velocidadDeLectura(libro) * 1 - (cantidadLecturas(libro)!! * DISMINUCION_VELOCIDAD_LECTURA_POR_REPETICION)).toDouble()
+        (super<Usuario>.velocidadDeLectura(libro) * (1 - porcentajeDeDisminucion(libro))).toDouble()
+
+    // AUX
+    private fun porcentajeDeDisminucion(libro: Libro): Double = (cantidadLecturas(libro)!! * DISMINUCION_VELOCIDAD_LECTURA_POR_REPETICION)
 
     private fun cantidadLecturas(libro: Libro): Int? {
         return when {

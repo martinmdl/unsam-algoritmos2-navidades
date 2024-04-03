@@ -9,13 +9,15 @@ open class Usuario(
     val username: String,
     val palabrasPorMinuto: Int,
     private val fechaNac: LocalDate,
-    val direccionDeMail: String,
-    val amigos: List<Usuario>,
-    val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(), // revisar
-    val recomendaciones: MutableList<Recomendacion>,
+    val direccionEmail: String,
+    val amigos: MutableSet<Usuario> = mutableSetOf(),
+    val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(),
+    val recomendacionesEmitidas: MutableSet<Recomendacion> = mutableSetOf(),
     val autorFavorito: String,
-    // que tipo de lector es este usuario?
-//    val tipoLector: TipoLector
+    private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
+    private val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
+    private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
+    private var perfilLector: Perfil
 ) : TipoLector {
 
     companion object {
@@ -38,10 +40,72 @@ open class Usuario(
         }
     }
 
-    //chequear
-//    open fun contieneLibro(libroAleer: Libro) : Boolean = libroAleer.this.librosLeidos.contains()
-//    fun crearRecomendacion(nuevaRecomendacion: Recomendacion){
-//        recomendaciones.add(nuevaRecomendacion)
-//    }
+    fun valorarRecomendacion(
+        recomendacion: Recomendacion,
+        valor: Int,
+        comentario: String,
+        usuario: Usuario
+    ) {
+        recomendacion.crearValoracion(valor, comentario, usuario)
+        eliminarRecomendacionPorValorar(recomendacion)
+    }
 
+    fun agregarRecomendacionPorValorar(recomendacion: Recomendacion) {
+        recomendacionesPorValorar.add(recomendacion)
+    }
+
+    // PREGUNTAR SI ES REDUNDANTE HACER ESTA "TRADUCCION"
+    private fun eliminarRecomendacionPorValorar(recomendacion: Recomendacion) {
+        recomendacionesPorValorar.remove(recomendacion)
+    }
+
+    fun agregarAmigo(amigo: Usuario) {
+        amigos.add(amigo) // testear amigo repetido
+    }
+
+    fun eliminarAmigo(amigo: Usuario) {
+        amigos.remove(amigo) // testear si el amigo no existe
+    }
+
+    // REVISAR Y TESTEAR
+    fun variarTipoLector(tipo: TipoLector) {
+        tipoLector = tipo
+    }
+
+    fun crearRecomendacion(
+        esPrivado: Boolean,
+        creador: Usuario,
+        libroRecomendados: MutableSet<Libro>,
+        descripcion: String,
+        valoraciones: MutableMap<Usuario, Valoracion>
+    ) {
+        val nuevaRecomendacion = Recomendacion(
+            esPrivado,
+            creador,
+            libroRecomendados,
+            descripcion,
+            valoraciones
+        )
+        recomendacionesEmitidas.add(nuevaRecomendacion)
+    }
+
+    fun eliminarRecomendacion(recomendacion: Recomendacion) {
+        recomendacionesEmitidas.remove(recomendacion)
+    }
+
+    fun agregarLibroPorLeer(libro: Libro) {
+        when {
+            libroYaLeido(libro) -> throw Exception("Este libro ya fue leído")
+            else -> librosPorLeer.add(libro)
+        }
+    }
+
+    fun cambiarPerfilLector(nuevoPerfil: Perfil) {
+        perfilLector = nuevoPerfil
+    }
+
+    fun buscarRecomendaciones(): MutableSet<Recomendacion> =
+        perfilLector.buscar()
+
+    private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
 }

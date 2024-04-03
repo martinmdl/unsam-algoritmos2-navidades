@@ -74,7 +74,7 @@ class Recomendacion(
         if (amigoleidosTodos(usuario) || collecionAutorFavorito(usuario)) {
             valoraciones[usuario] = Valoracion(usuario, valor, comentario)
         }
-        //Captura error
+        // Captura error (asi si es facil @Valen)
     }
 
     private fun collecionAutorFavorito(usuario: Usuario): Boolean =

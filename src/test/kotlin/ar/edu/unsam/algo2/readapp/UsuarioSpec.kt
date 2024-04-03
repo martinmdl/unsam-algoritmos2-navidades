@@ -9,7 +9,7 @@ class UsuarioSpec : DescribeSpec({
     describe("Tests de usuario") {
 
         // Arrange
-        val usuario1 = Usuario(
+//        val usuario1 = Usuario(
 //val nombre: String,
 //val apellido: String,
 //val username: String,
@@ -22,18 +22,18 @@ class UsuarioSpec : DescribeSpec({
 //val autorFavorito: String,
 //// que tipo de lector es este usuario?
 //val tipoLector: TipoLector
-            "pipo",
-            "alegre",
-            "pipojr10",
-            250,
-            LocalDate.of(2002, 6, 24),
-            "pipojr10@gmail.com",
-            listOf(),
-            mutableMapOf(),
-            mutableListOf(),
-            "JKRowling"
-//            LectorNormal(),
-        )
+//            "pipo",
+//            "alegre",
+//            "pipojr10",
+//            250,
+//            LocalDate.of(2002, 6, 24),
+//            "pipojr10@gmail.com",
+//            listOf(),
+//            mutableMapOf(),
+//            mutableListOf(),
+//            "JKRowling"
+////            LectorNormal(),
+//        )
 
         // Arrange
         val libroDesafiante = Libro(
