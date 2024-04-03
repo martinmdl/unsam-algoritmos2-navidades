@@ -25,7 +25,7 @@ Por otro lado, los usuarios que no sean el creador podr√°n dejarle una valoraci√
 class Recomendacion(
     var esPrivado: Boolean,
     val creador: Usuario,
-    var libroRecomendados: MutableSet<Libro>,
+    var librosRecomendados: MutableSet<Libro>,
     var descripcion: String,
     var valoraciones: MutableMap<Usuario, Valoracion>
 ) {
@@ -65,7 +65,7 @@ class Recomendacion(
      */
     fun agregarALibrosDeRecomendacion(usuarioQueEdita: Usuario, libro: Libro) {
         if (validarEdicion(usuarioQueEdita, libro)) {
-            libroRecomendados.add(libro)
+            librosRecomendados.add(libro)
         }
         //Captura error
     }
@@ -78,15 +78,15 @@ class Recomendacion(
     }
 
     private fun collecionAutorFavorito(usuario: Usuario): Boolean =
-        libroRecomendados.all { it.autor == usuario.autorFavorito }
+        librosRecomendados.all { it.autor == usuario.autorFavorito }
 
     /*GETTERS*/
     fun leerRecomendacion(usuarioQueLee: Usuario): Boolean = !esPrivado || puedeLeerLaRecomendacion(usuarioQueLee)
 
-    fun tiempoDeLecturaTotal(lector: Usuario): Double = libroRecomendados.sumOf { lector.tiempoDeLectura(it) }
+    fun tiempoDeLecturaTotal(lector: Usuario): Double = librosRecomendados.sumOf { lector.tiempoDeLectura(it) }
 
     fun tiempoDeLecturaNeto(lector: Usuario): Double =
-        libroRecomendados.subtract(lector.librosLeidos).sumOf { lector.tiempoDeLectura(it) }
+        librosRecomendados.subtract(lector.librosLeidos).sumOf { lector.tiempoDeLectura(it) }
 
     fun tiempoDeLecturaAhorrado(lector: Usuario): Double {
         return tiempoDeLecturaTotal(lector) - tiempoDeLecturaNeto(lector)
@@ -115,7 +115,7 @@ class Recomendacion(
     private fun agregarLibroAmigo(usuarioQueEdita: Usuario, libro: Libro): Boolean =
         agregarLibroCreador(libro) && libroYaFueLeidoPorAmigo(usuarioQueEdita, libro)
 
-    private fun existeLibro(libro: Libro): Boolean = libroRecomendados.contains(libro)
+    private fun existeLibro(libro: Libro): Boolean = librosRecomendados.contains(libro)
 
     private fun libroYaFueLeidoPorCreador(libro: Libro): Boolean = creador.librosLeidos.contains(libro)
 
@@ -123,7 +123,7 @@ class Recomendacion(
         usuarioQueEdita.librosLeidos.contains(libro)
 
     private fun amigoleidosTodos(usuarioQueEdita: Usuario): Boolean =
-        usuarioQueEdita.librosLeidos.containsAll(libroRecomendados)
+        usuarioQueEdita.librosLeidos.containsAll(librosRecomendados)
 
     private fun alternarPrivacidad() {
         esPrivado = !esPrivado

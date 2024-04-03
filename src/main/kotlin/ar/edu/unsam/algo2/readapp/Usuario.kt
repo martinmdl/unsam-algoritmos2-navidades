@@ -13,11 +13,11 @@ open class Usuario(
     val amigos: MutableSet<Usuario> = mutableSetOf(),
     val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(),
     val recomendacionesEmitidas: MutableSet<Recomendacion> = mutableSetOf(),
-    val autorFavorito: String,
+    val autorFavorito: Autor,
     private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
-    private val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
+    val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
     private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
-    private var perfilLector: Perfil
+    private var perfilDeRecomendacion: PerfilDeRecomendacion
 ) : TipoLector {
 
     companion object {
@@ -87,10 +87,12 @@ open class Usuario(
             valoraciones
         )
         recomendacionesEmitidas.add(nuevaRecomendacion)
+        HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
     }
 
     fun eliminarRecomendacion(recomendacion: Recomendacion) {
         recomendacionesEmitidas.remove(recomendacion)
+        HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
     }
 
     fun agregarLibroPorLeer(libro: Libro) {
@@ -100,12 +102,12 @@ open class Usuario(
         }
     }
 
-    fun cambiarPerfilLector(nuevoPerfil: Perfil) {
-        perfilLector = nuevoPerfil
+    fun cambiarPerfilDeRecomendacion(nuevoPerfil: PerfilDeRecomendacion) {
+        perfilDeRecomendacion = nuevoPerfil
     }
 
     fun buscarRecomendaciones(): MutableSet<Recomendacion> =
-        perfilLector.buscar()
+        perfilDeRecomendacion.buscar(this)
 
     private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
 }

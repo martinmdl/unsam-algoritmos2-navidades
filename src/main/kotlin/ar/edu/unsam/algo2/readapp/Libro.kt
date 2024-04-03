@@ -24,7 +24,7 @@ class Libro(
     private var ediciones: Int,
     private var lenguajes: Set<Lenguaje>,
     private var ventasSemanales: Int,
-    var autor: String
+    var autor: Autor
 ) {
 
     /**
