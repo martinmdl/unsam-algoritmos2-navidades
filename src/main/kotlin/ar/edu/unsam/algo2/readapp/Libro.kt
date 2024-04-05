@@ -50,6 +50,4 @@ class Libro(
     private fun numeroDeLenguajes(): Int = this.idioma.size
 
 
-}/*PARA PREGUNTAR*/
-
-data class Autor(val lenguaMaterna: Lenguaje, var premios: Int)
+}

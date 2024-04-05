@@ -126,8 +126,8 @@ open class Usuario(
         perfilDeRecomendacion = nuevoPerfil
     }
 
-    fun buscarRecomendaciones(): MutableSet<Recomendacion> =
-        perfilDeRecomendacion.buscar(this)
+    fun buscarRecomendaciones(recomendacion: Recomendacion): Boolean =
+        perfilDeRecomendacion.validarRecomendacion(this,recomendacion)
 
     private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
 }

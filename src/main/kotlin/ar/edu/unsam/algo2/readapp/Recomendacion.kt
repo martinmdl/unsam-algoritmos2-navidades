@@ -86,7 +86,7 @@ class Recomendacion(
     fun tiempoDeLecturaTotal(lector: Usuario): Double = librosRecomendados.sumOf { lector.tiempoDeLectura(it) }
 
     fun tiempoDeLecturaNeto(lector: Usuario): Double =
-        librosRecomendados.subtract(lector.librosLeidos).sumOf { lector.tiempoDeLectura(it) }
+        librosRecomendados.subtract(lector.librosLeidos.keys).sumOf { lector.tiempoDeLectura(it) }
 
     fun tiempoDeLecturaAhorrado(lector: Usuario): Double {
         return tiempoDeLecturaTotal(lector) - tiempoDeLecturaNeto(lector)
@@ -123,7 +123,7 @@ class Recomendacion(
         usuarioQueEdita.librosLeidos.contains(libro)
 
     private fun amigoleidosTodos(usuarioQueEdita: Usuario): Boolean =
-        usuarioQueEdita.librosLeidos.containsAll(librosRecomendados)
+        usuarioQueEdita.librosLeidos.keys.containsAll(librosRecomendados)
 
     private fun alternarPrivacidad() {
         esPrivado = !esPrivado

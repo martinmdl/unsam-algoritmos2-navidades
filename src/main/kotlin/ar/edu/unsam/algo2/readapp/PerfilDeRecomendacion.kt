@@ -3,7 +3,6 @@
 package ar.edu.unsam.algo2.readapp
 
 import com.sun.org.apache.xpath.internal.operations.Bool
-import sun.misc.Perf
 import sun.security.ec.point.ProjectivePoint.Mutable
 
 // podria ser una interface
@@ -62,7 +61,7 @@ object poliglota : PerfilDeRecomendacion() {
     private fun cantLenguajes(recomendacion: Recomendacion): Int {
         // CAMBIAR A FLATTENMAP()
         val totalLenguajes: MutableSet<Libro> = mutableSetOf()
-        recomendacion.librosRecomendados.forEach { libro -> totalLenguajes.union(libro.lenguajes) }
+        recomendacion.librosRecomendados.forEach { libro -> totalLenguajes.union(libro.idioma) }
         return totalLenguajes.size
     }
 }
