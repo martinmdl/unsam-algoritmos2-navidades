@@ -22,7 +22,7 @@ class Libro(
     val cantPalabras: Int,
     private var lecturaCompleja: Boolean,
     private var ediciones: Int,
-    private var lenguajes: Set<Lenguaje>,
+    var lenguajes: Set<Lenguaje>,
     private var ventasSemanales: Int,
     var autor: Autor
 ) {

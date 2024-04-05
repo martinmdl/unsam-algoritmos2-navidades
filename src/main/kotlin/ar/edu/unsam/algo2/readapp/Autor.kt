@@ -7,6 +7,7 @@ class Autor(
     var librosEscritos: MutableSet<Libro> = mutableSetOf(),
     var lenguaNativa: Lenguaje
 ) {
+
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
 }

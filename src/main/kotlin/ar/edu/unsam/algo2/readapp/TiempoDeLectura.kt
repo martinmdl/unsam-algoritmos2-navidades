@@ -30,7 +30,7 @@ open class LectorNormal(
     recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     librosPorLeer: MutableSet<Libro> = mutableSetOf(),
     tipoLector: TipoLector,
-    perfilLector: Perfil
+    perfilLector: PerfilDeRecomendacion
 ) : TipoLector, Usuario(
     nombre,
     apellido,

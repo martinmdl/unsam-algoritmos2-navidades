@@ -1,6 +1,8 @@
 @file:Suppress("SpellCheckingInspection")
 package ar.edu.unsam.algo2.readapp
 
+import kotlin.system.exitProcess
+
 
 abstract class PerfilDeRecomendacion() {
 
@@ -17,18 +19,15 @@ object precavido : PerfilDeRecomendacion() {
         val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
 
         HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
-
-            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
-
             // Condición 1
-            if (usuario.librosPorLeer.any { it in librosRecomendados }) {
+            if (usuario.librosPorLeer.any { it in recomendacion.librosRecomendados }) {
                 setParaRetornar.add(recomendacion)
                 return@forEach // similar al continue o break
             }
 
             // Condición 2
             usuario.amigos.forEach { amigo ->
-                if (amigo.librosLeidos.keys.any { it in librosRecomendados }) {
+                if (amigo.librosLeidos.keys.any { it in recomendacion.librosRecomendados }) {
                     setParaRetornar.add(recomendacion)
                     return@forEach
                 }
@@ -67,30 +66,27 @@ object leedor : PerfilDeRecomendacion() {
 
 object poliglota : PerfilDeRecomendacion() {
 
-
     override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
 
         val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
 
         HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
 
-            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
+            val cantLenguajes: MutableSet<Lenguaje> = mutableSetOf()
 
-            // Libro() contiene property -> private var lenguajes: Set<Lenguaje>
+            recomendacion.librosRecomendados.forEach { libro ->
 
-            // val cantLenguajes: MutableSet<Lenguaje> = mutableSetOf()
-            // cantLenguajes.size() >= 5 --> setParaRetornar.add(recomendacion)
-            // else -> return@forEach
+                cantLenguajes.union(libro.lenguajes)
 
-            if (librosRecomendados.) {
-                setParaRetornar.add(recomendacion)
-                return@forEach // similar al continue o break
+                if (cantLenguajes.size < 5) {
+                    return@forEach
+                } else {
+                    exitProcess(0)  // SALTAR A LABEL1
+                }
             }
-
-            // dos forEach ?????
+            // LABEL1
+            return@forEach
         }
-
-        // HistorialRecomendaciones.historialRecomendaciones().librosRecomendados.lenguaje >= 5
     }
 }
 
@@ -99,7 +95,7 @@ object poliglota : PerfilDeRecomendacion() {
 object nativista : PerfilDeRecomendacion() {
 
     override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
-
+        HistorialRecomendaciones
     }
 }
 
