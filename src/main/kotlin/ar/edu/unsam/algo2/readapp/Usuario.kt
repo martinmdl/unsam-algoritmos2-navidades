@@ -18,7 +18,7 @@ open class Usuario(
     val autorFavorito: Autor,
     private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
-    private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
+    /*private var tipoLector: TipoLector*/ // que tipo de lector es este usuario? REVISAR
     private var perfilDeRecomendacion: PerfilDeRecomendacion,
     val lenguaNativa: Lenguaje,
     // DEUDA TECNICA @Valen
@@ -88,9 +88,9 @@ open class Usuario(
     }
 
     // REVISAR Y TESTEAR
-    fun variarTipoLector(tipo: TipoLector) {
+    /*fun variarTipoLector(tipo: TipoLector) {
         tipoLector = tipo
-    }
+    }*/
 
     fun crearRecomendacion(
         esPrivado: Boolean,

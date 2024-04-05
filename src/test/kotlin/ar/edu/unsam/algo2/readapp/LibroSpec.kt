@@ -3,11 +3,12 @@
 package ar.edu.unsam.algo2.readapp
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import java.time.LocalDate
 
 class LibroSpec : DescribeSpec({
     describe("Test de libro"){
         //Arrange
-        val autor1 = Autor(Lenguaje.es_ES,2)
+        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
 
         it("El libro es desafiante"){
             //Arrange

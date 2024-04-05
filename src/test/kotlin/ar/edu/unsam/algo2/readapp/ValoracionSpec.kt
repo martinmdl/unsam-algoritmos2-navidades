@@ -10,7 +10,7 @@ class ValoracionSpec:DescribeSpec({
     describe("Test de Valoracion") {
         //Arrange
         /*Autor*/
-        val autor1 = Autor(Lenguaje.es_ES,2)
+        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
 
         /*Libro*/
         val harryPotter = Libro(
@@ -39,26 +39,42 @@ class ValoracionSpec:DescribeSpec({
             "pipo",
             "alegre",
             "pipojr10",
-            mutableSetOf(),
-            mutableSetOf(harryPotter),
             250,
-            (LocalDate.of(2000, 10, 1)),
-            autor1
+            LocalDate.of(1990, 3, 27),
+            "pipo@yahoo.com",
+            mutableSetOf(),
+            mutableMapOf(harryPotter to 1),
+            mutableSetOf(),
+            autor1,
+            mutableSetOf(),
+            mutableSetOf(),
+            precavido,
+            Lenguaje.es_ES,
+            0,
+            0
         )
         val usuario2 = Usuario(
             "pipa",
             "alegre",
             "pipojr10",
-            mutableSetOf(),
-            mutableSetOf(harryPotter2),
             250,
-            (LocalDate.of(2000, 10, 1)),
-            autor1
+            LocalDate.of(1990, 3, 27),
+            "pipo@yahoo.com",
+            mutableSetOf(),
+            mutableMapOf(harryPotter2 to 1),
+            mutableSetOf(),
+            autor1,
+            mutableSetOf(),
+            mutableSetOf(),
+            precavido,
+            Lenguaje.es_ES,
+            0,
+            0
         )
         val recomendacion1 = Recomendacion(
             esPrivado = true,
             creador = usuario1,
-            libroRecomendados = mutableSetOf(harryPotter),
+            librosRecomendados = mutableSetOf(harryPotter),
             descripcion = "no se leer",
             mutableMapOf()
         )

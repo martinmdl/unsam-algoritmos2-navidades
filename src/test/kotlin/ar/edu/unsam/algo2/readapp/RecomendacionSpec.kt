@@ -4,13 +4,14 @@ package ar.edu.unsam.algo2.readapp
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import org.jetbrains.annotations.Nullable
 import java.time.LocalDate
 
 class RecomendacionesSpec : DescribeSpec({
     describe("Test de las Recomendaciones") {
         //Arrange
         /*Autor*/
-        val autor1 = Autor(Lenguaje.es_ES,2)
+        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
         /*LIBROS*/
         val harryPotter = Libro(
             "HarryPotter",
@@ -72,31 +73,56 @@ class RecomendacionesSpec : DescribeSpec({
             "pipo1",
             "alegre",
             "pipojr10",
-            mutableSetOf(),
-            mutableSetOf(harryPotter, harryPotter2, harryPotter3, harryPotter4),
             150,
-            (LocalDate.of(2000, 10, 1)),
-            autor1
+            LocalDate.of(1990, 3, 27),
+            "pipo@yahoo.com",
+            mutableSetOf(),
+            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1, harryPotter4 to 1),
+            mutableSetOf(),
+            autor1,
+            mutableSetOf(),
+            mutableSetOf(),
+            precavido,
+            Lenguaje.es_ES,
+            0,
+            0
         )
+
         val usuario2 = Usuario(
             "pipo2",
             "alegre",
             "pipojr10",
-            mutableSetOf(usuario1),
-            mutableSetOf(harryPotter2, harryPotter3, harryPotter5),
             200,
-            (LocalDate.of(2000, 10, 1)),
-            autor1
+            LocalDate.of(1990, 3, 27),
+            "pipo@yahoo.com",
+            mutableSetOf(usuario1),
+            mutableMapOf(harryPotter2 to 1, harryPotter3 to 1, harryPotter5 to 1),
+            mutableSetOf(),
+            autor1,
+            mutableSetOf(),
+            mutableSetOf(),
+            precavido,
+            Lenguaje.es_ES,
+            0,
+            0
         )
         val usuario3 = Usuario(
             "pipo3",
             "alegre",
             "pipojr10",
-            mutableSetOf(usuario1, usuario2),
-            mutableSetOf(harryPotter, harryPotter2, harryPotter3, harryPotter4, harryPotter5),
             250,
-            (LocalDate.of(2000, 10, 1)),
-            autor1
+            LocalDate.of(1990, 3, 27),
+            "pipo@yahoo.com",
+            mutableSetOf(usuario1, usuario2),
+            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1,harryPotter4 to 1,harryPotter5 to 1),
+            mutableSetOf(),
+            autor1,
+            mutableSetOf(),
+            mutableSetOf(),
+            precavido,
+            Lenguaje.es_ES,
+            0,
+            0
         )
 
 
@@ -104,21 +130,21 @@ class RecomendacionesSpec : DescribeSpec({
         val recomendacion1 = Recomendacion(
             esPrivado = true,
             creador = usuario1,
-            libroRecomendados = mutableSetOf(harryPotter2),
+            librosRecomendados = mutableSetOf(harryPotter2),
             descripcion = "no se leer",
             mutableMapOf()
         )
         val recomendacion2 = Recomendacion(
             esPrivado = false,
             creador = usuario2,
-            libroRecomendados = mutableSetOf(harryPotter2, harryPotter3),
+            librosRecomendados = mutableSetOf(harryPotter2, harryPotter3),
             descripcion = "no se leer",
             mutableMapOf()
         )
         val recomendacion3 = Recomendacion(
             esPrivado = true,
             creador = usuario3,
-            libroRecomendados = mutableSetOf(harryPotter, harryPotter2),
+            librosRecomendados = mutableSetOf(harryPotter, harryPotter2),
             descripcion = "no se leer",
             mutableMapOf()
         )
@@ -164,19 +190,19 @@ class RecomendacionesSpec : DescribeSpec({
                 //Act
                 recomendacion3.agregarALibrosDeRecomendacion(usuario3, harryPotter3)
                 //Assert
-                recomendacion3.libroRecomendados shouldBe mutableSetOf(harryPotter, harryPotter2, harryPotter3)
+                recomendacion3.librosRecomendados shouldBe mutableSetOf(harryPotter, harryPotter2, harryPotter3)
             }
             it("El creador no puede agregar un libro a la recomendacion porque no leyo ese libro") {
                 //Act
                 recomendacion1.agregarALibrosDeRecomendacion(usuario1, harryPotter5)
                 //Assert
-                recomendacion1.libroRecomendados shouldBe mutableSetOf(harryPotter2)
+                recomendacion1.librosRecomendados shouldBe mutableSetOf(harryPotter2)
             }
             it("El amigo puede agregar un libro (a la recomendacion)") {
                 //Act
                 recomendacion3.agregarALibrosDeRecomendacion(usuario3, harryPotter4)
                 //Assert
-                recomendacion3.libroRecomendados shouldBe mutableSetOf(
+                recomendacion3.librosRecomendados shouldBe mutableSetOf(
                     harryPotter,
                     harryPotter2,
                     harryPotter3,
@@ -187,7 +213,7 @@ class RecomendacionesSpec : DescribeSpec({
                 //Act
                 recomendacion3.agregarALibrosDeRecomendacion(usuario1, harryPotter5)
                 //Assert
-                recomendacion3.libroRecomendados shouldBe mutableSetOf(
+                recomendacion3.librosRecomendados shouldBe mutableSetOf(
                     harryPotter,
                     harryPotter2,
                     harryPotter3,
@@ -198,13 +224,13 @@ class RecomendacionesSpec : DescribeSpec({
                 //Act
                 recomendacion1.agregarALibrosDeRecomendacion(usuario2, harryPotter3)
                 //Assert
-                recomendacion1.libroRecomendados shouldBe mutableSetOf(harryPotter2)
+                recomendacion1.librosRecomendados shouldBe mutableSetOf(harryPotter2)
             }
             it("El amigo no puede agregar un libro (a la recomencadion) porque no leyo todos los libros (de la recomendacion)") {
                 //Act
                 recomendacion3.agregarALibrosDeRecomendacion(usuario2, harryPotter5)
                 //Assert
-                recomendacion3.libroRecomendados shouldBe mutableSetOf(
+                recomendacion3.librosRecomendados shouldBe mutableSetOf(
                     harryPotter,
                     harryPotter2,
                     harryPotter3,

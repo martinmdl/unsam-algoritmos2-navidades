@@ -2,9 +2,6 @@
 
 package ar.edu.unsam.algo2.readapp
 
-import com.sun.org.apache.xpath.internal.operations.Bool
-import sun.security.ec.point.ProjectivePoint.Mutable
-
 // podria ser una interface
 abstract class PerfilDeRecomendacion() {
 
