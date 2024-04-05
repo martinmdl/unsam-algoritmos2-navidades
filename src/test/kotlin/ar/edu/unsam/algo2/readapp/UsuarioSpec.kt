@@ -9,16 +9,31 @@ class UsuarioSpec : DescribeSpec({
     describe("Tests de usuario") {
 
         // Arrange
-        val usuario1 = Usuario(
-            "pipo",
-            "alegre",
-            "pipojr10",
-            mutableSetOf(),
-            mutableSetOf(),
-            250,
-            (LocalDate.of(2000, 10, 1)),
-            "alguien"
-        )
+//        val usuario1 = Usuario(
+//val nombre: String,
+//val apellido: String,
+//val username: String,
+//val palabrasPorMinuto: Int,
+//private val fechaNac: LocalDate,
+//val direccionDeMail: String,
+//val amigos: List<Usuario>,
+//val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(), // revisar
+//val recomendaciones: MutableList<Recomendacion>,
+//val autorFavorito: String,
+//// que tipo de lector es este usuario?
+//val tipoLector: TipoLector
+//            "pipo",
+//            "alegre",
+//            "pipojr10",
+//            250,
+//            LocalDate.of(2002, 6, 24),
+//            "pipojr10@gmail.com",
+//            listOf(),
+//            mutableMapOf(),
+//            mutableListOf(),
+//            "JKRowling"
+////            LectorNormal(),
+//        )
 
         // Arrange
         val libroDesafiante = Libro(
@@ -30,7 +45,7 @@ class UsuarioSpec : DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            "JKRowling"
         )
 
         // Arrange
@@ -41,9 +56,9 @@ class UsuarioSpec : DescribeSpec({
             10000,
             false,
             1,
-            setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
+          setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            "EichiroOda"
         )
 
         it("cuánto tarda en leer un libro desafiante") {
