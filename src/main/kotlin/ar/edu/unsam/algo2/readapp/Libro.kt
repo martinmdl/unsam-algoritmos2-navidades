@@ -53,4 +53,4 @@ class Libro(
 
 }/*PARA PREGUNTAR*/
 
-data class Autor(val lenguaMaterna: Lenguaje)
+data class Autor(val lenguaMaterna: Lenguaje, var premios: Int)

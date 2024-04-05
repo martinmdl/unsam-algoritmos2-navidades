@@ -12,7 +12,7 @@ class Usuario(
     var librosLeidos: MutableSet<Libro>,
     private var palabrasPorMinuto: Int,
     private val fechaNac: LocalDate,
-    val autorFavorito: String
+    val autorFavorito: Autor
 ) {
 
     /*
