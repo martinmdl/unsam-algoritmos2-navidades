@@ -81,7 +81,7 @@ object poliglota : PerfilDeRecomendacion() {
                 if (cantLenguajes.size < 5) {
                     return@forEach
                 } else {
-                    exitProcess(0)  // SALTAR A LABEL1
+                    TODO("NO SABEMOS RESOLVERLO") // SALTAR A LABEL1
                 }
             }
             // LABEL1
