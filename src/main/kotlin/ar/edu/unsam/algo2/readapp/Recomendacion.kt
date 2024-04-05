@@ -17,7 +17,7 @@ Por otro lado, los usuarios que no sean el creador podrán dejarle una valoraci�
  *
  * @property esPrivado Indica si la recomendacion es de acceso publico o privado
  * @property creador Indica el nombre del autor de la recomendacion
- * @property libroRecomendados Conjunto de libros incluidos en la recomendacion
+ * @property librosRecomendados Conjunto de libros incluidos en la recomendacion
  * @property descripcion Indica una pequeña reseña de la recomendacion
  * @property valoraciones Diccionario de valoraciones
  */

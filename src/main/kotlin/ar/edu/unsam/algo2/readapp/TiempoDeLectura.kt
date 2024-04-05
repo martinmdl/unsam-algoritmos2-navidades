@@ -1,5 +1,7 @@
 @file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
+
 import java.time.LocalDate
 
 // CONSIGNA
@@ -138,8 +140,8 @@ open class LectorFanatico(
     companion object {
         const val COEFICIENTE_LIBRO_IMPORTANTE = 2
         const val MAX_PAGINAS_LIBRO_CORTO = 600
-            // Libro largo > 600 paginas
-            // Libro corto <= 600 paginas
+        // Libro largo > 600 paginas
+        // Libro corto <= 600 paginas
     }
 
     // velocidadDeLectura() inherits from Usuario()
@@ -151,17 +153,21 @@ open class LectorFanatico(
     }
 
     // AUX
-    private fun esLibroImportante(libro: Libro): Boolean = libro.autor == autorFavorito && !(librosLeidos.contains(libro))
+    private fun esLibroImportante(libro: Libro): Boolean =
+        libro.autor == autorFavorito && !(librosLeidos.contains(libro))
 
     private fun esLibroLargo(libro: Libro): Boolean = libro.paginas > MAX_PAGINAS_LIBRO_CORTO
 
     private fun tiempoAdicionalCorto(libro: Libro): Int = libro.paginas * COEFICIENTE_LIBRO_IMPORTANTE
 
-    private fun tiempoAdicionalLargo(libro: Libro): Int = tiempoAdicionalCorto(libro) + libro.paginas - MAX_PAGINAS_LIBRO_CORTO
+    private fun tiempoAdicionalLargo(libro: Libro): Int =
+        tiempoAdicionalCorto(libro) + libro.paginas - MAX_PAGINAS_LIBRO_CORTO
 
-    private fun tiempoLecturalCorto(libro: Libro): Double = super<TipoLector>.tiempoDeLectura(libro) + tiempoAdicionalCorto(libro)
+    private fun tiempoLecturalCorto(libro: Libro): Double =
+        super<TipoLector>.tiempoDeLectura(libro) + tiempoAdicionalCorto(libro)
 
-    private fun tiempoLecturalLargo(libro: Libro): Double = super<TipoLector>.tiempoDeLectura(libro) + tiempoAdicionalLargo(libro)
+    private fun tiempoLecturalLargo(libro: Libro): Double =
+        super<TipoLector>.tiempoDeLectura(libro) + tiempoAdicionalLargo(libro)
 
     private fun tiempoLecturalLibroImportante(libro: Libro): Double {
         return when {
@@ -220,7 +226,8 @@ open class LectorRecurrente(
         (super<Usuario>.velocidadDeLectura(libro) * (1 - porcentajeDeDisminucion(libro))).toDouble()
 
     // AUX
-    private fun porcentajeDeDisminucion(libro: Libro): Double = (cantidadLecturas(libro)!! * DISMINUCION_VELOCIDAD_LECTURA_POR_REPETICION)
+    private fun porcentajeDeDisminucion(libro: Libro): Double =
+        (cantidadLecturas(libro)!! * DISMINUCION_VELOCIDAD_LECTURA_POR_REPETICION)
 
     private fun cantidadLecturas(libro: Libro): Int? {
         return when {

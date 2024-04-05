@@ -1,4 +1,7 @@
+// POR AHORA NO SIRVE
+
 @file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
 
 object HistorialRecomendaciones {
@@ -10,10 +13,10 @@ object HistorialRecomendaciones {
         historialRecomendaciones.add(recomendacion)
     }
 
-    fun eliminarDelHistorial(recomendacion: Recomendacion){
+    fun eliminarDelHistorial(recomendacion: Recomendacion) {
         historialRecomendaciones.remove(recomendacion)
     }
 
     // GETTER
-    fun historialRecomendaciones (): MutableSet<Recomendacion> = historialRecomendaciones
+    fun historialRecomendaciones(): MutableSet<Recomendacion> = historialRecomendaciones
 }

@@ -1,10 +1,15 @@
 @file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+import sun.misc.Perf
+import sun.security.ec.point.ProjectivePoint.Mutable
 
+// podria ser una interface
 abstract class PerfilDeRecomendacion() {
 
-    abstract fun buscar(usuario: Usuario): MutableSet<Recomendacion>
+    abstract fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean
 }
 
 // el precavido: solo le interesan las recomendaciones de libros que por lo menos incluyan
@@ -12,54 +17,33 @@ abstract class PerfilDeRecomendacion() {
 
 object precavido : PerfilDeRecomendacion() {
 
-    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        librosQuiereLeerRecomendacion(recomendacion, usuario) || amigosLeyeron(recomendacion, usuario)
 
-        val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
+    // CONDICION 1
+    private fun amigosLeyeron(recomendacion: Recomendacion, usuario: Usuario): Boolean =
+        librosRecomendados(recomendacion).intersect(librosLeidosPorAmigos(recomendacion, usuario)).isNotEmpty()
 
-        HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
+    // CONDICION 2
+    private fun librosQuiereLeerRecomendacion(recomendacion: Recomendacion, usuario: Usuario): Boolean =
+        librosRecomendados(recomendacion).intersect(usuario.librosPorLeer).isNotEmpty()
 
-            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
+    // GETTERS
+    private fun librosRecomendados(recomendacion: Recomendacion): MutableSet<Libro> =
+        recomendacion.librosRecomendados
 
-            // Condición 1
-            if (usuario.librosPorLeer.any { it in librosRecomendados }) {
-                setParaRetornar.add(recomendacion)
-                return@forEach // similar al continue o break
-            }
-
-            // Condición 2
-            usuario.amigos.forEach { amigo ->
-                if (amigo.librosLeidos.keys.any { it in librosRecomendados }) {
-                    setParaRetornar.add(recomendacion)
-                    return@forEach
-                }
-            }
-        }
-
-        return setParaRetornar
-
+    private fun librosLeidosPorAmigos(recomendacion: Recomendacion, usuario: Usuario): MutableSet<Libro> {
+        // CAMBIAR A FLATTENMAP()
+        val librosLeidosPorAmigos: MutableSet<Libro> = mutableSetOf()
+        usuario.amigos.forEach { amigo -> librosLeidosPorAmigos.union(amigo.librosLeidos.keys) }
+        return librosLeidosPorAmigos
     }
-
-    // PARA CADA RECOMENDACION EVALUAR:
-    // CONDICION 1:
-    // Interseccion entre (usuario.librosPorLeer) y (historialRecomendaciones.libroRecomendados) > 0
-    // CONDICION 2:
-    // Interseccion entre (usuario.amigos.librosLeidos) y (historialRecomendaciones.libroRecomendados) > 0
-    // SI CUMPLEN ALGUNA DE LAS DOS CONDICIONES, AGREGAR ESA RECOMENDACION AL SET QUE SE RETORNARA
-
-    // historialRecomendaciones = {A, B, C} NO SE PUEDE COMPARAR CONTRA (usuario.librosPorLeer)
-    // libroRecomendadosA = { A1, A2 } SI SE PUEDE COMPARAR CONTRA (usuario.librosPorLeer)
-    // libroRecomendadosB = { B1, B2 }
-    // libroRecomendadosC = { C1, C2 }
-
-
 }
 
 // el leedor: no tiene una preferencia específica, por lo que le interesa cualquier recomendación.
 
 object leedor : PerfilDeRecomendacion() {
-
-    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> =
-        HistorialRecomendaciones.historialRecomendaciones()
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean = true
 }
 
 // el políglota: como maneja varios idiomas, le gustaría ver recomendaciones que tengan
@@ -67,30 +51,19 @@ object leedor : PerfilDeRecomendacion() {
 
 object poliglota : PerfilDeRecomendacion() {
 
+    private const val CANT_MINIMA_LENGUAJES = 5
 
-    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        cantLenguajesValida(recomendacion)
 
-        val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
+    private fun cantLenguajesValida(recomendacion: Recomendacion): Boolean =
+        cantLenguajes(recomendacion) >= CANT_MINIMA_LENGUAJES
 
-        HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
-
-            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
-
-            // Libro() contiene property -> private var lenguajes: Set<Lenguaje>
-
-            // val cantLenguajes: MutableSet<Lenguaje> = mutableSetOf()
-            // cantLenguajes.size() >= 5 --> setParaRetornar.add(recomendacion)
-            // else -> return@forEach
-
-            if (librosRecomendados.) {
-                setParaRetornar.add(recomendacion)
-                return@forEach // similar al continue o break
-            }
-
-            // dos forEach ?????
-        }
-
-        // HistorialRecomendaciones.historialRecomendaciones().librosRecomendados.lenguaje >= 5
+    private fun cantLenguajes(recomendacion: Recomendacion): Int {
+        // CAMBIAR A FLATTENMAP()
+        val totalLenguajes: MutableSet<Libro> = mutableSetOf()
+        recomendacion.librosRecomendados.forEach { libro -> totalLenguajes.union(libro.lenguajes) }
+        return totalLenguajes.size
     }
 }
 
@@ -98,9 +71,13 @@ object poliglota : PerfilDeRecomendacion() {
 
 object nativista : PerfilDeRecomendacion() {
 
-    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        lenguasIguales(recomendacion, usuario)
 
-    }
+    private fun lenguaNativaUsuario(usuario: Usuario): Lenguaje = usuario.lenguaNativa
+
+    private fun lenguasIguales(recomendacion: Recomendacion, usuario: Usuario): Boolean =
+        recomendacion.librosRecomendados.any { it.autor.lenguaNativa == usuario.lenguaNativa }
 }
 
 // el calculador: como le gusta tener control del tiempo que lee, acepta recomendaciones
@@ -108,63 +85,132 @@ object nativista : PerfilDeRecomendacion() {
 // este rango puede variar entre los distintos usuarios. (Ej. un usuario puede tener de 600 min a 1.000 min,
 // y otro de 500 min a 800 min).
 
+
+object calculador : PerfilDeRecomendacion() {
+
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        puedeLeer(recomendacion, usuario)
+
+    private fun puedeLeer(recomendacion: Recomendacion, usuario: Usuario): Boolean =
+        recomendacion.tiempoDeLecturaTotal(usuario) >= usuario.rangoMin || recomendacion.tiempoDeLecturaTotal(usuario) <= usuario.rangoMax
+}
+
 // el demandante: quiere que le ofrezcamos recomendaciones que tengan una valoración de entre 4 y 5 puntos.
+
+object demandante : PerfilDeRecomendacion() {
+
+    private const val VALORACION_MINIMA = 3
+
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        valoracionAlta(recomendacion, usuario)
+
+    private fun valoracionAlta(recomendacion: Recomendacion, usuario: Usuario): Boolean =
+        recomendacion.valoraciones.values.any { it.valor > VALORACION_MINIMA } // it = Valoracion()
+}
 
 // el experimentado: quiere recomendaciones de libros donde la mayoría sean autores consagrados
 // (es decir, que tengan 50 o más años de edad y tenga por lo menos un premio como escritor).
+
+object experimentado : PerfilDeRecomendacion() {
+
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        lenguasIguales(recomendacion)
+
+    private fun lenguasIguales(recomendacion: Recomendacion): Boolean =
+        recomendacion.librosRecomendados.any { it.autor.esConsagrado() }
+}
 
 // los cambiantes: son los que se comportan como leedor hasta los 25 años de edad,
 // luego se comportan como un calculador con una tolerancia de 10.000 a 15.000 minutos.
 
 
+object cambiante : PerfilDeRecomendacion() {
 
+    private const val EDAD_LIMITE = 25
+    private const val RANGO_MIN = 10000
+    private const val RANGO_MAX = 15000
 
-//object calculador : Perfil() {
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean {
+        return if (usuario.edad() <= EDAD_LIMITE) {
+            leedor.validarRecomendacion(usuario, recomendacion)
+        } else {
+            usuario.rangoMin(RANGO_MIN)
+            usuario.rangoMax(RANGO_MAX)
+            calculador.validarRecomendacion(usuario, recomendacion)
+        }
+    }
+}
+
+// ESTAS FUNCIONES RETORNAN SETS DE RECOMENDACIONES VALIDAS
+
+//object precavido : PerfilDeRecomendacion() {
 //
-//    override fun buscar(): MutableSet<Recomendacion> {
-//        return mutableSetOf()
+//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
+//
+//        val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
+//
+//        HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
+//
+//            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
+//
+//            // Condición 1
+//            if (usuario.librosPorLeer.any { it in librosRecomendados }) {
+//                setParaRetornar.add(recomendacion)
+//                return@forEach // similar al continue o break
+//            }
+//
+//            // Condición 2
+//            usuario.amigos.forEach { amigo ->
+//                if (amigo.librosLeidos.keys.any { it in librosRecomendados }) {
+//                    setParaRetornar.add(recomendacion)
+//                    return@forEach
+//                }
+//            }
+//        }
+//
+//        return setParaRetornar
+//
 //    }
-//
 //}
 
+//object leedor : PerfilDeRecomendacion() {
+//
+//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> =
+//        HistorialRecomendaciones.historialRecomendaciones()
+//}
 
-//    poliglota {
-//        override fun busqueda(recomendacionGlobal): List<Recomendacion> {
+//object poliglota : PerfilDeRecomendacion() {
 //
+//
+//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
+//
+//        val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
+//
+//        HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
+//
+//            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
+//
+//            // Libro() contiene property -> private var lenguajes: Set<Lenguaje>
+//
+//            // val cantLenguajes: MutableSet<Lenguaje> = mutableSetOf()
+//            // cantLenguajes.size() >= 5 --> setParaRetornar.add(recomendacion)
+//            // else -> return@forEach
+//
+//            if (librosRecomendados.) {
+//                setParaRetornar.add(recomendacion)
+//                return@forEach // similar al continue o break
+//            }
+//
+//            // dos forEach ?????
 //        }
-//    },
 //
-//    nativista {
-//        override fun busqueda(recomendacionGlobal): List<Recomendacion> {
-//
-//        }
-//    },
-//
+//        // HistorialRecomendaciones.historialRecomendaciones().librosRecomendados.lenguaje >= 5
+//    }
+//}
 
+//object nativista : PerfilDeRecomendacion() {
 //
-//    leedor {
-//        override fun busqueda(recomendacionGlobal): List<Recomendacion> {
+//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
 //
-//        }
-//    },
-//
-//    demandante {
-//        override fun busqueda(recomendacionGlobal): List<Recomendacion> {
-//
-//        }
-//    },
-//
-//    experimentado {
-//        override fun busqueda(recomendacionGlobal): List<Recomendacion> {
-//
-//        }
-//    },
-//
-//    cambiante {
-//        override fun busqueda(recomendacionGlobal): List<Recomendacion> {
-//
-//        }
-//    };
-//
-//    abstract fun busqueda(recomendacionGlobal): List<Recomendacion>
-}
+//    }
+//}

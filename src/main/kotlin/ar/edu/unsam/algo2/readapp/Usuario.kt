@@ -1,5 +1,7 @@
 @file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
+
 import java.time.*
 import java.time.temporal.ChronoUnit
 
@@ -17,19 +19,37 @@ open class Usuario(
     private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
     private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
-    private var perfilDeRecomendacion: PerfilDeRecomendacion
+    private var perfilDeRecomendacion: PerfilDeRecomendacion,
+    val lenguaNativa: Lenguaje,
+    // DEUDA TECNICA @KZVilla
+    var rangoMin: Int = 0,
+    var rangoMax: Int = 0
 ) : TipoLector {
 
     companion object {
         const val COEFICIENTE_POR_LIBRO_DESAFIANTE = 2 // si el libro es desafiante
     }
 
+    // DEUDA TECNICA @KZVilla
+    // SETTERS para 'calculador'
+    fun rangoMin(valor: Int) {
+        rangoMin = valor
+    }
+
+    fun rangoMax(valor: Int) {
+        rangoMax = valor
+    }
+
+    // GETTERS para 'calculador'
+    fun rangoMin() = rangoMin
+    fun rangoMax() = rangoMax
+
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
     fun leerLibro(libro: Libro) {
         val vecesLeido: Int = librosLeidos.getOrPut(libro) { 0 } + 1
-            // ∃Key -> return Value
-            // ∄Key -> crea Key, Value = 0, return Value
+        // ∃Key -> return Value
+        // ∄Key -> crea Key, Value = 0, return Value
         librosLeidos[libro] = vecesLeido
     }
 
