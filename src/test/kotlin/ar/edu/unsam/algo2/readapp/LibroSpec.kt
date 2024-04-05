@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 class LibroSpec : DescribeSpec({
     describe("Test de libro"){
         //Arrange
-        val autor1 = Autor(Lenguaje.es_ES)
+        val autor1 = Autor(Lenguaje.es_ES,2)
 
         it("El libro es desafiante"){
             //Arrange
