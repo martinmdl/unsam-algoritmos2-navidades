@@ -9,6 +9,10 @@ import java.time.LocalDate
 class ValoracionSpec:DescribeSpec({
     describe("Test de Valoracion") {
         //Arrange
+        /*Autor*/
+        val autor1 = Autor(Lenguaje.es_ES,2)
+
+        /*Libro*/
         val harryPotter = Libro(
             "HarryPotter",
             "Salamandra",
@@ -18,7 +22,7 @@ class ValoracionSpec:DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         val harryPotter2 = Libro(
             "HarryPotter",
@@ -29,7 +33,7 @@ class ValoracionSpec:DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         val usuario1 = Usuario(
             "pipo",
@@ -39,7 +43,7 @@ class ValoracionSpec:DescribeSpec({
             mutableSetOf(harryPotter),
             250,
             (LocalDate.of(2000, 10, 1)),
-            "alguien"
+            autor1
         )
         val usuario2 = Usuario(
             "pipa",
@@ -49,7 +53,7 @@ class ValoracionSpec:DescribeSpec({
             mutableSetOf(harryPotter2),
             250,
             (LocalDate.of(2000, 10, 1)),
-            "alguien"
+            autor1
         )
         val recomendacion1 = Recomendacion(
             esPrivado = true,

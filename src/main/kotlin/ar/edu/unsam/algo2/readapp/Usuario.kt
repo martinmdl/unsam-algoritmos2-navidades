@@ -21,7 +21,7 @@ open class Usuario(
     private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
     private var perfilDeRecomendacion: PerfilDeRecomendacion,
     val lenguaNativa: Lenguaje,
-    // DEUDA TECNICA @KZVilla
+    // DEUDA TECNICA @Valen
     var rangoMin: Int = 0,
     var rangoMax: Int = 0
 ) : TipoLector {

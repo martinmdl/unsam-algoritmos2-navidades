@@ -6,6 +6,8 @@ import io.kotest.matchers.shouldBe
 
 class LibroSpec : DescribeSpec({
     describe("Test de libro"){
+        //Arrange
+        val autor1 = Autor(Lenguaje.es_ES,2)
 
         it("El libro es desafiante"){
             //Arrange
@@ -18,7 +20,7 @@ class LibroSpec : DescribeSpec({
                 1,
                 setOf(Lenguaje.es_ES, Lenguaje.ja_JP, Lenguaje.fr_FR, Lenguaje.ru_RU, Lenguaje.hi_IN),
                 1,
-                "alguien"
+                autor1
             )
             //Assert
             harryPotter.esDesafiante() shouldBe true
@@ -35,7 +37,7 @@ class LibroSpec : DescribeSpec({
                 5,
                 setOf(Lenguaje.es_ES, Lenguaje.ja_JP, Lenguaje.fr_FR, Lenguaje.ru_RU, Lenguaje.hi_IN),
                 1,
-                "alguien"
+                autor1
             )
             //Assert
             skander.esBestSeller() shouldBe true
@@ -52,7 +54,7 @@ class LibroSpec : DescribeSpec({
                 1,
                 setOf(Lenguaje.ja_JP),
                 1,
-                "alguien"
+                autor1
             )
             //Assert
             jojos.esBestSeller() shouldBe false

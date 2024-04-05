@@ -11,7 +11,7 @@ package ar.edu.unsam.algo2.readapp
  * @property cantPalabras Indica la cantidad de palabras del libro
  * @property lecturaCompleja Indica si el libro es complejo
  * @property ediciones Indica la cantidad de ediciones que tiene el libro
- * @property lenguajes Conjunto de idiomas en los que se encuentra el libro
+ * @property idioma Conjunto de idiomas en los que se encuentra el libro, el primero corresponde al lenguaje nativo del autor, el resto traducciones.
  * @property ventasSemanales Indica la cantiad de ventas semanales
  */
 
@@ -22,9 +22,9 @@ class Libro(
     val cantPalabras: Int,
     private var lecturaCompleja: Boolean,
     private var ediciones: Int,
-    var lenguajes: Set<Lenguaje>,
+    var idioma: Set<Lenguaje>,
     private var ventasSemanales: Int,
-    var autor: Autor
+    val autor: Autor
 ) {
 
     /**
@@ -47,5 +47,9 @@ class Libro(
         (this.ventasSemanales >= MINIMO_DE_VENTAS_SEMANALES && (this.ediciones > MINIMO_DE_EDICIONES) || this.numeroDeLenguajes() >= MINIMO_DE_TRADUCCIONES)
 
     /*GETTER*/
-    private fun numeroDeLenguajes(): Int = this.lenguajes.size
-}
+    private fun numeroDeLenguajes(): Int = this.idioma.size
+
+
+}/*PARA PREGUNTAR*/
+
+data class Autor(val lenguaMaterna: Lenguaje, var premios: Int)

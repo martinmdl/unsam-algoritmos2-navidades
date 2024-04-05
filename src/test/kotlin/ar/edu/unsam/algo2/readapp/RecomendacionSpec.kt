@@ -9,6 +9,8 @@ import java.time.LocalDate
 class RecomendacionesSpec : DescribeSpec({
     describe("Test de las Recomendaciones") {
         //Arrange
+        /*Autor*/
+        val autor1 = Autor(Lenguaje.es_ES,2)
         /*LIBROS*/
         val harryPotter = Libro(
             "HarryPotter",
@@ -19,7 +21,7 @@ class RecomendacionesSpec : DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         val harryPotter2 = Libro(
             "HarryPotter",
@@ -30,7 +32,7 @@ class RecomendacionesSpec : DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         val harryPotter3 = Libro(
             "HarryPotter",
@@ -41,7 +43,7 @@ class RecomendacionesSpec : DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         val harryPotter4 = Libro(
             "HarryPotter",
@@ -52,7 +54,7 @@ class RecomendacionesSpec : DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         val harryPotter5 = Libro(
             "HarryPotter",
@@ -63,7 +65,7 @@ class RecomendacionesSpec : DescribeSpec({
             5,
             setOf(Lenguaje.es_ES, Lenguaje.ja_JP),
             10001,
-            "alguien"
+            autor1
         )
         /*USUARIOS*/
         val usuario1 = Usuario(
@@ -74,7 +76,7 @@ class RecomendacionesSpec : DescribeSpec({
             mutableSetOf(harryPotter, harryPotter2, harryPotter3, harryPotter4),
             150,
             (LocalDate.of(2000, 10, 1)),
-            "alguien"
+            autor1
         )
         val usuario2 = Usuario(
             "pipo2",
@@ -84,7 +86,7 @@ class RecomendacionesSpec : DescribeSpec({
             mutableSetOf(harryPotter2, harryPotter3, harryPotter5),
             200,
             (LocalDate.of(2000, 10, 1)),
-            "alguien"
+            autor1
         )
         val usuario3 = Usuario(
             "pipo3",
@@ -94,7 +96,7 @@ class RecomendacionesSpec : DescribeSpec({
             mutableSetOf(harryPotter, harryPotter2, harryPotter3, harryPotter4, harryPotter5),
             250,
             (LocalDate.of(2000, 10, 1)),
-            "alguien"
+            autor1
         )
 
 
