@@ -14,7 +14,7 @@ open class Usuario(
     val direccionEmail: String,
     val amigos: MutableSet<Usuario> = mutableSetOf(),
     val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(),
-    val recomendacionesEmitidas: MutableSet<Recomendacion> = mutableSetOf(),
+    private val recomendacionesEmitidas: MutableSet<Recomendacion> = mutableSetOf(),
     val autorFavorito: Autor,
     private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
