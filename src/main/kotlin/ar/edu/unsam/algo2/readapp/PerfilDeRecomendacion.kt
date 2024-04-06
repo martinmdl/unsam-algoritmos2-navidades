@@ -11,7 +11,7 @@ abstract class PerfilDeRecomendacion() {
 // el precavido: solo le interesan las recomendaciones de libros que por lo menos incluyan
 // uno de los libros que tiene pendiente de lectura, o libros que algún amigo haya leído.
 
-object precavido : PerfilDeRecomendacion() {
+object Precavido : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
         librosQuiereLeerRecomendacion(recomendacion, usuario) || amigosLeyeron(recomendacion, usuario)
@@ -38,14 +38,14 @@ object precavido : PerfilDeRecomendacion() {
 
 // el leedor: no tiene una preferencia específica, por lo que le interesa cualquier recomendación.
 
-object leedor : PerfilDeRecomendacion() {
+object Leedor : PerfilDeRecomendacion() {
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean = true
 }
 
 // el políglota: como maneja varios idiomas, le gustaría ver recomendaciones que tengan
 // por lo menos 5 idiomas distintos.
 
-object poliglota : PerfilDeRecomendacion() {
+object Poliglota : PerfilDeRecomendacion() {
 
     private const val CANT_MINIMA_LENGUAJES = 5
 
@@ -65,7 +65,7 @@ object poliglota : PerfilDeRecomendacion() {
 
 // el nativista: espera recomendaciones que tengan libros cuyo idioma original sea el mismo nativo de él.
 
-object nativista : PerfilDeRecomendacion() {
+object Nativista : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
         lenguasIguales(recomendacion, usuario)
@@ -82,7 +82,7 @@ object nativista : PerfilDeRecomendacion() {
 // y otro de 500 min a 800 min).
 
 
-object calculador : PerfilDeRecomendacion() {
+object Calculador : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
         puedeLeer(recomendacion, usuario)
@@ -93,7 +93,7 @@ object calculador : PerfilDeRecomendacion() {
 
 // el demandante: quiere que le ofrezcamos recomendaciones que tengan una valoración de entre 4 y 5 puntos.
 
-object demandante : PerfilDeRecomendacion() {
+object Demandante : PerfilDeRecomendacion() {
 
     private const val VALORACION_MINIMA = 3
 
@@ -107,7 +107,7 @@ object demandante : PerfilDeRecomendacion() {
 // el experimentado: quiere recomendaciones de libros donde la mayoría sean autores consagrados
 // (es decir, que tengan 50 o más años de edad y tenga por lo menos un premio como escritor).
 
-object experimentado : PerfilDeRecomendacion() {
+object Experimentado : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
         lenguasIguales(recomendacion)
@@ -120,7 +120,7 @@ object experimentado : PerfilDeRecomendacion() {
 // luego se comportan como un calculador con una tolerancia de 10.000 a 15.000 minutos.
 
 
-object cambiante : PerfilDeRecomendacion() {
+object Cambiante : PerfilDeRecomendacion() {
 
     private const val EDAD_LIMITE = 25
     private const val RANGO_MIN = 10000
@@ -128,16 +128,16 @@ object cambiante : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean {
         return if (usuario.edad() <= EDAD_LIMITE) {
-            leedor.validarRecomendacion(usuario, recomendacion)
+            Leedor.validarRecomendacion(usuario, recomendacion)
         } else {
             usuario.rangoMin(RANGO_MIN)
             usuario.rangoMax(RANGO_MAX)
-            calculador.validarRecomendacion(usuario, recomendacion)
+            Calculador.validarRecomendacion(usuario, recomendacion)
         }
     }
 }
 
-// ESTAS FUNCIONES RETORNAN SETS DE RECOMENDACIONES VALIDAS
+// #### ESTAS FUNCIONES RETORNAN SETS DE RECOMENDACIONES VALIDAS #####
 
 //object precavido : PerfilDeRecomendacion() {
 //

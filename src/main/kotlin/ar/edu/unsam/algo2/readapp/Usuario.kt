@@ -18,17 +18,13 @@ open class Usuario(
     val autorFavorito: Autor,
     private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
-    /*private var tipoLector: TipoLector*/ // que tipo de lector es este usuario? REVISAR
+    private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
     private var perfilDeRecomendacion: PerfilDeRecomendacion,
     val lenguaNativa: Lenguaje,
-    // DEUDA TECNICA @Valen
+    // DEUDA TECNICA 
     var rangoMin: Int = 0,
     var rangoMax: Int = 0
 ) : TipoLector {
-
-    companion object {
-        const val COEFICIENTE_POR_LIBRO_DESAFIANTE = 2 // si el libro es desafiante
-    }
 
     // DEUDA TECNICA @KZVilla
     // SETTERS para 'calculador'
@@ -53,12 +49,7 @@ open class Usuario(
         librosLeidos[libro] = vecesLeido
     }
 
-    override fun velocidadDeLectura(libro: Libro): Double {
-        return when {
-            libro.esDesafiante() -> (palabrasPorMinuto / COEFICIENTE_POR_LIBRO_DESAFIANTE).toDouble()
-            else -> palabrasPorMinuto.toDouble()
-        }
-    }
+
 
     fun valorarRecomendacion(
         recomendacion: Recomendacion,
@@ -87,10 +78,9 @@ open class Usuario(
         amigos.remove(amigo) // testear si el amigo no existe
     }
 
-    // REVISAR Y TESTEAR
-    /*fun variarTipoLector(tipo: TipoLector) {
+    fun variarTipoLector(tipo: TipoLector) {
         tipoLector = tipo
-    }*/
+    }
 
     fun crearRecomendacion(
         esPrivado: Boolean,
