@@ -18,8 +18,8 @@ open class Usuario(
     val autorFavorito: Autor,
     private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
-    private var tipoLector: TipoLector, // que tipo de lector es este usuario? REVISAR
-    private var perfilDeRecomendacion: PerfilDeRecomendacion,
+    private var tipoLector: TipoLector = LectorPromedio, // que tipo de lector es este usuario? REVISAR
+    private var perfilDeRecomendacion: PerfilDeRecomendacion = Leedor,
     val lenguaNativa: Lenguaje,
     // DEUDA TECNICA 
     var rangoMin: Int = 0,
