@@ -26,62 +26,47 @@ open class Usuario(
     var rangoMax: Int = 0
 ) : TipoLector {
 
-    // DEUDA TECNICA @KZVilla
-    // SETTERS para 'calculador'
-    fun rangoMin(valor: Int) {
-        rangoMin = valor
-    }
+    // DEUDA TECNICA
+    // SETTERS para 'Calculador'
+    fun rangoMin(valor: Int) { rangoMin = valor }
+    fun rangoMax(valor: Int) { rangoMax = valor }
 
-    fun rangoMax(valor: Int) {
-        rangoMax = valor
-    }
-
-    // GETTERS para 'calculador'
+    // GETTERS para 'Calculador'
     fun rangoMin() = rangoMin
     fun rangoMax() = rangoMax
 
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
+//  ##LIBROS##
+
     fun leerLibro(libro: Libro) {
         val vecesLeido: Int = librosLeidos.getOrPut(libro) { 0 } + 1
-        // ∃Key -> return Value
-        // ∄Key -> crea Key, Value = 0, return Value
+            // ∃Key -> return Value
+            // ∄Key -> crea Key, Value = 0, return Value
         librosLeidos[libro] = vecesLeido
     }
+    private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
 
-
-
-    fun valorarRecomendacion(
-        recomendacion: Recomendacion,
-        valor: Int,
-        comentario: String,
-        usuario: Usuario
-    ) {
-        recomendacion.crearValoracion(valor, comentario, usuario)
-        eliminarRecomendacionPorValorar(recomendacion)
+    fun agregarLibroPorLeer(libro: Libro) {
+        when {
+            libroYaLeido(libro) -> throw Exception("Este libro ya fue leído")
+            else -> librosPorLeer.add(libro)
+        }
     }
-
-    fun agregarRecomendacionPorValorar(recomendacion: Recomendacion) {
-        recomendacionesPorValorar.add(recomendacion)
-    }
-
-    // PREGUNTAR SI ES REDUNDANTE HACER ESTA "TRADUCCION"
-    private fun eliminarRecomendacionPorValorar(recomendacion: Recomendacion) {
-        recomendacionesPorValorar.remove(recomendacion)
-    }
-
-    fun agregarAmigo(amigo: Usuario) {
-        amigos.add(amigo) // testear amigo repetido
-    }
-
-    fun eliminarAmigo(amigo: Usuario) {
-        amigos.remove(amigo) // testear si el amigo no existe
-    }
-
     fun variarTipoLector(tipo: TipoLector) {
         tipoLector = tipo
     }
 
+//  ##AMIGOS##
+    fun agregarAmigo(amigo: Usuario) {
+        amigos.add(amigo)
+    }
+
+    fun eliminarAmigo(amigo: Usuario) {
+        amigos.remove(amigo)
+    }
+
+//  ##RECOMENDACIONES Y VALORACIONES##
     fun crearRecomendacion(
         esPrivado: Boolean,
         creador: Usuario,
@@ -100,16 +85,19 @@ open class Usuario(
         HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
     }
 
+    fun valorarRecomendacion(
+        recomendacion: Recomendacion,
+        valor: Int,
+        comentario: String,
+        usuario: Usuario
+    ) {
+        recomendacion.crearValoracion(valor, comentario, usuario)
+        eliminarRecomendacionPorValorar(recomendacion)
+    }
+
     fun eliminarRecomendacion(recomendacion: Recomendacion) {
         recomendacionesEmitidas.remove(recomendacion)
         HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
-    }
-
-    fun agregarLibroPorLeer(libro: Libro) {
-        when {
-            libroYaLeido(libro) -> throw Exception("Este libro ya fue leído")
-            else -> librosPorLeer.add(libro)
-        }
     }
 
     fun cambiarPerfilDeRecomendacion(nuevoPerfil: PerfilDeRecomendacion) {
@@ -119,5 +107,11 @@ open class Usuario(
     fun buscarRecomendaciones(recomendacion: Recomendacion): Boolean =
         perfilDeRecomendacion.validarRecomendacion(this,recomendacion)
 
-    private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
+    fun agregarRecomendacionPorValorar(recomendacion: Recomendacion) {
+        recomendacionesPorValorar.add(recomendacion)
+    }
+
+    private fun eliminarRecomendacionPorValorar(recomendacion: Recomendacion) {
+        recomendacionesPorValorar.remove(recomendacion)
+    }
 }

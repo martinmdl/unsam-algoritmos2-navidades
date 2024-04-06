@@ -74,7 +74,7 @@ class Recomendacion(
         if (amigoleidosTodos(usuario) || collecionAutorFavorito(usuario)) {
             valoraciones[usuario] = Valoracion(usuario, valor, comentario)
         }
-        // Captura error (asi si es facil @Valen)
+        //Captura error
     }
 
     private fun collecionAutorFavorito(usuario: Usuario): Boolean =
@@ -83,10 +83,10 @@ class Recomendacion(
     /*GETTERS*/
     fun leerRecomendacion(usuarioQueLee: Usuario): Boolean = !esPrivado || puedeLeerLaRecomendacion(usuarioQueLee)
 
-    fun tiempoDeLecturaTotal(lector: Usuario): Double = librosRecomendados.sumOf { lector.tiempoDeLectura(it) }
+    fun tiempoDeLecturaTotal(lector: Usuario): Double = librosRecomendados.sumOf { lector.tiempoDeLectura(it, lector) }
 
     fun tiempoDeLecturaNeto(lector: Usuario): Double =
-        librosRecomendados.subtract(lector.librosLeidos.keys).sumOf { lector.tiempoDeLectura(it) }
+        librosRecomendados.subtract(lector.librosLeidos.keys).sumOf { lector.tiempoDeLectura(it, lector) }
 
     fun tiempoDeLecturaAhorrado(lector: Usuario): Double {
         return tiempoDeLecturaTotal(lector) - tiempoDeLecturaNeto(lector)

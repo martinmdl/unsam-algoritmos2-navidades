@@ -2,14 +2,10 @@
 
 package ar.edu.unsam.algo2.readapp
 
-// podria ser una interface
 abstract class PerfilDeRecomendacion() {
 
     abstract fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean
 }
-
-// el precavido: solo le interesan las recomendaciones de libros que por lo menos incluyan
-// uno de los libros que tiene pendiente de lectura, o libros que algún amigo haya leído.
 
 object Precavido : PerfilDeRecomendacion() {
 
@@ -36,14 +32,9 @@ object Precavido : PerfilDeRecomendacion() {
     }
 }
 
-// el leedor: no tiene una preferencia específica, por lo que le interesa cualquier recomendación.
-
 object Leedor : PerfilDeRecomendacion() {
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean = true
 }
-
-// el políglota: como maneja varios idiomas, le gustaría ver recomendaciones que tengan
-// por lo menos 5 idiomas distintos.
 
 object Poliglota : PerfilDeRecomendacion() {
 
@@ -63,8 +54,6 @@ object Poliglota : PerfilDeRecomendacion() {
     }
 }
 
-// el nativista: espera recomendaciones que tengan libros cuyo idioma original sea el mismo nativo de él.
-
 object Nativista : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
@@ -76,12 +65,6 @@ object Nativista : PerfilDeRecomendacion() {
         recomendacion.librosRecomendados.any { it.autor.lenguaNativa == usuario.lenguaNativa }
 }
 
-// el calculador: como le gusta tener control del tiempo que lee, acepta recomendaciones
-// que no le lleven más de un rango de tiempo (el tiempo correspondiente a leer toda la serie de libros),
-// este rango puede variar entre los distintos usuarios. (Ej. un usuario puede tener de 600 min a 1.000 min,
-// y otro de 500 min a 800 min).
-
-
 object Calculador : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
@@ -91,8 +74,6 @@ object Calculador : PerfilDeRecomendacion() {
         recomendacion.tiempoDeLecturaTotal(usuario) >= usuario.rangoMin || recomendacion.tiempoDeLecturaTotal(usuario) <= usuario.rangoMax
 }
 
-// el demandante: quiere que le ofrezcamos recomendaciones que tengan una valoración de entre 4 y 5 puntos.
-
 object Demandante : PerfilDeRecomendacion() {
 
     private const val VALORACION_MINIMA = 3
@@ -101,11 +82,8 @@ object Demandante : PerfilDeRecomendacion() {
         valoracionAlta(recomendacion, usuario)
 
     private fun valoracionAlta(recomendacion: Recomendacion, usuario: Usuario): Boolean =
-        recomendacion.valoraciones.values.any { it.valor > VALORACION_MINIMA } // it = Valoracion()
+        recomendacion.valoraciones.values.any { it.valor > VALORACION_MINIMA }
 }
-
-// el experimentado: quiere recomendaciones de libros donde la mayoría sean autores consagrados
-// (es decir, que tengan 50 o más años de edad y tenga por lo menos un premio como escritor).
 
 object Experimentado : PerfilDeRecomendacion() {
 
@@ -115,10 +93,6 @@ object Experimentado : PerfilDeRecomendacion() {
     private fun lenguasIguales(recomendacion: Recomendacion): Boolean =
         recomendacion.librosRecomendados.any { it.autor.esConsagrado() }
 }
-
-// los cambiantes: son los que se comportan como leedor hasta los 25 años de edad,
-// luego se comportan como un calculador con una tolerancia de 10.000 a 15.000 minutos.
-
 
 object Cambiante : PerfilDeRecomendacion() {
 

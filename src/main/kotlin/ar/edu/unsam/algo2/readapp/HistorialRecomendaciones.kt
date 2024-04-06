@@ -8,7 +8,6 @@ object HistorialRecomendaciones {
 
     var historialRecomendaciones: MutableSet<Recomendacion> = mutableSetOf()
 
-    // testear elementos repetidos
     fun agregarAlHistorial(recomendacion: Recomendacion) {
         historialRecomendaciones.add(recomendacion)
     }
