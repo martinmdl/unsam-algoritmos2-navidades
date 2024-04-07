@@ -25,6 +25,9 @@ open class Usuario(
     var rangoMin: Int = 0,
     var rangoMax: Int = 0
 ) {
+    init {
+
+    }
 
     // DEUDA TECNICA
     // SETTERS para 'Calculador'
@@ -98,12 +101,12 @@ open class Usuario(
             valoraciones
         )
         recomendacionesEmitidas.add(nuevaRecomendacion)
-        HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
+        //HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
     }
 
     fun eliminarRecomendacion(recomendacion: Recomendacion) {
         recomendacionesEmitidas.remove(recomendacion)
-        HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
+        //HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
     }
 
     fun cambiarPerfilDeRecomendacion(perfil: PerfilDeRecomendacion) {

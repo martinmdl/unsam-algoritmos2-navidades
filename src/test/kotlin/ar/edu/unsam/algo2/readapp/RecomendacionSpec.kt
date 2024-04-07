@@ -4,7 +4,6 @@ package ar.edu.unsam.algo2.readapp
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
-import org.jetbrains.annotations.Nullable
 import java.time.LocalDate
 
 class RecomendacionesSpec : DescribeSpec({
@@ -69,61 +68,101 @@ class RecomendacionesSpec : DescribeSpec({
             autor1
         )
         /*USUARIOS*/
+
         val usuario1 = Usuario(
-            "pipo1",
-            "alegre",
-            "pipojr10",
-            150,
-            LocalDate.of(1990, 3, 27),
-            "pipo@yahoo.com",
-            mutableSetOf(),
-            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1, harryPotter4 to 1),
-            mutableSetOf(),
-            autor1,
-            mutableSetOf(),
-            mutableSetOf(),
-            precavido,
-            Lenguaje.es_ES,
-            0,
-            0
+            nombre = "pipo1",
+            apellido = "alegre",
+            username = "pipojr10",
+            palabrasPorMinuto = 150,
+            fechaNac = LocalDate.of(1990, 3, 27),
+            direccionEmail = "pipo@yahoo.com",
+            librosLeidos = mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1, harryPotter4 to 1),
+            autorFavorito = autor1,
+            lenguaNativa = Lenguaje.es_ES
         )
 
+        //val usuario1 = Usuario(
+        //            "pipo1",
+        //            "alegre",
+        //            "pipojr10",
+        //            150,
+        //            LocalDate.of(1990, 3, 27),
+        //            "pipo@yahoo.com",
+        //            mutableSetOf(),
+        //            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1, harryPotter4 to 1),
+        //            mutableSetOf(),
+        //            autor1,
+        //            mutableSetOf(),
+        //            mutableSetOf(),
+        //            Precavido,
+        //            Lenguaje.es_ES,
+        //            0,
+        //            0
+        //        )
+
         val usuario2 = Usuario(
-            "pipo2",
-            "alegre",
-            "pipojr10",
-            200,
-            LocalDate.of(1990, 3, 27),
-            "pipo@yahoo.com",
-            mutableSetOf(usuario1),
-            mutableMapOf(harryPotter2 to 1, harryPotter3 to 1, harryPotter5 to 1),
-            mutableSetOf(),
-            autor1,
-            mutableSetOf(),
-            mutableSetOf(),
-            precavido,
-            Lenguaje.es_ES,
-            0,
-            0
+            nombre = "pipo2",
+            apellido = "alegre",
+            username = "pipojr10",
+            palabrasPorMinuto = 200,
+            fechaNac = LocalDate.of(1990, 3, 27),
+            direccionEmail = "pipo@yahoo.com",
+            amigos = mutableSetOf(usuario1),
+            librosLeidos = mutableMapOf(harryPotter2 to 1, harryPotter3 to 1, harryPotter5 to 1),
+            autorFavorito = autor1,
+            lenguaNativa = Lenguaje.es_ES
         )
+
+        //val usuario2 = Usuario(
+        //            "pipo2",
+        //            "alegre",
+        //            "pipojr10",
+        //            200,
+        //            LocalDate.of(1990, 3, 27),
+        //            "pipo@yahoo.com",
+        //            mutableSetOf(usuario1),
+        //            mutableMapOf(harryPotter2 to 1, harryPotter3 to 1, harryPotter5 to 1),
+        //            mutableSetOf(),
+        //            autor1,
+        //            mutableSetOf(),
+        //            mutableSetOf(),
+        //            precavido,
+        //            Lenguaje.es_ES,
+        //            0,
+        //            0
+        //        )
+
         val usuario3 = Usuario(
-            "pipo3",
-            "alegre",
-            "pipojr10",
-            250,
-            LocalDate.of(1990, 3, 27),
-            "pipo@yahoo.com",
-            mutableSetOf(usuario1, usuario2),
-            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1,harryPotter4 to 1,harryPotter5 to 1),
-            mutableSetOf(),
-            autor1,
-            mutableSetOf(),
-            mutableSetOf(),
-            precavido,
-            Lenguaje.es_ES,
-            0,
-            0
+            nombre = "pipo3",
+            apellido = "alegre",
+            username = "pipojr10",
+            palabrasPorMinuto = 250,
+            fechaNac = LocalDate.of(1990, 3, 27),
+            direccionEmail = "pipo@yahoo.com",
+            amigos = mutableSetOf(usuario1, usuario2),
+            librosLeidos = mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1,harryPotter4 to 1,harryPotter5 to 1),
+            autorFavorito = autor1,
+            lenguaNativa = Lenguaje.es_ES
         )
+
+        //val usuario3 = Usuario(
+        //            "pipo3",
+        //            "alegre",
+        //            "pipojr10",
+        //            250,
+        //            LocalDate.of(1990, 3, 27),
+        //            "pipo@yahoo.com",
+        //            mutableSetOf(usuario1, usuario2),
+        //            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1,harryPotter4 to 1,harryPotter5 to 1),
+        //            mutableSetOf(),
+        //            autor1,
+        //            mutableSetOf(),
+        //            mutableSetOf(),
+        //            precavido,
+        //            Lenguaje.es_ES,
+        //            0,
+        //            0
+        //        )
 
 
         /*RECOMENDACIONES*/

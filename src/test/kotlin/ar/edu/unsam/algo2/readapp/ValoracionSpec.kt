@@ -24,6 +24,7 @@ class ValoracionSpec:DescribeSpec({
             10001,
             autor1
         )
+
         val harryPotter2 = Libro(
             "HarryPotter",
             "Salamandra",
@@ -35,42 +36,31 @@ class ValoracionSpec:DescribeSpec({
             10001,
             autor1
         )
+
         val usuario1 = Usuario(
-            "pipo",
-            "alegre",
-            "pipojr10",
-            250,
-            LocalDate.of(1990, 3, 27),
-            "pipo@yahoo.com",
-            mutableSetOf(),
-            mutableMapOf(harryPotter to 1),
-            mutableSetOf(),
-            autor1,
-            mutableSetOf(),
-            mutableSetOf(),
-            precavido,
-            Lenguaje.es_ES,
-            0,
-            0
+            nombre = "pipo",
+            apellido = "Alegre",
+            username = "pipojr10",
+            palabrasPorMinuto = 250,
+            fechaNac = LocalDate.of(1990, 3, 27),
+            direccionEmail = "pipo@yahoo.com",
+            librosLeidos = mutableMapOf(harryPotter to 1),
+            autorFavorito = autor1,
+            lenguaNativa = Lenguaje.es_ES
         )
+
         val usuario2 = Usuario(
-            "pipa",
-            "alegre",
-            "pipojr10",
-            250,
-            LocalDate.of(1990, 3, 27),
-            "pipo@yahoo.com",
-            mutableSetOf(),
-            mutableMapOf(harryPotter2 to 1),
-            mutableSetOf(),
-            autor1,
-            mutableSetOf(),
-            mutableSetOf(),
-            precavido,
-            Lenguaje.es_ES,
-            0,
-            0
+            nombre = "pipa",
+            apellido = "Alegre",
+            username = "pipojr10",
+            palabrasPorMinuto = 250,
+            fechaNac = LocalDate.of(1990, 3, 27),
+            direccionEmail = "pipo@yahoo.com",
+            librosLeidos = mutableMapOf(harryPotter2 to 1),
+            autorFavorito = autor1,
+            lenguaNativa = Lenguaje.es_ES
         )
+
         val recomendacion1 = Recomendacion(
             esPrivado = true,
             creador = usuario1,
@@ -78,34 +68,37 @@ class ValoracionSpec:DescribeSpec({
             descripcion = "no se leer",
             mutableMapOf()
         )
+
         it("El usuario1 da una valoracion para le recomendacion1"){
             //Act
             recomendacion1.crearValoracion(1,"no se leer",usuario1)
             //Assert
             (recomendacion1.valoraciones[usuario1]?.comentario ?:String) shouldBe  "no se leer"
             (recomendacion1.valoraciones[usuario1]?.valor ?: Int) shouldBe  1
-            (recomendacion1.valoraciones[usuario1]?.autor ?: Usuario) shouldBe  usuario1
+            (recomendacion1.valoraciones[usuario1]?.autor) shouldBe  usuario1
         }
+
         it("El usuario1 edita el valor numerico de su recomendacion"){
             //Act
             recomendacion1.valoraciones[usuario1]?.editarValor(5,usuario1)
             //Assert
             (recomendacion1.valoraciones[usuario1]?.valor ?: Int) shouldBe  5
         }
+
         it("El usuario1 edita el comentario de su recomendacion"){
             //Act
             recomendacion1.valoraciones[usuario1]?.editarComentario("ahora si se leer",usuario1)
             //Assert
             (recomendacion1.valoraciones[usuario1]?.comentario ?: String) shouldBe  "ahora si se leer"
         }
+
         it("El usuario2 da una valoracion para le recomendacion1 por autor favorito"){
             //Act
             recomendacion1.crearValoracion(3,"no se leer",usuario2)
             //Assert
             (recomendacion1.valoraciones[usuario2]?.comentario ?:String) shouldBe  "no se leer"
             (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  3
-            (recomendacion1.valoraciones[usuario2]?.autor ?: Usuario) shouldBe  usuario2
+            (recomendacion1.valoraciones[usuario2]?.autor) shouldBe  usuario2
         }
-
     }
 })
