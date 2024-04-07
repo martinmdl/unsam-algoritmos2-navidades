@@ -8,9 +8,11 @@ interface TipoLector {
         const val COEFICIENTE_POR_LIBRO_DESAFIANTE = 2
     }
 
+    // minutos
     fun tiempoDeLectura(libro: Libro, usuario: Usuario): Double =
         (libro.cantPalabras / velocidadDeLectura(libro, usuario))
 
+    // palabras / minutos
     fun velocidadDeLectura(libro: Libro, usuario: Usuario): Double {
         return when {
             libro.esDesafiante() -> (usuario.palabrasPorMinuto / COEFICIENTE_POR_LIBRO_DESAFIANTE).toDouble()
@@ -22,13 +24,14 @@ interface TipoLector {
 object LectorPromedio : TipoLector {}
 
 object LectorNormal : TipoLector {
-    override fun velocidadDeLectura(libro: Libro, usuario: Usuario): Double = usuario.palabrasPorMinuto.toDouble()
+    override fun velocidadDeLectura(libro: Libro, usuario: Usuario): Double =
+        usuario.palabrasPorMinuto.toDouble()
 }
 
 object LectorAnsioso : TipoLector {
 
-    private const val COEFICIENTE_POR_NON_BEST_SELLER = 0.8
     private const val COEFICIENTE_POR_BEST_SELLER = 0.5
+    private const val COEFICIENTE_POR_NON_BEST_SELLER = 0.8
 
     override fun tiempoDeLectura(libro: Libro, usuario: Usuario): Double {
         return when {
@@ -60,7 +63,7 @@ object LectorFanatico : TipoLector {
         libro.paginas * COEFICIENTE_LIBRO_IMPORTANTE
 
     private fun tiempoAdicionalLargo(libro: Libro): Int =
-        tiempoAdicionalCorto(libro) + libro.paginas - MAX_PAGINAS_LIBRO_CORTO
+        MAX_PAGINAS_LIBRO_CORTO * COEFICIENTE_LIBRO_IMPORTANTE + (libro.paginas - MAX_PAGINAS_LIBRO_CORTO)
 
     private fun tiempoLecturalCorto(libro: Libro, usuario: Usuario): Double =
         super.tiempoDeLectura(libro, usuario) + tiempoAdicionalCorto(libro)
