@@ -12,24 +12,14 @@ object Precavido : PerfilDeRecomendacion() {
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
         librosQuiereLeerRecomendacion(recomendacion, usuario) || amigosLeyeron(recomendacion, usuario)
 
-    // CONDICION 1
     private fun amigosLeyeron(recomendacion: Recomendacion, usuario: Usuario): Boolean =
-        librosRecomendados(recomendacion).intersect(librosLeidosPorAmigos(recomendacion, usuario)).isNotEmpty()
+        usuario.amigos.any { it.librosLeidos.keys.intersect(librosRecomendados(recomendacion)).isNotEmpty() }
 
-    // CONDICION 2
     private fun librosQuiereLeerRecomendacion(recomendacion: Recomendacion, usuario: Usuario): Boolean =
         librosRecomendados(recomendacion).intersect(usuario.librosPorLeer).isNotEmpty()
 
-    // GETTERS
     private fun librosRecomendados(recomendacion: Recomendacion): MutableSet<Libro> =
         recomendacion.librosRecomendados
-
-    private fun librosLeidosPorAmigos(recomendacion: Recomendacion, usuario: Usuario): MutableSet<Libro> {
-        // CAMBIAR A FLATTENMAP()
-        val librosLeidosPorAmigos: MutableSet<Libro> = mutableSetOf()
-        usuario.amigos.forEach { amigo -> librosLeidosPorAmigos.union(amigo.librosLeidos.keys) }
-        return librosLeidosPorAmigos
-    }
 }
 
 object Leedor : PerfilDeRecomendacion() {
@@ -46,20 +36,14 @@ object Poliglota : PerfilDeRecomendacion() {
     private fun cantLenguajesValida(recomendacion: Recomendacion): Boolean =
         cantLenguajes(recomendacion) >= CANT_MINIMA_LENGUAJES
 
-    private fun cantLenguajes(recomendacion: Recomendacion): Int {
-        // CAMBIAR A FLATTENMAP()
-        val totalLenguajes: MutableSet<Libro> = mutableSetOf()
-        recomendacion.librosRecomendados.forEach { libro -> totalLenguajes.union(libro.idioma) }
-        return totalLenguajes.size
-    }
+    private fun cantLenguajes(recomendacion: Recomendacion): Int =
+        recomendacion.librosRecomendados.flatMap { it.idioma }.toSet().size
 }
 
 object Nativista : PerfilDeRecomendacion() {
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
         lenguasIguales(recomendacion, usuario)
-
-    private fun lenguaNativaUsuario(usuario: Usuario): Lenguaje = usuario.lenguaNativa
 
     private fun lenguasIguales(recomendacion: Recomendacion, usuario: Usuario): Boolean =
         recomendacion.librosRecomendados.any { it.autor.lenguaNativa == usuario.lenguaNativa }
@@ -71,18 +55,21 @@ object Calculador : PerfilDeRecomendacion() {
         puedeLeer(recomendacion, usuario)
 
     private fun puedeLeer(recomendacion: Recomendacion, usuario: Usuario): Boolean =
-        recomendacion.tiempoDeLecturaTotal(usuario) >= usuario.rangoMin || recomendacion.tiempoDeLecturaTotal(usuario) <= usuario.rangoMax
+        recomendacion.tiempoDeLecturaTotal(usuario) >= usuario.rangoMin && recomendacion.tiempoDeLecturaTotal(usuario) <= usuario.rangoMax
 }
 
 object Demandante : PerfilDeRecomendacion() {
 
-    private const val VALORACION_MINIMA = 3
+    private const val VALORACION_MINIMA_PROMEDIO = 3
 
     override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
-        valoracionAlta(recomendacion, usuario)
+        valoracionAlta(recomendacion)
 
-    private fun valoracionAlta(recomendacion: Recomendacion, usuario: Usuario): Boolean =
-        recomendacion.valoraciones.values.any { it.valor > VALORACION_MINIMA }
+//    private fun valoracionAlta(recomendacion: Recomendacion): Boolean =
+//        recomendacion.valoraciones.values.any { it.valor >= VALORACION_MINIMA_PROMEDIO }
+
+    private fun valoracionAlta(recomendacion: Recomendacion): Boolean =
+        recomendacion.promedioValoraciones() > VALORACION_MINIMA_PROMEDIO
 }
 
 object Experimentado : PerfilDeRecomendacion() {
@@ -91,6 +78,7 @@ object Experimentado : PerfilDeRecomendacion() {
         lenguasIguales(recomendacion)
 
     private fun lenguasIguales(recomendacion: Recomendacion): Boolean =
+        //DEUDA TECNICA
         recomendacion.librosRecomendados.any { it.autor.esConsagrado() }
 }
 

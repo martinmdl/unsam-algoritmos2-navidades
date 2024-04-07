@@ -71,7 +71,7 @@ class Recomendacion(
     }
 
     fun crearValoracion(valor: Int, comentario: String, usuario: Usuario) {
-        if (amigoleidosTodos(usuario) || collecionAutorFavorito(usuario)) {
+        if ((amigoleidosTodos(usuario) || collecionAutorFavorito(usuario)) && usuario != creador) {
             valoraciones[usuario] = Valoracion(usuario, valor, comentario)
         }
         //Captura error
@@ -90,6 +90,14 @@ class Recomendacion(
 
     fun tiempoDeLecturaAhorrado(lector: Usuario): Double {
         return tiempoDeLecturaTotal(lector) - tiempoDeLecturaNeto(lector)
+    }
+
+    fun promedioValoraciones(): Double {
+        return if (valoraciones.isNotEmpty()) {
+            (valoraciones.values.sumOf { it.valor } / valoraciones.size).toDouble()
+        } else {
+            throw Exception("Division por cero")
+        }
     }
 
 

@@ -105,7 +105,7 @@ class TiempoDeLecturaSpec : DescribeSpec({
         }
 
         describe("Dado un lector fanático") {
-            
+
             usuario.variarTipoLector(LectorFanatico)
             usuario.variarAutorFavorito(autorConsagrado)
 

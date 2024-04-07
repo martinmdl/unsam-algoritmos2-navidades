@@ -47,12 +47,12 @@ open class Usuario(
     }
 
 //  ##LIBROS##
-
     fun leerLibro(libro: Libro) {
         val vecesLeido: Int = librosLeidos.getOrPut(libro) { 0 } + 1
             // ∃Key -> return Value
             // ∄Key -> crea Key, Value = 0, return Value
         librosLeidos[libro] = vecesLeido
+        eliminarLibroPorLeer(libro)
     }
 
     private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
@@ -64,14 +64,16 @@ open class Usuario(
         }
     }
 
-// ##AUTOR##
+    private fun eliminarLibroPorLeer(libro: Libro) {
+        librosPorLeer.remove(libro)
+    }
 
+// ##AUTOR##
     open fun variarAutorFavorito(autor: Autor) {
         autorFavorito = autor
     }
 
 //  ##AMIGOS##
-
     fun agregarAmigo(amigo: Usuario) {
         amigos.add(amigo)
     }
@@ -81,7 +83,6 @@ open class Usuario(
     }
 
 //  ##RECOMENDACIONES##
-
     fun crearRecomendacion(
         esPrivado: Boolean,
         creador: Usuario,
@@ -105,22 +106,20 @@ open class Usuario(
         HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
     }
 
-    fun cambiarPerfilDeRecomendacion(nuevoPerfil: PerfilDeRecomendacion) {
-        perfilDeRecomendacion = nuevoPerfil
+    fun cambiarPerfilDeRecomendacion(perfil: PerfilDeRecomendacion) {
+        perfilDeRecomendacion = perfil
     }
 
     fun buscarRecomendaciones(recomendacion: Recomendacion): Boolean =
-        perfilDeRecomendacion.validarRecomendacion(this,recomendacion)
+        perfilDeRecomendacion.validarRecomendacion(this, recomendacion)
 
 //  ##VALORACIONES##
-
     fun valorarRecomendacion(
         recomendacion: Recomendacion,
         valor: Int,
         comentario: String,
-        usuario: Usuario
     ) {
-        recomendacion.crearValoracion(valor, comentario, usuario)
+        recomendacion.crearValoracion(valor, comentario, this)
         eliminarRecomendacionPorValorar(recomendacion)
     }
 
