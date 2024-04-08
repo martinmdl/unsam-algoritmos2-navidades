@@ -25,9 +25,6 @@ open class Usuario(
     var rangoMin: Int = 0,
     var rangoMax: Int = 0
 ) {
-    init {
-
-    }
 
     // DEUDA TECNICA
     // SETTERS para 'Calculador'
