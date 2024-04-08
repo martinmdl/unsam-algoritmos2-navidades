@@ -16,10 +16,10 @@ open class Usuario(
     val librosLeidos: MutableMap<Libro, Int> = mutableMapOf(),
     private val recomendacionesEmitidas: MutableSet<Recomendacion> = mutableSetOf(),
     var autorFavorito: Autor,
-    private val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
+    val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
-    private var tipoLector: TipoLector = LectorPromedio, // que tipo de lector es este usuario? REVISAR
-    private var perfilDeRecomendacion: PerfilDeRecomendacion = Leedor,
+    var tipoLector: TipoLector = LectorPromedio,
+    var perfilDeRecomendacion: PerfilDeRecomendacion = Leedor,
     val lenguaNativa: Lenguaje,
     // DEUDA TECNICA 
     var rangoMin: Int = 0,
@@ -64,7 +64,7 @@ open class Usuario(
         }
     }
 
-    private fun eliminarLibroPorLeer(libro: Libro) {
+    fun eliminarLibroPorLeer(libro: Libro) {
         librosPorLeer.remove(libro)
     }
 
@@ -83,28 +83,27 @@ open class Usuario(
     }
 
 //  ##RECOMENDACIONES##
-    fun crearRecomendacion(
-        esPrivado: Boolean,
-        creador: Usuario,
-        libroRecomendados: MutableSet<Libro>,
-        descripcion: String,
-        valoraciones: MutableMap<Usuario, Valoracion>
-    ) {
-        val nuevaRecomendacion = Recomendacion(
-            esPrivado,
-            creador,
-            libroRecomendados,
-            descripcion,
-            valoraciones
-        )
-        recomendacionesEmitidas.add(nuevaRecomendacion)
-        //HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
-    }
-
-    fun eliminarRecomendacion(recomendacion: Recomendacion) {
-        recomendacionesEmitidas.remove(recomendacion)
-        //HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
-    }
+//    fun crearRecomendacion(
+//        esPrivado: Boolean,
+//        libroRecomendados: MutableSet<Libro>,
+//        descripcion: String,
+//        valoraciones: MutableMap<Usuario, Valoracion>
+//    ) {
+//        val nuevaRecomendacion = Recomendacion(
+//            esPrivado,
+//            this,
+//            libroRecomendados,
+//            descripcion,
+//            valoraciones
+//        )
+//        recomendacionesEmitidas.add(nuevaRecomendacion)
+//        //HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
+//    }
+//
+//    fun eliminarRecomendacion(recomendacion: Recomendacion) {
+//        recomendacionesEmitidas.remove(recomendacion)
+//        //HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
+//    }
 
     fun cambiarPerfilDeRecomendacion(perfil: PerfilDeRecomendacion) {
         perfilDeRecomendacion = perfil
@@ -127,7 +126,7 @@ open class Usuario(
         recomendacionesPorValorar.add(recomendacion)
     }
 
-    private fun eliminarRecomendacionPorValorar(recomendacion: Recomendacion) {
+    fun eliminarRecomendacionPorValorar(recomendacion: Recomendacion) {
         recomendacionesPorValorar.remove(recomendacion)
     }
 }
