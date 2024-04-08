@@ -67,6 +67,7 @@ class RecomendacionesSpec : DescribeSpec({
             10001,
             autor1
         )
+
         /*USUARIOS*/
 
         val usuario1 = Usuario(
@@ -81,25 +82,6 @@ class RecomendacionesSpec : DescribeSpec({
             lenguaNativa = Lenguaje.es_ES
         )
 
-        //val usuario1 = Usuario(
-        //            "pipo1",
-        //            "alegre",
-        //            "pipojr10",
-        //            150,
-        //            LocalDate.of(1990, 3, 27),
-        //            "pipo@yahoo.com",
-        //            mutableSetOf(),
-        //            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1, harryPotter4 to 1),
-        //            mutableSetOf(),
-        //            autor1,
-        //            mutableSetOf(),
-        //            mutableSetOf(),
-        //            Precavido,
-        //            Lenguaje.es_ES,
-        //            0,
-        //            0
-        //        )
-
         val usuario2 = Usuario(
             nombre = "pipo2",
             apellido = "alegre",
@@ -112,25 +94,6 @@ class RecomendacionesSpec : DescribeSpec({
             autorFavorito = autor1,
             lenguaNativa = Lenguaje.es_ES
         )
-
-        //val usuario2 = Usuario(
-        //            "pipo2",
-        //            "alegre",
-        //            "pipojr10",
-        //            200,
-        //            LocalDate.of(1990, 3, 27),
-        //            "pipo@yahoo.com",
-        //            mutableSetOf(usuario1),
-        //            mutableMapOf(harryPotter2 to 1, harryPotter3 to 1, harryPotter5 to 1),
-        //            mutableSetOf(),
-        //            autor1,
-        //            mutableSetOf(),
-        //            mutableSetOf(),
-        //            precavido,
-        //            Lenguaje.es_ES,
-        //            0,
-        //            0
-        //        )
 
         val usuario3 = Usuario(
             nombre = "pipo3",
@@ -145,27 +108,8 @@ class RecomendacionesSpec : DescribeSpec({
             lenguaNativa = Lenguaje.es_ES
         )
 
-        //val usuario3 = Usuario(
-        //            "pipo3",
-        //            "alegre",
-        //            "pipojr10",
-        //            250,
-        //            LocalDate.of(1990, 3, 27),
-        //            "pipo@yahoo.com",
-        //            mutableSetOf(usuario1, usuario2),
-        //            mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1,harryPotter4 to 1,harryPotter5 to 1),
-        //            mutableSetOf(),
-        //            autor1,
-        //            mutableSetOf(),
-        //            mutableSetOf(),
-        //            precavido,
-        //            Lenguaje.es_ES,
-        //            0,
-        //            0
-        //        )
-
-
         /*RECOMENDACIONES*/
+
         val recomendacion1 = Recomendacion(
             esPrivado = true,
             creador = usuario1,
@@ -187,6 +131,7 @@ class RecomendacionesSpec : DescribeSpec({
             descripcion = "no se leer",
             mutableMapOf()
         )
+
         describe("Test de edicion de la privacidad") {
 
             it("El creador puede editar la privacidad en la recomendacion") {
@@ -202,6 +147,7 @@ class RecomendacionesSpec : DescribeSpec({
                 recomendacion3.esPrivado shouldBe false
             }
         }
+
         describe("Test de edicion de la descripcion") {
 
             it("El creador puede editar la descripcion en la recomendacion") {
@@ -223,6 +169,7 @@ class RecomendacionesSpec : DescribeSpec({
                 recomendacion1.descripcion shouldBe "no se leer"
             }
         }
+
         describe("Test de agregar un libro") {
 
             it("El creador puede agregar un libro (a la recomendacion)") {
@@ -277,6 +224,7 @@ class RecomendacionesSpec : DescribeSpec({
                 )
             }
         }
+
         describe("Test de leer recomendacion") {
 
             it("Creador puede leer la recomendacion") {
@@ -303,23 +251,23 @@ class RecomendacionesSpec : DescribeSpec({
         describe("Test de Tiempos de lectura") {
             it("Tiempo de lectura total; Recomendacion tiene 4 libros") {
                 //Act
-                val comp: Int = 50000 / (150 / 2) + 55000 / (150 / 2) + 60000 / (150 / 2) + 65000 / (150 / 2)
+                //val comp: Int = 50000 / (150 / 2) + 55000 / (150 / 2) + 60000 / (150 / 2) + 65000 / (150 / 2)
                 //Assert
-                recomendacion3.tiempoDeLecturaTotal(usuario1) shouldBe comp
+                recomendacion3.tiempoDeLecturaTotal(usuario1).toInt() shouldBe 3066
             }
             it("Tiempo de lectura neto; Recomendacion tiene 4 libros") {
                 //Act
-                val comp: Int = 50000 / (200 / 2) + 65000 / (200 / 2)
+                //val comp: Int = 50000 / (200 / 2) + 65000 / (200 / 2)
                 //Assert
-                recomendacion3.tiempoDeLecturaNeto(usuario2) shouldBe comp
+                recomendacion3.tiempoDeLecturaNeto(usuario2).toInt() shouldBe 1150
             }
             it("Tiempo de lectura ahorrado; Recomendacion tiene 4 libros") {
                 //Act
-                val total: Int = 50000 / (200 / 2) + 55000 / (200 / 2) + 60000 / (200 / 2) + 65000 / (200 / 2)
-                val neto: Int = 50000 / (200 / 2) + 65000 / (200 / 2)
-                val comp: Int = total - neto
+                //val total: Int = 50000 / (200 / 2) + 55000 / (200 / 2) + 60000 / (200 / 2) + 65000 / (200 / 2)
+                //val neto: Int = 50000 / (200 / 2) + 65000 / (200 / 2)
+                //val comp: Int = total - neto
                 //Assert
-                recomendacion3.tiempoDeLecturaAhorrado(usuario2) shouldBe comp
+                recomendacion3.tiempoDeLecturaAhorrado(usuario2).toInt() shouldBe 1150
             }
         }
     }

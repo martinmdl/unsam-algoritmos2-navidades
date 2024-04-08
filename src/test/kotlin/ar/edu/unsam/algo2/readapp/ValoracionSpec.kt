@@ -69,27 +69,28 @@ class ValoracionSpec:DescribeSpec({
             mutableMapOf()
         )
 
-        it("El usuario1 da una valoracion para le recomendacion1"){
+        it("El usuario2 da una valoracion para le recomendacion1"){
             //Act
-            recomendacion1.crearValoracion(1,"no se leer",usuario1)
+            recomendacion1.crearValoracion(1,"no se leer",usuario2)
+            println(recomendacion1.valoraciones)
             //Assert
-            (recomendacion1.valoraciones[usuario1]?.comentario ?:String) shouldBe  "no se leer"
-            (recomendacion1.valoraciones[usuario1]?.valor ?: Int) shouldBe  1
-            (recomendacion1.valoraciones[usuario1]?.autor) shouldBe  usuario1
+            (recomendacion1.valoraciones[usuario2]?.comentario ?:String) shouldBe  "no se leer"
+            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  1
+            (recomendacion1.valoraciones[usuario2]?.autor) shouldBe  usuario2
         }
 
-        it("El usuario1 edita el valor numerico de su recomendacion"){
+        it("El usuario2 edita el valor numerico de su recomendacion"){
             //Act
-            recomendacion1.valoraciones[usuario1]?.editarValor(5,usuario1)
+            recomendacion1.valoraciones[usuario2]?.editarValor(5,usuario2)
             //Assert
-            (recomendacion1.valoraciones[usuario1]?.valor ?: Int) shouldBe  5
+            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  5
         }
 
-        it("El usuario1 edita el comentario de su recomendacion"){
+        it("El usuario2 edita el comentario de su recomendacion"){
             //Act
-            recomendacion1.valoraciones[usuario1]?.editarComentario("ahora si se leer",usuario1)
+            recomendacion1.valoraciones[usuario2]?.editarComentario("ahora si se leer",usuario2)
             //Assert
-            (recomendacion1.valoraciones[usuario1]?.comentario ?: String) shouldBe  "ahora si se leer"
+            (recomendacion1.valoraciones[usuario2]?.comentario ?: String) shouldBe  "ahora si se leer"
         }
 
         it("El usuario2 da una valoracion para le recomendacion1 por autor favorito"){
