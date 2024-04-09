@@ -9,9 +9,9 @@ name: build
 # en un branch sin PRs orientados a esas dos que indicamos no lo activarÃ¡.
 on:
   push:
-    branches: [master, main]
+    branches: [develop, main]
   pull_request:
-    branches: [master, main]
+    branches: [develop, main]
 # "jobs" describe los diferentes trabajos a realizar.
 jobs:
   # En esta ocasiÃ³n tenemos uno solo, para buildear, testear y subir la info de coverage.
