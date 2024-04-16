@@ -1,16 +1,17 @@
 @file:Suppress("SpellCheckingInspection")
 
 package ar.edu.unsam.algo2.readapp
+
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
 class LibroSpec : DescribeSpec({
-    describe("Test de libro"){
+    describe("Test de libro") {
         //Arrange
-        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
+        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
 
-        it("El libro es desafiante"){
+        it("El libro es desafiante") {
             //Arrange
             val harryPotter = Libro(
                 "HarryPotter",
@@ -27,7 +28,7 @@ class LibroSpec : DescribeSpec({
             harryPotter.esDesafiante() shouldBe true
         }
 
-        it("El libro es BestSeller"){
+        it("El libro es BestSeller") {
             //Arrange
             val skander = Libro(
                 "Skander",
@@ -44,7 +45,7 @@ class LibroSpec : DescribeSpec({
             skander.esBestSeller() shouldBe true
         }
 
-        it("El libro no es BestSeller"){
+        it("El libro no es BestSeller") {
             //Arrange
             val jojos = Libro(
                 "jojos",
