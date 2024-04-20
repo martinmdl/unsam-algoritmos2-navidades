@@ -42,12 +42,13 @@ class Libro(
         const val MINIMO_DE_TRADUCCIONES: Int = 5
     }
 
+    fun getVentasSemanales(): Int = this.ventasSemanales
+
     fun esDesafiante(): Boolean = this.lecturaCompleja || this.paginas > MINIMO_DE_PAGINAS
+
     fun esBestSeller(): Boolean =
         (this.ventasSemanales >= MINIMO_DE_VENTAS_SEMANALES && (this.ediciones > MINIMO_DE_EDICIONES) || this.numeroDeLenguajes() >= MINIMO_DE_TRADUCCIONES)
 
     /*GETTER*/
     private fun numeroDeLenguajes(): Int = this.idioma.size
-
-
 }

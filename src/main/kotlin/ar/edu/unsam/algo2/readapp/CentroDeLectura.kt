@@ -10,7 +10,7 @@ import java.time.*
  * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej Biblioteca Juanito.
  * @param direccion Indica la direccion fisica del centro: [String].
  * @param libroAsignadoALeer Es el Libro: [Libro] asignado al encuentro actual, cuando se cambia el encuentro se actualiza el libro.
- * @param constoDeReserva El valor numerico: [Float] del costo de la reserva.
+ * @param costoDeReserva El valor numerico: [Float] del costo de la reserva.
  * @param conjuntoDeEncuentros Conjunto de Encuentros: [Encuentro].
  * @property disponible Es el cupo disponible: [Int] para reservar
  */
@@ -19,7 +19,7 @@ abstract class CentroDeLectura(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private val constoDeReserva: Float, /*DEUDA TECNICA*/
+    private var costoDeReserva: Float,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>
 ) {
     private var disponible = 0
@@ -45,6 +45,7 @@ abstract class CentroDeLectura(
      *  Metodo accesorio del conjunto de encuentros.
      */
     fun getConjuntoDeEncuentros(): MutableSet<Encuentro> = this.conjuntoDeEncuentros
+
     /*METODOS*/
     /**
      *[vencimento]:
@@ -62,13 +63,14 @@ abstract class CentroDeLectura(
     abstract fun seVencieronTodasLasFechas(): Boolean
     abstract fun capacidadMaximaAlcanzada(): Boolean
 }
+
 /**
  * Particular: [CentroDeLectura].
  *
  * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej Biblioteca Juanito.
  * @param direccion Indica la direccion fisica del centro: [String].
  * @param libroAsignadoALeer Es el Libro: [Libro] asignado al encuentro actual, cuando se cambia el encuentro se actualiza el libro.
- * @param constoDeReserva El valor numerico: [Float] del costo de la reserva.
+ * @param costoDeReserva El valor numerico: [Float] del costo de la reserva.
  * @param conjuntoDeEncuentros Conjunto de Encuentros: [Encuentro].
  * @param capacidadMaximaFijada Valor maximo: [Int] fijado.
  * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [capacidadMaximaFijada]
@@ -77,7 +79,7 @@ class Particular(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private val constoDeReserva: Float,
+    private val costoDeReserva: Float,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val capacidadMaximaFijada: Int)
     : CentroDeLectura( nombreDeCentroDeLectura,direccion, libroAsignadoALeer,constoDeReserva, conjuntoDeEncuentros) {
@@ -111,7 +113,7 @@ class Editorial(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private val constoDeReserva: Float,
+    private val costoDeReserva: Float,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val capacidadMaximaFijada: Int)
     : CentroDeLectura( nombreDeCentroDeLectura,direccion, libroAsignadoALeer,constoDeReserva, conjuntoDeEncuentros) {
