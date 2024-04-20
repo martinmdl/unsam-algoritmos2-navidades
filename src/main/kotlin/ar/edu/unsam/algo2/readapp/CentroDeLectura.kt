@@ -35,7 +35,7 @@ abstract class CentroDeLectura(
             disponible += 1
         }
         else{
-            return /*DEUDA TECNICA*/
+            throw SinCupo("No hay cupo disponible")
         }
     }
     /*GETTERS*/
@@ -90,7 +90,7 @@ class Particular(
         return seVencieronTodasLasFechas() || capacidadMaximaAlcanzada()
     }
     /**
-     *[vencimento]:
+     *[capacidadMaximaAlcanzada]:
      *
      *  Capacidad maxima definida para la clase [Particular]
      */
@@ -169,12 +169,4 @@ class Encuentro(
 ) {
 }
 
-/*class SinCupo(message: String) : Exception(message)
-
-fun setReserva() {
-    if (disponible < maximaCapacidadDePerticipantes()) {
-        disponible += 1
-    } else {
-        throw SinCupo("No hay cupo disponible")
-    }
-}*/
+class SinCupo(message: String) : Exception(message)
