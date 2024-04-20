@@ -257,7 +257,7 @@ class Biblioteca(
     /**
      *[costo]:
      *
-     *  Costo definido para la clase [Biblioteca],
+     *  Costo definido para la clase [Biblioteca], existe una lista de gastos, [gastoFijo] a los cuales se adiciona
      */
     override fun costo(encuentro: Encuentro): Float {
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP + this.gastoFijo.sum()
