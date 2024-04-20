@@ -99,76 +99,18 @@ object Cambiante : PerfilDeRecomendacion() {
     }
 }
 
-// #### ESTAS FUNCIONES RETORNAN SETS DE RECOMENDACIONES VALIDAS #####
+class Combinador(
+    val perfilesCombinados: MutableSet<PerfilDeRecomendacion>
+) : PerfilDeRecomendacion() {
 
-//object precavido : PerfilDeRecomendacion() {
-//
-//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
-//
-//        val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
-//
-//        HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
-//
-//            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
-//
-//            // Condición 1
-//            if (usuario.librosPorLeer.any { it in librosRecomendados }) {
-//                setParaRetornar.add(recomendacion)
-//                return@forEach // similar al continue o break
-//            }
-//
-//            // Condición 2
-//            usuario.amigos.forEach { amigo ->
-//                if (amigo.librosLeidos.keys.any { it in librosRecomendados }) {
-//                    setParaRetornar.add(recomendacion)
-//                    return@forEach
-//                }
-//            }
-//        }
-//
-//        return setParaRetornar
-//
-//    }
-//}
+    override fun validarRecomendacion(usuario: Usuario, recomendacion: Recomendacion): Boolean =
+        perfilesCombinados.any { it.validarRecomendacion(usuario, recomendacion) }
 
-//object leedor : PerfilDeRecomendacion() {
-//
-//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> =
-//        HistorialRecomendaciones.historialRecomendaciones()
-//}
+    fun agregarPerfil(perfil: PerfilDeRecomendacion) {
+        perfilesCombinados.add(perfil)
+    }
 
-//object poliglota : PerfilDeRecomendacion() {
-//
-//
-//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
-//
-//        val setParaRetornar: MutableSet<Recomendacion> = mutableSetOf()
-//
-//        HistorialRecomendaciones.historialRecomendaciones().forEach { recomendacion ->
-//
-//            val librosRecomendados: MutableSet<Libro> = recomendacion.librosRecomendados
-//
-//            // Libro() contiene property -> private var lenguajes: Set<Lenguaje>
-//
-//            // val cantLenguajes: MutableSet<Lenguaje> = mutableSetOf()
-//            // cantLenguajes.size() >= 5 --> setParaRetornar.add(recomendacion)
-//            // else -> return@forEach
-//
-//            if (librosRecomendados.) {
-//                setParaRetornar.add(recomendacion)
-//                return@forEach // similar al continue o break
-//            }
-//
-//            // dos forEach ?????
-//        }
-//
-//        // HistorialRecomendaciones.historialRecomendaciones().librosRecomendados.lenguaje >= 5
-//    }
-//}
-
-//object nativista : PerfilDeRecomendacion() {
-//
-//    override fun buscar(usuario: Usuario): MutableSet<Recomendacion> {
-//
-//    }
-//}
+    fun removerPerfil(perfil: PerfilDeRecomendacion) {
+        perfilesCombinados.remove(perfil)
+    }
+}

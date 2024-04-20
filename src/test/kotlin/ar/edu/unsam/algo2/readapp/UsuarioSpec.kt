@@ -1,11 +1,17 @@
 @file:Suppress("SpellCheckingInspection")
 
 package ar.edu.unsam.algo2.readapp
+
+import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
+import io.kotest.matchers.types.shouldBeSameInstanceAs
+import io.kotest.matchers.types.shouldBeTypeOf
 import java.time.LocalDate
 
 class UsuarioSpec : DescribeSpec({
+
     describe("Tests de usuario") {
 
         val autorConsagrado = Autor(LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
@@ -159,6 +165,13 @@ class UsuarioSpec : DescribeSpec({
                 usuario1.cambiarPerfilDeRecomendacion(Poliglota)
                 usuario1.perfilDeRecomendacion shouldBe Poliglota
             }
+
+            it("El usuario puede cambiar el perfil de recomendación a Combinador") {
+                val setDePerfiles = mutableSetOf(Cambiante, Experimentado)
+                usuario1.cambiarAPerfilCombinador(setDePerfiles)
+                usuario1.perfilDeRecomendacion.shouldBeInstanceOf<Combinador>()
+            }
+
         }
 
         describe("Valoraciones"){
