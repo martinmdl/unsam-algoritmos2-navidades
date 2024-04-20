@@ -35,10 +35,6 @@ abstract class CentroDeLectura(
         this.costoDeReserva = costoNuevo
     }
 
-    fun agregarEncuentro(encuentro: Encuentro) {
-        this.conjuntoDeEncuentros.add(encuentro)
-    }
-
     /*GETTERS*/
     /**
      *[getConjuntoDeEncuentros]:
@@ -72,6 +68,15 @@ abstract class CentroDeLectura(
     }
 
     /**
+     *[agregarEncuentro]:
+     *
+     *  Metodo que agrega un encuentro al [conjuntoDeEncuentros].
+     */
+    fun agregarEncuentro(encuentro: Encuentro) {
+        this.conjuntoDeEncuentros.add(encuentro)
+    }
+
+    /**
      *[maximaCapacidadDePerticipantes]:
      *
      *  Metodo abstracto que indica, segun su implementacion, el numero maximo permitido de participantes.
@@ -81,7 +86,7 @@ abstract class CentroDeLectura(
     /**
      *[costo]:
      *
-     *  Metodo abstracto que indica el costo.
+     *  Metodo abstracto que indica el costo segun su implementacion.
      */
     abstract fun costo(encuentro: Encuentro): Float
 
@@ -231,8 +236,11 @@ class Biblioteca(
         const val ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS = 0.1
     }
 
-    /*SETTER*/
-
+    /**
+     *[agregarGasto]:
+     *
+     *  Agrega un gasto al conjunto de [gastoFijo]
+     */
     fun agregarGasto(gasto: Float) {
         this.gastoFijo.add(gasto)
     }
