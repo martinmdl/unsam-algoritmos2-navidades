@@ -3,49 +3,65 @@
 package ar.edu.unsam.algo2.readapp
 
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.reflection.beLateInit
+import org.jetbrains.annotations.Nullable
 import java.time.LocalDate
 
 /*STUB MANUAL*/
+data object Store {
+    val Jorge = Autor(
+        LocalDate.of(1990, 3, 27),
+        mutableSetOf(),
+        Lenguaje.es_ES,
+        2
+    )
+    val LibroAutorJorge = Libro(
+        "HarryPotter",
+        "Salamandra",
+        800,
+        75000,
+        true,
+        1,
+        setOf(Lenguaje.es_ES, Lenguaje.ja_JP, Lenguaje.fr_FR, Lenguaje.ru_RU, Lenguaje.hi_IN),
+        1,
+        Jorge)
+}
 class StubCentroDeLectura : CentroDeLectura(
-    conjuntoDeEncuentros = mutableSetOf(),
-    costoDeReserva = 133.336,
     nombreDeCentroDeLectura = "STUB CENTRO",
-    direccion = "SUB DIR",
-    libroAsignadoALeer = Libro(
-        nombre = "Nombre del Libro",
-        editorial = "Nombre de la Editorial",
-        paginas = 200,
-        cantPalabras = 50000,
-        lecturaCompleja = true,
-        ediciones = 3,
-        idioma = mutableSetOf(Lenguaje.es_ES),
-        ventasSemanales = 1000,
-        autor = Autor(
-            fechaNac = LocalDate.of(1980, 1, 1),
-            librosEscritos = mutableSetOf(),
-            lenguaNativa = Lenguaje.es_ES,
-            premios = 5
-        )
-
-    ),
-
-
-    ) {
+    direccion = "STUB DIR",
+    libroAsignadoALeer = Store.LibroAutorJorge,
+    costoDeReserva = 2500.0,
+    conjuntoDeEncuentros = mutableSetOf()
+) {
     init {
-
-    }
-
-
-    override fun costo(encuentro: Encuentro): Double {
-        TODO("Not yet implemented")
+        val encuentroQueNoVenceNunca = Encuentro(
+            fecha = LocalDate.now().plusDays(1),
+            duracion = 60,
+            disponible = 10,
+            centroDeLectura = this)
+        val encuentroQueNoVenceNunca2DiaDespues = Encuentro(
+            fecha = LocalDate.now().plusDays(2),
+            duracion = 60,
+            disponible = 10,
+            centroDeLectura = this)
+        val encuentroQueNoVenceNunca3DiaDespues = Encuentro(
+            fecha = LocalDate.now().plusDays(3),
+            duracion = 60,
+            disponible = 10,
+            centroDeLectura = this)
     }
 
     override fun maximaCapacidadPorEncuentro(): Int {
-        TODO("Not yet implemented")
+        // Implementación de prueba
+        return 10
     }
 
+    override fun costo(encuentro: Encuentro): Double {
+        // Implementación de prueba
+        return 50.0
+    }
 }
-
+/*Test Unitario*/
 class CentroDeLecturaSpec: DescribeSpec(
 
 
