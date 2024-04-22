@@ -18,7 +18,7 @@ abstract class CentroDeLectura(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private var costoDeReserva: Float,
+    private var costoDeReserva: Double,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>
 ) {
 
@@ -31,16 +31,15 @@ abstract class CentroDeLectura(
         this.libroAsignadoALeer = libroNuevo
     }
 
-    fun setCostoDeReserva(costoNuevo: Float) {
+    fun setCostoDeReserva(costoNuevo: Double) {
         this.costoDeReserva = costoNuevo
     }
 
     /*GETTERS*/
-    /**
-     *[getConjuntoDeEncuentros]:
-     *
-     *  Metodo accesorio del conjunto de encuentros.
-     */
+    fun getNombreDeCentroDeLectura(): String = nombreDeCentroDeLectura
+    fun getDireccion(): String = direccion
+    fun getLibroAsignadoALeer(): Libro = libroAsignadoALeer
+    fun getCostoDeReserva(): Double = costoDeReserva
     fun getConjuntoDeEncuentros(): MutableSet<Encuentro> = this.conjuntoDeEncuentros
 
     /*METODOS*/
@@ -88,7 +87,7 @@ abstract class CentroDeLectura(
      *
      *  Metodo abstracto que indica el costo segun su implementacion.
      */
-    abstract fun costo(encuentro: Encuentro): Float
+    abstract fun costo(encuentro: Encuentro): Double
 
     /*AUX*/
     fun seVencieronTodasLasFechas(): Boolean {
@@ -115,7 +114,7 @@ class Particular(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private val costoDeReserva: Float,
+    private val costoDeReserva: Double,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val capacidadMaximaFijada: Int,
     private val porcentajeMinimo: Double
@@ -125,7 +124,11 @@ class Particular(
         const val ADICION_RESERVA_POR_ESPACIO = 500
         const val PORCENTAJE = 100
     }
+    /*GETTERS*/
+    fun getCapacidadMaximaFijada(): Int =capacidadMaximaFijada
+    fun getPorcentajeMinima(): Double = porcentajeMinimo
 
+    /*METODOS*/
     /**
      *[maximaCapacidadDePerticipantes]:
      *
@@ -140,7 +143,7 @@ class Particular(
      *
      *  Costo definido para la clase [Particular], se calcula apartir de un porcentaje de ocupacion minimo definido,.
      */
-    override fun costo(encuentro: Encuentro): Float {
+    override fun costo(encuentro: Encuentro): Double {
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP
         val porcentajeDisponible = (encuentro.disponible() * PORCENTAJE) / this.maximaCapacidadPorEncuentro()
         val porcentajeOcupado = PORCENTAJE - porcentajeDisponible
@@ -167,7 +170,7 @@ class Editorial(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private val costoDeReserva: Float,
+    private val costoDeReserva: Double,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val montoEspecificoAlcanzar: Int,
     private val autorPresente: Boolean
@@ -178,7 +181,11 @@ class Editorial(
         const val ADICION_RESERVA_POR_AUTOR_NO_BEST_SSELLER = 200
         const val ADICION_PORCENTUAL_BESTSELLER = 0.1
     }
+    /*GETTERS*/
+    fun getMontoEspecificoAlcanzar(): Int = montoEspecificoAlcanzar
+    fun getAutorPresente(): Boolean = autorPresente
 
+    /*METODOS*/
     /**
      *[maximaCapacidadDePerticipantesPorEncuentro]:
      *
@@ -193,7 +200,7 @@ class Editorial(
      *
      *  Costo definido para la clase [Editorial], se calcula a partir de si el libro asignado es o no un [Libro.esBestSeller]
      */
-    override fun costo(encuentro: Encuentro): Float {
+    override fun costo(encuentro: Encuentro): Double {
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP + ADICION_RESERVA_FIJO
         if (autorPresente) {
             if (this.libroAsignadoALeer.esBestSeller()) {
@@ -223,10 +230,10 @@ class Biblioteca(
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
-    private val costoDeReserva: Float,
+    private val costoDeReserva: Double,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val metrosCuadradosSala: Int,
-    private val gastoFijo: MutableList<Float>,
+    private val gastoFijo: MutableList<Double>,
 ) : CentroDeLectura(nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
 
     companion object {
@@ -235,13 +242,17 @@ class Biblioteca(
         const val ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS = 0.5
         const val ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS = 0.1
     }
+    /*GETTERS*/
+    fun getMetrosCuadradosSala(): Int = metrosCuadradosSala
+    fun getGastoFijo(): MutableList<Double> = gastoFijo
 
+    /*METODOS*/
     /**
      *[agregarGasto]:
      *
      *  Agrega un gasto al conjunto de [gastoFijo]
      */
-    fun agregarGasto(gasto: Float) {
+    fun agregarGasto(gasto: Double) {
         this.gastoFijo.add(gasto)
     }
 
@@ -259,13 +270,13 @@ class Biblioteca(
      *
      *  Costo definido para la clase [Biblioteca], existe una lista de gastos, [gastoFijo] a los cuales se adiciona
      */
-    override fun costo(encuentro: Encuentro): Float {
+    override fun costo(encuentro: Encuentro): Double {
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP + this.gastoFijo.sum()
 
         if (this.conjuntoDeEncuentros.size > CANTIDAD_MINIMA_ENCUEUNTROS) {
-            return costoFijo + (this.gastoFijo.sum() * ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS).toFloat()
+            return costoFijo + (this.gastoFijo.sum() * ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS)
         }
-        return costoFijo + (this.gastoFijo.sum() * ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS * this.gastoFijo.size).toFloat()
+        return costoFijo + (this.gastoFijo.sum() * ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS * this.gastoFijo.size)
     }
 }
 
