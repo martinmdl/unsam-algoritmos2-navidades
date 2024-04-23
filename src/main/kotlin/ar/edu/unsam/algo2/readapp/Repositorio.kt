@@ -78,11 +78,8 @@ class RepositorioRecomendaciones : Repository<Recomendacion>() {
     }
 }
 
-//Centros de Lectura: El valor de búsqueda debe coincidir exactamente con el nombre del T
 class RepositorioCentroDeLectura : Repository<CentroDeLectura>() {
     override fun search(regex: String) {
         TODO("Not yet implemented")
     }
 }
-
-
