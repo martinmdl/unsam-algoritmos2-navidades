@@ -10,7 +10,7 @@ class ValoracionSpec:DescribeSpec({
     describe("Test de Valoracion") {
         //Arrange
         /*Autor*/
-        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
+        val autor1 = Autor("Alegre", LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
 
         /*Libro*/
         val harryPotter = Libro(

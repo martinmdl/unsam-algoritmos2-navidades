@@ -7,11 +7,14 @@ import java.time.*
 import java.time.temporal.ChronoUnit
 
 class Autor(
+    private var apellido: String,
     private var fechaNac: LocalDate,
     var librosEscritos: MutableSet<Libro> = mutableSetOf(),
     val lenguaNativa: Lenguaje,
     private val premios: Int
 ) {
+    /*GETTERS*/
+    fun getApellido() = apellido
 
     companion object {
         const val EDAD_CONSAGRACION = 50
@@ -22,5 +25,4 @@ class Autor(
 
     fun esConsagrado(): Boolean =
         edad() >= EDAD_CONSAGRACION && premios >= CANTIDAD_MINIMA_PREMIOS
-
 }

@@ -34,7 +34,9 @@ class Libro(
      * Sus ventas semanales son de por lo menos 10.000 unidades.
      * Tiene varias ediciones (el criterio actual es más de 2), o muchas traducciones en distintos lenguajes (en este caso no menos de 5).
      */
-
+    /*GETTER*/
+    private fun numeroDeLenguajes(): Int = this.idioma.size
+    fun getNombre() = nombre
     companion object {
         const val MINIMO_DE_VENTAS_SEMANALES: Int = 10000
         const val MINIMO_DE_PAGINAS: Int = 600
@@ -49,6 +51,4 @@ class Libro(
     fun esBestSeller(): Boolean =
         (this.ventasSemanales >= MINIMO_DE_VENTAS_SEMANALES && (this.ediciones > MINIMO_DE_EDICIONES) || this.numeroDeLenguajes() >= MINIMO_DE_TRADUCCIONES)
 
-    /*GETTER*/
-    private fun numeroDeLenguajes(): Int = this.idioma.size
 }

@@ -76,7 +76,7 @@ abstract class CentroDeLectura(
     }
 
     /**
-     *[maximaCapacidadDePerticipantes]:
+     *[maximaCapacidadPorEncuentro]:
      *
      *  Metodo abstracto que indica, segun su implementacion, el numero maximo permitido de participantes.
      */
@@ -130,7 +130,7 @@ class Particular(
 
     /*METODOS*/
     /**
-     *[maximaCapacidadDePerticipantes]:
+     *[maximaCapacidadPorEncuentro]:
      *
      *  Capacidad maxima definida para la clase [Particular], en este caso se define via constructor.
      */
@@ -187,7 +187,7 @@ class Editorial(
 
     /*METODOS*/
     /**
-     *[maximaCapacidadDePerticipantesPorEncuentro]:
+     *[maximaCapacidadPorEncuentro]:
      *
      *  Capacidad maxima definida para la clase [Editorial], se calcula a partir del monto fijo a alcanzar y a partir de ahi se reparte entre los encuentros.
      */
