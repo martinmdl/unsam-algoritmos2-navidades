@@ -6,11 +6,15 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
-class ValoracionSpec:DescribeSpec({
+class ValoracionSpec : DescribeSpec({
     describe("Test de Valoracion") {
         //Arrange
         /*Autor*/
-        val autor1 = Autor("Alegre", LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
+        val autor1 = Autor(
+            "pipo",
+            "Alegre",
+            "yagoo", LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
+        )
 
         /*Libro*/
         val harryPotter = Libro(
@@ -69,37 +73,37 @@ class ValoracionSpec:DescribeSpec({
             mutableMapOf()
         )
 
-        it("El usuario2 da una valoracion para le recomendacion1"){
+        it("El usuario2 da una valoracion para le recomendacion1") {
             //Act
-            recomendacion1.crearValoracion(1,"no se leer",usuario2)
+            recomendacion1.crearValoracion(1, "no se leer", usuario2)
             println(recomendacion1.valoraciones)
             //Assert
-            (recomendacion1.valoraciones[usuario2]?.comentario ?:String) shouldBe  "no se leer"
-            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  1
-            (recomendacion1.valoraciones[usuario2]?.autor) shouldBe  usuario2
+            (recomendacion1.valoraciones[usuario2]?.comentario ?: String) shouldBe "no se leer"
+            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe 1
+            (recomendacion1.valoraciones[usuario2]?.autor) shouldBe usuario2
         }
 
-        it("El usuario2 edita el valor numerico de su recomendacion"){
+        it("El usuario2 edita el valor numerico de su recomendacion") {
             //Act
-            recomendacion1.valoraciones[usuario2]?.editarValor(5,usuario2)
+            recomendacion1.valoraciones[usuario2]?.editarValor(5, usuario2)
             //Assert
-            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  5
+            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe 5
         }
 
-        it("El usuario2 edita el comentario de su recomendacion"){
+        it("El usuario2 edita el comentario de su recomendacion") {
             //Act
-            recomendacion1.valoraciones[usuario2]?.editarComentario("ahora si se leer",usuario2)
+            recomendacion1.valoraciones[usuario2]?.editarComentario("ahora si se leer", usuario2)
             //Assert
-            (recomendacion1.valoraciones[usuario2]?.comentario ?: String) shouldBe  "ahora si se leer"
+            (recomendacion1.valoraciones[usuario2]?.comentario ?: String) shouldBe "ahora si se leer"
         }
 
-        it("El usuario2 da una valoracion para le recomendacion1 por autor favorito"){
+        it("El usuario2 da una valoracion para le recomendacion1 por autor favorito") {
             //Act
-            recomendacion1.crearValoracion(3,"no se leer",usuario2)
+            recomendacion1.crearValoracion(3, "no se leer", usuario2)
             //Assert
-            (recomendacion1.valoraciones[usuario2]?.comentario ?:String) shouldBe  "no se leer"
-            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe  3
-            (recomendacion1.valoraciones[usuario2]?.autor) shouldBe  usuario2
+            (recomendacion1.valoraciones[usuario2]?.comentario ?: String) shouldBe "no se leer"
+            (recomendacion1.valoraciones[usuario2]?.valor ?: Int) shouldBe 3
+            (recomendacion1.valoraciones[usuario2]?.autor) shouldBe usuario2
         }
     }
 })

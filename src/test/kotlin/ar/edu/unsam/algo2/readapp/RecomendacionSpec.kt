@@ -10,7 +10,11 @@ class RecomendacionesSpec : DescribeSpec({
     describe("Test de las Recomendaciones") {
         //Arrange
         /*Autor*/
-        val autor1 = Autor("Alegre",LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
+        val autor1 = Autor(
+            "pipo",
+            "Alegre",
+            "yagoo", LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
+        )
         /*LIBROS*/
         val harryPotter = Libro(
             "HarryPotter",
@@ -103,7 +107,13 @@ class RecomendacionesSpec : DescribeSpec({
             fechaNac = LocalDate.of(1990, 3, 27),
             direccionEmail = "pipo@yahoo.com",
             amigos = mutableSetOf(usuario1, usuario2),
-            librosLeidos = mutableMapOf(harryPotter to 1, harryPotter2 to 1, harryPotter3 to 1,harryPotter4 to 1,harryPotter5 to 1),
+            librosLeidos = mutableMapOf(
+                harryPotter to 1,
+                harryPotter2 to 1,
+                harryPotter3 to 1,
+                harryPotter4 to 1,
+                harryPotter5 to 1
+            ),
             autorFavorito = autor1,
             lenguaNativa = Lenguaje.es_ES
         )
@@ -249,7 +259,7 @@ class RecomendacionesSpec : DescribeSpec({
             }
         }
         describe("Test de Tiempos de lectura") {
-            
+
             it("Tiempo de lectura total; Recomendacion tiene 4 libros") {
                 //Act
                 //val comp: Int = 50000 / (150 / 2) + 55000 / (150 / 2) + 60000 / (150 / 2) + 65000 / (150 / 2)

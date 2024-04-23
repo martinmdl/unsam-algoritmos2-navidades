@@ -48,38 +48,59 @@ abstract class Repository<T> {
 
 class RepositorioLibros : Repository<Libro>() {
     override fun search(regex: String): List<Libro> {
-        //Libros: El valor de búsqueda debe coincidir parcialmente con el titulo o apellido del Autor.
-
-        val nombreMatch: List<Libro> = dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = false) }
-
-        val apellidoMatch: List<Libro> = dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = false) }
-
-        return nombreMatch + apellidoMatch
+        val nombrePartialMatch: List<Libro> =
+            dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = true) }
+        val apellidoPartialMatch: List<Libro> =
+            dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = true) }
+        return nombrePartialMatch + apellidoPartialMatch
     }
 }
 
 class RepositorioUsuario : Repository<Usuario>() {
-    // Usuario: El valor de búsqueda debe coincidir parcialmente con su nombre o apellido, o exáctamente con su username.
-    override fun search(regex: String) {
-        TODO("Not yet implemented")
+    override fun search(regex: String): List<Usuario> {
+        val nombrePartialMatch: List<Usuario> = dataMap.values.filter { it.nombre.contains(regex, ignoreCase = true) }
+        val apellidoPartialMatch: List<Usuario> =
+            dataMap.values.filter { it.apellido.contains(regex, ignoreCase = true) }
+        val userNameExactMatch: List<Usuario> = dataMap.values.filter { it.username == regex }
+        return (nombrePartialMatch + apellidoPartialMatch + userNameExactMatch).distinct()
     }
 }
 
 class RepositorioAutores : Repository<Autor>() {
-    //Autores: El valor de búsqueda debe coincidir parcialmente con el nombre o apellido, y exactamente con el seudónimo.
-    override fun search(regex: String) {
-        TODO("Not yet implemented")
+    override fun search(regex: String): List<Autor> {
+        val nombrePartialMatch: List<Autor> =
+            dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = true) }
+        val apellidoPartialMatch: List<Autor> =
+            dataMap.values.filter { it.getApellido().contains(regex, ignoreCase = true) }
+        val userNameExactMatch: List<Autor> = dataMap.values.filter { it.getSeudonimo() == regex }
+        return (nombrePartialMatch + apellidoPartialMatch + userNameExactMatch).distinct()
     }
 }
 
 class RepositorioRecomendaciones : Repository<Recomendacion>() {
-    override fun search(regex: String) {
-        TODO("Not yet implemented")
+    override fun search(regex: String): List<Recomendacion> {
+        val apellidoExactMatch: List<Recomendacion> = dataMap.values.filter { it.creador.apellido == regex }
+
+        val nombrePartialMatch: List<Recomendacion> = dataMap.values.filter { recomendacion ->
+            recomendacion.librosRecomendados.any {
+                it.getNombre().contains(regex, ignoreCase = true)
+            }
+        }
+
+        val reseniaPartialMatch: List<Recomendacion> = dataMap.values.filter { recomendacion ->
+            recomendacion.valoraciones.values.any {
+                it.comentario.contains(regex, ignoreCase = true)
+            }
+        }
+
+        return (apellidoExactMatch + nombrePartialMatch + reseniaPartialMatch).distinct()
     }
 }
 
 class RepositorioCentroDeLectura : Repository<CentroDeLectura>() {
-    override fun search(regex: String) {
-        TODO("Not yet implemented")
+    override fun search(regex: String): List<CentroDeLectura> {
+        val libroExactMatch: List<CentroDeLectura> =
+            dataMap.values.filter { it.getLibroAsignadoALeer().getNombre() == regex }
+        return libroExactMatch.distinct()
     }
 }

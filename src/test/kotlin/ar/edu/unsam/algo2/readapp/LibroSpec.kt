@@ -9,7 +9,11 @@ import java.time.LocalDate
 class LibroSpec : DescribeSpec({
     describe("Test de libro") {
         //Arrange
-        val autor1 = Autor("Alegre",LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
+        val autor1 = Autor(
+            "pipo",
+            "Alegre",
+            "yagoo", LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
+        )
 
         it("El libro es desafiante") {
             //Arrange
