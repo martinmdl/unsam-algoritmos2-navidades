@@ -28,7 +28,7 @@ abstract class Repository<T> {
 
     fun getById(id: Int) = dataMap[id]
 
-    abstract fun search(regex: String)
+    abstract fun search(regex: String): List<T>
 
     /*AUX*/
     /** [checkExistance]
@@ -49,15 +49,15 @@ abstract class Repository<T> {
 // List<T> search(String value): Devuelve los objetos que coincidan con la búsqueda de acuerdo a los siguientes criterios:
 
 class RepositorioLibros : Repository<Libro>() {
-    override fun search(regex: String) {
-        // Libros: El valor de búsqueda debe coincidir parcialmente con el titulo o apellido del Autor.
+    override fun search(regex: String): List<Libro> {
+        //Libros: El valor de búsqueda debe coincidir parcialmente con el titulo o apellido del Autor.
 
-        //val nombreMatch: List<Libro> = dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = false) }
+        val nombreMatch: List<Libro> = dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = false) }
 
-        //val apellidoMatch: Libro<Libro> = dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = false) }
+        val apellidoMatch: List<Libro> = dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = false) }
 
-        //return nombreMatch + apellidoMatch
-        // return nombreMatch.addAll(apellidoMatch)
+        return nombreMatch + apellidoMatch
+
     }
 }
 

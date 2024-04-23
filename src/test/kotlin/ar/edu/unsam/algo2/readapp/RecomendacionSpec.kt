@@ -10,7 +10,7 @@ class RecomendacionesSpec : DescribeSpec({
     describe("Test de las Recomendaciones") {
         //Arrange
         /*Autor*/
-        val autor1 = Autor(LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
+        val autor1 = Autor("Alegre",LocalDate.of(1990, 3, 27), mutableSetOf(),Lenguaje.es_ES,2)
         /*LIBROS*/
         val harryPotter = Libro(
             "HarryPotter",

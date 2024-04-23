@@ -9,8 +9,8 @@ import java.time.LocalDate
 class TiempoDeLecturaSpec : DescribeSpec({
     describe("Test de tiempos de lectura") {
 
-        val autorConsagrado = Autor(LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
-        val autorNoConsagrado = Autor(LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
+        val autorConsagrado = Autor("Alegre",LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
+        val autorNoConsagrado = Autor("Alegre",LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
         val usuario = Usuario(
             nombre = "Diego",
             apellido = "Alegre",

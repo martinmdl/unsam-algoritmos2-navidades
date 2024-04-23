@@ -14,9 +14,9 @@ class UsuarioSpec : DescribeSpec({
 
     describe("Tests de usuario") {
 
-        val autorConsagrado = Autor(LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
+        val autorConsagrado = Autor("Alegre",LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
 
-        val autorNoConsagrado = Autor(LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
+        val autorNoConsagrado = Autor("Alegre",LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
 
         val usuario1 = Usuario(
             nombre = "Diego",

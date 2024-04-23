@@ -10,8 +10,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
     describe("Test perfil de recomendaciones") {
 
         // ARRANGE
-        val autorConsagrado = Autor(LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.ja_JP, 2)
-        val autorNoConsagrado = Autor(LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
+        val autorConsagrado = Autor("Alegre",LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.ja_JP, 2)
+        val autorNoConsagrado = Autor("Alegre",LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
 
         val usuario1 = Usuario(
             nombre = "Diego",

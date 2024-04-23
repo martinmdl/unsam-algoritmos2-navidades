@@ -10,6 +10,7 @@ import java.time.LocalDate
 /*STUB MANUAL*/
 data object Store {
     val Jorge = Autor(
+        "Alegre",
         LocalDate.of(1990, 3, 27),
         mutableSetOf(),
         Lenguaje.es_ES,
