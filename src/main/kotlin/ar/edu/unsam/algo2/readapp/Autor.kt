@@ -14,7 +14,9 @@ class Autor(
     private val premios: Int
 ) {
     /*GETTERS*/
+    fun getNombre() = nombre
     fun getApellido() = apellido
+    fun getSeudonimo() = seudonimo
 
     companion object {
         const val EDAD_CONSAGRACION = 50
