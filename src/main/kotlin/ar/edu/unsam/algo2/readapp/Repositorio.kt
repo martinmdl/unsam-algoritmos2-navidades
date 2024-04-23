@@ -57,7 +57,6 @@ class RepositorioLibros : Repository<Libro>() {
         val apellidoMatch: List<Libro> = dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = false) }
 
         return nombreMatch + apellidoMatch
-
     }
 }
 
