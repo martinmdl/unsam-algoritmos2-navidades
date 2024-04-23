@@ -7,7 +7,9 @@ import java.time.*
 import java.time.temporal.ChronoUnit
 
 class Autor(
+    private var nombre: String,
     private var apellido: String,
+    private var seudonimo: String,
     private var fechaNac: LocalDate,
     var librosEscritos: MutableSet<Libro> = mutableSetOf(),
     val lenguaNativa: Lenguaje,

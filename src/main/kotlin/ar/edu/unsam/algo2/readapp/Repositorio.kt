@@ -72,7 +72,6 @@ class RepositorioAutores : Repository<Autor>() {
     }
 }
 
-//Recomendaciones: El valor de búsqueda exactamente con el apellido del creador o parcialmente con alguno de los títulos de los libros o reseña
 class RepositorioRecomendaciones : Repository<Recomendacion>() {
     override fun search(regex: String) {
         TODO("Not yet implemented")
