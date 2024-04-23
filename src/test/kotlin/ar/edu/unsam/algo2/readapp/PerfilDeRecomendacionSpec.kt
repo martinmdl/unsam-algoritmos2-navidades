@@ -280,5 +280,22 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
                 usuario2.buscarRecomendaciones(recomendacion5) shouldBe true
             }
         }
+
+        describe("Dado un usuario Combinador") {
+            val setDePerfiles = mutableSetOf(Nativista, Poliglota)
+            usuario1.cambiarAPerfilCombinador(setDePerfiles)
+
+            it("Si un libro le interesa al Nativista, le interesará al Combinador también") {
+                usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
+            }
+
+            it("Si un libro le interesa al Políglota, le interesará al Combinador también") {
+                usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
+            }
+
+            it("Si un libro no le interesa ni al Nativista, ni al Políglota, no le interesa al Combinador tampoco") {
+                usuario1.buscarRecomendaciones(recomendacion2) shouldBe false
+            }
+        }
     }
 })

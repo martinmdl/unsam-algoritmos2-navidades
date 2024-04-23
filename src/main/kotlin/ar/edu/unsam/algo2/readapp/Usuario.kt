@@ -6,7 +6,7 @@ import java.time.*
 import java.time.temporal.ChronoUnit
 
 open class Usuario(
-    val nombre: String,
+    var nombre: String,
     val apellido: String,
     val username: String,
     val palabrasPorMinuto: Int,
@@ -21,7 +21,7 @@ open class Usuario(
     var tipoLector: TipoLector = LectorPromedio,
     var perfilDeRecomendacion: PerfilDeRecomendacion = Leedor,
     val lenguaNativa: Lenguaje,
-    // DEUDA TECNICA 
+    // DEUDA TECNICA
     var rangoMin: Int = 0,
     var rangoMax: Int = 0
 ) {
@@ -107,6 +107,10 @@ open class Usuario(
 
     fun cambiarPerfilDeRecomendacion(perfil: PerfilDeRecomendacion) {
         perfilDeRecomendacion = perfil
+    }
+
+    fun cambiarAPerfilCombinador(perfiles: MutableSet<PerfilDeRecomendacion>) {
+        perfilDeRecomendacion = Combinador(perfiles)
     }
 
     fun buscarRecomendaciones(recomendacion: Recomendacion): Boolean =

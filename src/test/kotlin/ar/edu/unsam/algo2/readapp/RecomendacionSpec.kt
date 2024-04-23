@@ -249,6 +249,7 @@ class RecomendacionesSpec : DescribeSpec({
             }
         }
         describe("Test de Tiempos de lectura") {
+            
             it("Tiempo de lectura total; Recomendacion tiene 4 libros") {
                 //Act
                 //val comp: Int = 50000 / (150 / 2) + 55000 / (150 / 2) + 60000 / (150 / 2) + 65000 / (150 / 2)
