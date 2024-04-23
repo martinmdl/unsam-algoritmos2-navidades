@@ -46,8 +46,6 @@ abstract class Repository<T> {
     private fun getIndex(obj: T): Int = dataMap.entries.find { it.value == obj }!!.key
 }
 
-// List<T> search(String value): Devuelve los objetos que coincidan con la búsqueda de acuerdo a los siguientes criterios:
-
 class RepositorioLibros : Repository<Libro>() {
     override fun search(regex: String): List<Libro> {
         //Libros: El valor de búsqueda debe coincidir parcialmente con el titulo o apellido del Autor.
