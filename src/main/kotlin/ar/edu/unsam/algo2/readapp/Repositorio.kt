@@ -2,22 +2,26 @@
 
 package ar.edu.unsam.algo2.readapp
 
+import java.util.SortedSet
+
 abstract class Repository<T> {
     private var currentId: Int = 0
-    var dataMap: MutableMap<Int, T> = mutableMapOf()
-
+    private val setRemoveId: SortedSet<Int> = sortedSetOf()
+    val dataMap: MutableMap<Int, T> = mutableMapOf()
 
     fun create(obj: T) {
-        dataMap[currentId] = obj
-        currentId++
+        if (setRemoveId.isEmpty()) {
+            dataMap[currentId] = obj
+            currentId++
+        } else {
+            dataMap[setRemoveId.first()] = obj
+            setRemoveId.removeFirst()
+        }
     }
 
     fun delete(obj: T) {
-        dataMap.remove(currentId)
-    }
-
-    fun sort() {
-        dataMap = dataMap.toSortedMap()
+        setRemoveId.add(getIndex(obj))
+        dataMap.remove(getIndex(obj))
     }
 
     fun update(obj: T) {
@@ -44,6 +48,7 @@ abstract class Repository<T> {
      * @return [Int]
      */
     private fun getIndex(obj: T): Int = dataMap.entries.find { it.value == obj }!!.key
+
 }
 
 class RepositorioLibros : Repository<Libro>() {
