@@ -37,6 +37,8 @@ class Libro(
     /*GETTER*/
     private fun numeroDeLenguajes(): Int = this.idioma.size
     fun getNombre() = nombre
+    fun getEdiciones() = ediciones
+    fun getVentasSemanales(): Int = this.ventasSemanales
     companion object {
         const val MINIMO_DE_VENTAS_SEMANALES: Int = 10000
         const val MINIMO_DE_PAGINAS: Int = 600
@@ -44,7 +46,7 @@ class Libro(
         const val MINIMO_DE_TRADUCCIONES: Int = 5
     }
 
-    fun getVentasSemanales(): Int = this.ventasSemanales
+
 
     fun esDesafiante(): Boolean = this.lecturaCompleja || this.paginas > MINIMO_DE_PAGINAS
 

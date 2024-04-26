@@ -2,12 +2,13 @@
 
 package ar.edu.unsam.algo2.readapp
 
+import java.util.SortedMap
 import java.util.SortedSet
 
 abstract class Repository<T> {
     private var currentId: Int = 0
     private val setRemoveId: SortedSet<Int> = sortedSetOf()
-    val dataMap: MutableMap<Int, T> = mutableMapOf()
+    val dataMap: SortedMap<Int, T> = sortedMapOf()
 
     fun create(obj: T) {
         if (setRemoveId.isEmpty()) {
