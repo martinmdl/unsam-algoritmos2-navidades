@@ -18,7 +18,7 @@ package ar.edu.unsam.algo2.readapp
 class Libro(
     private val nombre: String,
     private val editorial: String,
-    val paginas: Int, //necesario en: 'TiempoDeLectura.kt/LectorFanatico'
+    val paginas: Int, //necesario en: 'TipoLector.kt/LectorFanatico'
     val cantPalabras: Int,
     private var lecturaCompleja: Boolean,
     private var ediciones: Int,
@@ -26,6 +26,13 @@ class Libro(
     private var ventasSemanales: Int,
     val autor: Autor
 ) {
+
+    companion object {
+        private const val MINIMO_DE_VENTAS_SEMANALES: Int = 10000
+        private const val MINIMO_DE_EDICIONES: Int = 2
+        private const val MINIMO_DE_TRADUCCIONES: Int = 5
+        const val MINIMO_DE_PAGINAS: Int = 600
+    }
 
     /**
      * De los libros conocemos:La cantidad de palabras, páginas, ediciones y ventas semanales. También si es de lectura compleja.
@@ -39,18 +46,14 @@ class Libro(
     fun getNombre() = nombre
     fun getEdiciones() = ediciones
     fun getVentasSemanales(): Int = this.ventasSemanales
-    companion object {
-        const val MINIMO_DE_VENTAS_SEMANALES: Int = 10000
-        const val MINIMO_DE_PAGINAS: Int = 600
-        const val MINIMO_DE_EDICIONES: Int = 2
-        const val MINIMO_DE_TRADUCCIONES: Int = 5
-    }
+    fun getCantLenguajes(): Int = idioma.size
+    fun getMinimoPaginas() = MINIMO_DE_PAGINAS
 
 
+    fun esLargo() = paginas > MINIMO_DE_PAGINAS
 
     fun esDesafiante(): Boolean = this.lecturaCompleja || this.paginas > MINIMO_DE_PAGINAS
 
     fun esBestSeller(): Boolean =
         (this.ventasSemanales >= MINIMO_DE_VENTAS_SEMANALES && (this.ediciones > MINIMO_DE_EDICIONES) || this.numeroDeLenguajes() >= MINIMO_DE_TRADUCCIONES)
-
 }

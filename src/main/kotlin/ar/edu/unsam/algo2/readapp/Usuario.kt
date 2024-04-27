@@ -18,28 +18,16 @@ open class Usuario(
     var autorFavorito: Autor,
     val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
-    var tipoLector: TipoLector = LectorPromedio,
-    var perfilDeRecomendacion: PerfilDeRecomendacion = Leedor,
+    var tipoLector: TipoLector,
+    var perfilDeRecomendacion: PerfilDeRecomendacion,
     val lenguaNativa: Lenguaje,
-    // DEUDA TECNICA
-    var rangoMin: Int = 0,
-    var rangoMax: Int = 0
 ) {
-
-    // DEUDA TECNICA
-    // SETTERS para 'Calculador'
-    fun rangoMin(valor: Int) { rangoMin = valor }
-    fun rangoMax(valor: Int) { rangoMax = valor }
-
-    // GETTERS para 'Calculador'
-    fun rangoMin() = rangoMin
-    fun rangoMax() = rangoMax
 
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
 // ##TIEMPO_DE_LECTURA
     fun tiempoDeLectura(libro: Libro) =
-        tipoLector.tiempoDeLectura(libro, this)
+        tipoLector.tiempoDeLectura(libro)
 
 // ##TIPO_LECTOR##
     fun variarTipoLector(tipo: TipoLector) {
@@ -55,6 +43,9 @@ open class Usuario(
         eliminarLibroPorLeer(libro)
     }
 
+    fun cantidadLecturas(libro: Libro): Int =
+        librosLeidos.getOrDefault(libro, 0)
+
     private fun libroYaLeido(libro: Libro): Boolean = librosLeidos.contains(libro)
 
     fun agregarLibroPorLeer(libro: Libro) {
@@ -68,7 +59,7 @@ open class Usuario(
         librosPorLeer.remove(libro)
     }
 
-// ##AUTOR##
+//  ##AUTOR##
     open fun variarAutorFavorito(autor: Autor) {
         autorFavorito = autor
     }
@@ -82,39 +73,19 @@ open class Usuario(
         amigos.remove(amigo)
     }
 
-//  ##RECOMENDACIONES##
-//    fun crearRecomendacion(
-//        esPrivado: Boolean,
-//        libroRecomendados: MutableSet<Libro>,
-//        descripcion: String,
-//        valoraciones: MutableMap<Usuario, Valoracion>
-//    ) {
-//        val nuevaRecomendacion = Recomendacion(
-//            esPrivado,
-//            this,
-//            libroRecomendados,
-//            descripcion,
-//            valoraciones
-//        )
-//        recomendacionesEmitidas.add(nuevaRecomendacion)
-//        //HistorialRecomendaciones.agregarAlHistorial(nuevaRecomendacion)
-//    }
-//
-//    fun eliminarRecomendacion(recomendacion: Recomendacion) {
-//        recomendacionesEmitidas.remove(recomendacion)
-//        //HistorialRecomendaciones.eliminarDelHistorial(recomendacion)
-//    }
+//  ##PERFIL DE RECOMENDACION##
 
+    // "perfil" se instancia unicamente en los tests
     fun cambiarPerfilDeRecomendacion(perfil: PerfilDeRecomendacion) {
         perfilDeRecomendacion = perfil
     }
 
     fun cambiarAPerfilCombinador(perfiles: MutableSet<PerfilDeRecomendacion>) {
-        perfilDeRecomendacion = Combinador(perfiles)
+        perfilDeRecomendacion = Combinador(this, perfiles)
     }
 
     fun buscarRecomendaciones(recomendacion: Recomendacion): Boolean =
-        perfilDeRecomendacion.validarRecomendacion(this, recomendacion)
+        perfilDeRecomendacion.validarRecomendacion(recomendacion)
 
 //  ##VALORACIONES##
     fun valorarRecomendacion(

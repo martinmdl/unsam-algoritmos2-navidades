@@ -16,7 +16,7 @@ abstract class Repository<T> {
             currentId++
         } else {
             dataMap[setRemoveId.first()] = obj
-            setRemoveId.removeFirst()
+//            setRemoveId.removeFirst()
         }
     }
 
