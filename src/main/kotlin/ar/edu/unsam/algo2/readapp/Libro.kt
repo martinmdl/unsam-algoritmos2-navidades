@@ -46,7 +46,6 @@ class Libro(
     fun getNombre() = nombre
     fun getEdiciones() = ediciones
     fun getVentasSemanales(): Int = this.ventasSemanales
-    fun getCantLenguajes(): Int = idioma.size
     fun getMinimoPaginas() = MINIMO_DE_PAGINAS
 
 

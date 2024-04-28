@@ -2,8 +2,10 @@
 
 package ar.edu.unsam.algo2.readapp
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
 class PerfilDeRecomendacionSpec : DescribeSpec({
@@ -155,7 +157,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
 
         describe("Dado un usuario precavido") {
 
-            usuario1.cambiarPerfilDeRecomendacion(Precavido)
+            val precavido = Precavido(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(precavido)
             usuario1.agregarLibroPorLeer(libroDesafiante)
 
             it("Si la recomendación incluye un libro pendiente de lectura, le interesa") {
@@ -178,8 +181,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario leedor") {
-
-            usuario1.cambiarPerfilDeRecomendacion(Leedor)
+            val leedor = Leedor(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(leedor)
 
             it("Cualquier recomendación le interesa") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
@@ -187,8 +190,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario poliglota") {
-
-            usuario1.cambiarPerfilDeRecomendacion(Poliglota)
+            val poliglota = Poliglota(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(poliglota)
 
             it("Si los libros de la recomendación suman al menos 5 idiomas, le interesa") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
@@ -201,8 +204,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario nativista") {
-
-            usuario1.cambiarPerfilDeRecomendacion(Nativista)
+            val nativista = Nativista(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(nativista)
 
             it("Si la recomendación contiene al menos un libro con el mismo lenguaje original que su lengua nativa, le interesa") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
@@ -214,13 +217,13 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario calculador") {
+             val calculador = Calculador(usuario1)
+             calculador.setMin(1000)
+             calculador.setMax(2000)
 
-            usuario1.cambiarPerfilDeRecomendacion(Calculador)
-            usuario1.variarTipoLector(LectorNormal)
-            // porque es el tipo de lector más básico
-            // libro.cantPalabras / usuario.palabrasPorMinuto
-            usuario1.rangoMax(2000)
-            usuario1.rangoMin(1000)
+            usuario1.cambiarPerfilDeRecomendacion(calculador)
+            usuario1.variarTipoLector(LectorNormal(usuario1))
+
 
             it("Si tarda 1500 min. en leer todos los libros de la recomendación, le interesa") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
@@ -236,8 +239,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario demandante") {
-
-            usuario1.cambiarPerfilDeRecomendacion(Demandante)
+            val demandante = Demandante(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(demandante)
             recomendacion3.crearValoracion(5, ".", usuario2)
             recomendacion3.crearValoracion(3, ".", usuario3)
             recomendacion4.crearValoracion(1, ".", usuario2)
@@ -258,8 +261,8 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario experimentado") {
-
-            usuario1.cambiarPerfilDeRecomendacion(Experimentado)
+            val experimentado = Experimentado(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(experimentado)
 
             it("si hay un libro en la recomendacion con un autor consagrado, le interesa") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
@@ -271,14 +274,15 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario cambiante") {
+            val cambiante1 = Cambiante(usuario1)
+            usuario1.cambiarPerfilDeRecomendacion(cambiante1)
 
-            usuario1.cambiarPerfilDeRecomendacion(Cambiante)
+            val cambiante2 = Cambiante(usuario2)
+            usuario2.cambiarPerfilDeRecomendacion(cambiante2)
 
             it("Dado un usuario de 23 años de edad, se comporta como leedor y le interesa") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
             }
-
-            usuario2.cambiarPerfilDeRecomendacion(Cambiante)
 
             it("Dado un usuario de 56 años de edad, se comporta como calculador y no le interesa") {
                 usuario2.buscarRecomendaciones(recomendacion1) shouldBe false
@@ -290,8 +294,12 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         }
 
         describe("Dado un usuario Combinador") {
-            val setDePerfiles = mutableSetOf(Nativista, Poliglota)
-            usuario1.cambiarAPerfilCombinador(setDePerfiles)
+
+            val nativista = Nativista(usuario1)
+            val poliglota = Poliglota(usuario1)
+            val setDePerfiles = mutableSetOf(nativista, poliglota)
+            val combinador = Combinador(usuario1, setDePerfiles)
+            usuario1.cambiarPerfilDeRecomendacion(combinador)
 
             it("Si un libro le interesa al Nativista, le interesará al Combinador también") {
                 usuario1.buscarRecomendaciones(recomendacion1) shouldBe true
@@ -304,6 +312,13 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
             it("Si un libro no le interesa ni al Nativista, ni al Políglota, no le interesa al Combinador tampoco") {
                 usuario1.buscarRecomendaciones(recomendacion2) shouldBe false
             }
+
+            it("No se puede agregar un Combinador dentro del perfil Combinador") {
+                val combinador2= Combinador(usuario1, setDePerfiles)
+                assertThrows<Exception> { combinador.agregarPerfil(combinador2) }
+                combinador.perfilesCombinados shouldBe setDePerfiles
+            }
         }
+
     }
 })

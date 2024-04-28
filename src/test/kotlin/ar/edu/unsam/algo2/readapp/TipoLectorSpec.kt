@@ -6,7 +6,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
-class TiempoDeLecturaSpec : DescribeSpec({
+class TipoLectorSpec : DescribeSpec({
     describe("Test de tiempos de lectura") {
 
         val autorConsagrado = Autor(
@@ -90,9 +90,8 @@ class TiempoDeLecturaSpec : DescribeSpec({
         }
 
         describe("Dado un lector normal") {
-
-            //act
-            usuario.variarTipoLector(LectorNormal)
+            val lectorNormal = LectorNormal(usuario)
+            usuario.variarTipoLector(lectorNormal)
 
             it("Con un libro desafiante, no cambia su velocidad de lectura") {
                 usuario.tiempoDeLectura(libroDesafiante) shouldBe 750
@@ -100,8 +99,8 @@ class TiempoDeLecturaSpec : DescribeSpec({
         }
 
         describe("Dado un lector ansioso") {
-            //act
-            usuario.variarTipoLector(LectorAnsioso)
+            val lectorAnsioso = LectorAnsioso(usuario)
+            usuario.variarTipoLector(lectorAnsioso)
 
             it("Con un libro best seller, su tiempo de lectura disminuye a la mitad") {
                 usuario.tiempoDeLectura(libroBestSeller) shouldBe 375
@@ -113,8 +112,8 @@ class TiempoDeLecturaSpec : DescribeSpec({
         }
 
         describe("Dado un lector fanático") {
-
-            usuario.variarTipoLector(LectorFanatico)
+            val lectorFanatico = LectorFanatico(usuario)
+            usuario.variarTipoLector(lectorFanatico)
             usuario.variarAutorFavorito(autorConsagrado)
 
             // importante = libro.autor == usuario.autorFavorito && !(usuario.librosLeidos.keys.contains(libro))
@@ -139,8 +138,8 @@ class TiempoDeLecturaSpec : DescribeSpec({
         }
 
         describe("Dado un lector recurrente") {
-
-            usuario.variarTipoLector(LectorRecurrente)
+            val lectorRecurrente = LectorRecurrente(usuario)
+            usuario.variarTipoLector(lectorRecurrente)
 
             it("Libro no leído, no disminuye velocidad") {
                 usuario.tiempoDeLectura(libroNoDesafiante) shouldBe 5

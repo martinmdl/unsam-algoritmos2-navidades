@@ -17,23 +17,28 @@ class Leedor(usuario: Usuario) : PerfilDeRecomendacion(usuario) {
     override fun validarRecomendacion(recomendacion: Recomendacion) = true
 }
 
-class Poliglota(usuario: Usuario, private val libro: Libro) : PerfilDeRecomendacion(usuario) {
+class Poliglota(usuario: Usuario) : PerfilDeRecomendacion(usuario) {
     companion object { private const val CANT_MINIMA_LENGUAJES = 5 }
-    override fun validarRecomendacion(recomendacion: Recomendacion) = cantLenguajesValida()
-    private fun cantLenguajesValida(): Boolean = libro.getCantLenguajes() >= CANT_MINIMA_LENGUAJES
+
+    override fun validarRecomendacion(recomendacion: Recomendacion) =
+        cantLenguajes(recomendacion) >= CANT_MINIMA_LENGUAJES
+
+      private fun cantLenguajes(recomendacion: Recomendacion): Int =
+        recomendacion.librosRecomendados.flatMap { it.idioma }.toSet().size
 }
+
 
 class Nativista(usuario: Usuario) : PerfilDeRecomendacion(usuario) {
     override fun validarRecomendacion(recomendacion: Recomendacion) = lenguasIguales(recomendacion)
     private fun lenguasIguales(recomendacion: Recomendacion): Boolean = recomendacion.librosRecomendados.any { it.autor.lenguaNativa == usuario.lenguaNativa }
 }
 
-class Calculador(
-    usuario: Usuario,
-    private val rangoMin: Int,
-    private val rangoMax: Int
-): PerfilDeRecomendacion(usuario) {
+class Calculador(usuario: Usuario) : PerfilDeRecomendacion(usuario) {
     override fun validarRecomendacion(recomendacion: Recomendacion) = cumpleRangoTiempoMinimo(recomendacion) && cumpleRangoTiempoMaximo(recomendacion)
+    private var rangoMin: Int = 0
+    private var rangoMax: Int = 0
+    fun setMax(valor: Int) { rangoMax = valor }
+    fun setMin(valor: Int) { rangoMin = valor }
     private fun cumpleRangoTiempoMinimo(recomendacion: Recomendacion) = recomendacion.tiempoDeLecturaTotal(usuario) >= rangoMin
     private fun cumpleRangoTiempoMaximo(recomendacion: Recomendacion) = recomendacion.tiempoDeLecturaTotal(usuario) <= rangoMax
 }
@@ -46,7 +51,7 @@ class Demandante(usuario: Usuario) : PerfilDeRecomendacion(usuario) {
 
 class Experimentado(usuario: Usuario) : PerfilDeRecomendacion(usuario)  {
     companion object { private const val DIVISOR_MITAD = 2 }
-    override fun validarRecomendacion(recomendacion: Recomendacion) = cantidadAutoresConsagrados(recomendacion) > cantidadAutoresASuperar(recomendacion)
+    override fun validarRecomendacion(recomendacion: Recomendacion) = cantidadAutoresConsagrados(recomendacion) >= cantidadAutoresASuperar(recomendacion)
     private fun cantidadAutoresConsagrados(recomendacion: Recomendacion) = recomendacion.librosRecomendados.count { it.autor.esConsagrado() }
     private fun cantidadAutoresASuperar(recomendacion: Recomendacion) = recomendacion.librosRecomendados.size / DIVISOR_MITAD
 }
@@ -61,7 +66,10 @@ class Cambiante(usuario: Usuario) : PerfilDeRecomendacion(usuario)  {
         return if (!mayoriaEdad()) {
             Leedor(usuario).validarRecomendacion(recomendacion)
         } else {
-            Calculador(usuario, RANGO_MIN, RANGO_MAX).validarRecomendacion(recomendacion)
+            val calculador = Calculador(usuario)
+            calculador.setMin(RANGO_MIN)
+            calculador.setMax(RANGO_MAX)
+            calculador.validarRecomendacion(recomendacion)
         }
     }
     private fun mayoriaEdad(): Boolean = usuario.edad() > EDAD_LIMITE
@@ -69,7 +77,7 @@ class Cambiante(usuario: Usuario) : PerfilDeRecomendacion(usuario)  {
 
 class Combinador(
     usuario: Usuario,
-    private val perfilesCombinados: MutableSet<PerfilDeRecomendacion>
+    val perfilesCombinados: MutableSet<PerfilDeRecomendacion> = mutableSetOf()
 ) : PerfilDeRecomendacion(usuario) {
 
     override fun validarRecomendacion(recomendacion: Recomendacion) =  perfilesCombinados.any { it.validarRecomendacion(recomendacion) }
