@@ -10,6 +10,9 @@ import java.time.LocalDate
 /*STUB MANUAL*/
 data object Store {
     val Jorge = Autor(
+        "pipo",
+        "Alegre",
+        "yagoo",
         LocalDate.of(1990, 3, 27),
         mutableSetOf(),
         Lenguaje.es_ES,
@@ -24,8 +27,10 @@ data object Store {
         1,
         setOf(Lenguaje.es_ES, Lenguaje.ja_JP, Lenguaje.fr_FR, Lenguaje.ru_RU, Lenguaje.hi_IN),
         1,
-        Jorge)
+        Jorge
+    )
 }
+
 class StubCentroDeLectura : CentroDeLectura(
     nombreDeCentroDeLectura = "STUB CENTRO",
     direccion = "STUB DIR",
@@ -38,17 +43,20 @@ class StubCentroDeLectura : CentroDeLectura(
             fecha = LocalDate.now().plusDays(1),
             duracion = 60,
             disponible = 10,
-            centroDeLectura = this)
+            centroDeLectura = this
+        )
         val encuentroQueNoVenceNunca2DiaDespues = Encuentro(
             fecha = LocalDate.now().plusDays(2),
             duracion = 60,
             disponible = 10,
-            centroDeLectura = this)
+            centroDeLectura = this
+        )
         val encuentroQueNoVenceNunca3DiaDespues = Encuentro(
             fecha = LocalDate.now().plusDays(3),
             duracion = 60,
             disponible = 10,
-            centroDeLectura = this)
+            centroDeLectura = this
+        )
     }
 
     override fun maximaCapacidadPorEncuentro(): Int {
@@ -61,20 +69,12 @@ class StubCentroDeLectura : CentroDeLectura(
         return 50.0
     }
 }
+
 /*Test Unitario*/
-class CentroDeLecturaSpec: DescribeSpec(
-
-
-
-
-
-
-
-
+class CentroDeLecturaSpec : DescribeSpec(
 
 
 ) {
-
 
 
 }
