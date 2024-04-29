@@ -1,13 +1,10 @@
 @file:Suppress("SpellCheckingInspection")
-
 package ar.edu.unsam.algo2.readapp
-
-import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
-import io.kotest.matchers.types.shouldBeTypeOf
+import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
 class UsuarioSpec : DescribeSpec({
@@ -99,14 +96,14 @@ class UsuarioSpec : DescribeSpec({
         }
 
         describe("Tipo lector") {
-
             it("Por defecto es un lector promedio") {
-                usuario1.tipoLector shouldBe LectorPromedio
+                usuario1.tipoLector.shouldBeInstanceOf<LectorPromedio>()
             }
 
-            usuario1.variarTipoLector(LectorNormal)
             it("El usuario puede variar su tipo de lectura") {
-                usuario1.tipoLector shouldBe LectorNormal
+                val lectorNormal = LectorNormal(usuario1)
+                usuario1.variarTipoLector(lectorNormal)
+                usuario1.tipoLector shouldBe lectorNormal
             }
         }
 
@@ -130,14 +127,13 @@ class UsuarioSpec : DescribeSpec({
                 usuario1.librosLeidos shouldBe mutableMapOf(libroDesafiante to 2)
             }
 
-//            it("Cuando el usuario agrega a libros por leer un libro ya leído, se captura el error") {
-//                usuario1.agregarLibroPorLeer(libroDesafiante) EXCEPTION
-//            }
+            it("Cuando el usuario agrega a libros por leer un libro ya leído, se captura el error") {
+                assertThrows<Exception> { usuario1.agregarLibroPorLeer(libroDesafiante) }
+                usuario1.librosLeidos shouldBe mutableMapOf(libroDesafiante to 2)
+            }
 
             it("El usuario puede eliminar libros por leer") {
-
                 usuario1.eliminarLibroPorLeer(libroNoDesafiante)
-
                 usuario1.librosPorLeer shouldBe mutableSetOf()
             }
         }
@@ -168,18 +164,15 @@ class UsuarioSpec : DescribeSpec({
 
         describe("Recomendaciones") {
 
+            it("Por defecto tiene el perfil de recomendación de Leedor") {
+                usuario1.perfilDeRecomendacion.shouldBeInstanceOf<Leedor>()
+            }
+
             it("El usuario puede cambiar el perfil de recomendación") {
-                usuario1.perfilDeRecomendacion shouldBe Leedor
-                usuario1.cambiarPerfilDeRecomendacion(Poliglota)
-                usuario1.perfilDeRecomendacion shouldBe Poliglota
+                val poliglota = Poliglota(usuario1)
+                usuario1.cambiarPerfilDeRecomendacion(poliglota)
+                usuario1.perfilDeRecomendacion shouldBe poliglota
             }
-
-            it("El usuario puede cambiar el perfil de recomendación a Combinador") {
-                val setDePerfiles = mutableSetOf(Cambiante, Experimentado)
-                usuario1.cambiarAPerfilCombinador(setDePerfiles)
-                usuario1.perfilDeRecomendacion.shouldBeInstanceOf<Combinador>()
-            }
-
         }
 
         describe("Valoraciones") {
@@ -198,7 +191,6 @@ class UsuarioSpec : DescribeSpec({
 
                 usuario1.recomendacionesPorValorar shouldBe mutableSetOf(recomendacion2)
             }
-
             it("El usuario puede valorar una recomendación y esta se eliminará de la lista") {
                 usuario1.valorarRecomendacion(recomendacion2, 4, "me fue mal")
                 usuario1.recomendacionesPorValorar shouldBe mutableSetOf()
