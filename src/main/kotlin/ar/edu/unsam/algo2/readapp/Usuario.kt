@@ -19,14 +19,18 @@ class Usuario(
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
     val lenguaNativa: Lenguaje
 ) {
-    // ##TIPO_LECTOR##
+
+// ##TIPO_LECTOR##
     var tipoLector: TipoLector = LectorPromedio(this)
 
     fun variarTipoLector(tipo: TipoLector) {
         tipoLector = tipo
     }
 
-    //  ##PERFIL DE RECOMENDACION##
+    fun tiempoDeLectura(libro: Libro) =
+        tipoLector.tiempoDeLectura(libro)
+
+//  ##PERFIL DE RECOMENDACION##
     var perfilDeRecomendacion: PerfilDeRecomendacion = Leedor(this)
     fun cambiarPerfilDeRecomendacion(perfil: PerfilDeRecomendacion) {
         perfilDeRecomendacion = perfil
@@ -36,9 +40,6 @@ class Usuario(
 
     fun edad(): Long = ChronoUnit.YEARS.between(fechaNac, LocalDate.now())
 
-// ##TIEMPO_DE_LECTURA
-    fun tiempoDeLectura(libro: Libro) =
-        tipoLector.tiempoDeLectura(libro)
 
 //  ##LIBROS##
     fun leerLibro(libro: Libro) {
