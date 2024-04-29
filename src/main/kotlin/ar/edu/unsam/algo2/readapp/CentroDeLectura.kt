@@ -48,10 +48,10 @@ abstract class CentroDeLectura(
      *
      *  En esta funcion ejecuta una reserva siempre y cuando exista cupo en el encuentro y su fecha no este vencida.
      */
-    fun reserva(encuentro: Encuentro) {
+    fun reserva(encuentro: Encuentro): Double {
         if (encuentro.reservaDisponible()) {
             encuentro.reservarCupo()
-            this.costo(encuentro)
+            return this.costo(encuentro)
         } else {
             throw SinCupo("No hay cupo disponible")
         }
@@ -60,7 +60,7 @@ abstract class CentroDeLectura(
     /**
      *[vencimento]:
      *
-     *  Metodo que indica si se expiro la publicacion/divulgacion actual de encuentros.
+     *  Metodo que indica si se expiró la publicacion/divulgacion actual de encuentros.
      */
     fun vencimento(): Boolean {
         return seVencieronTodasLasFechas() || capacidadMaximaAlcanzada()
@@ -78,7 +78,7 @@ abstract class CentroDeLectura(
     /**
      *[maximaCapacidadPorEncuentro]:
      *
-     *  Metodo abstracto que indica, segun su implementacion, el numero maximo permitido de participantes.
+     *  Metodo abstracto que indica, segun su implementacion, el número maximo permitido de participantes.
      */
     abstract fun maximaCapacidadPorEncuentro(): Int
 
@@ -91,7 +91,7 @@ abstract class CentroDeLectura(
 
     /*AUX*/
     fun seVencieronTodasLasFechas(): Boolean {
-        return this.conjuntoDeEncuentros.last().fecha().isBefore(LocalDate.now())
+        return this.conjuntoDeEncuentros.all{it.fecha().isBefore(LocalDate.now())}
     }
 
     fun capacidadMaximaAlcanzada(): Boolean = !this.conjuntoDeEncuentros.all { it.disponibilidad() }
@@ -141,7 +141,7 @@ class Particular(
     /**
      *[costo]:
      *
-     *  Costo definido para la clase [Particular], se calcula apartir de un porcentaje de ocupacion minimo definido,.
+     *  Costo definido para la clase [Particular], se calcula apartir de un porcentaje de ocupacion minimo definido.
      */
     override fun costo(encuentro: Encuentro): Double {
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP
