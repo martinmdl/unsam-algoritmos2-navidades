@@ -17,15 +17,9 @@ import java.time.LocalDate
 class Encuentro(
     private val fecha: LocalDate,
     private val duracion: Int,
-    private var disponible: Int,
     private var centroDeLectura: CentroDeLectura
 ) {
-    /**
-     *  Al instanciar el objeto este adquiere el cupo definido segun el encuentro.
-     */
-    init {
-        disponible = centroDeLectura.maximaCapacidadPorEncuentro()
-    }
+    private var disponible: Int = centroDeLectura.maximaCapacidadPorEncuentro()
 
     /*ACCESORES*/
     fun fecha(): LocalDate = this.fecha
@@ -34,11 +28,11 @@ class Encuentro(
 
     /*METODOS*/
 
-    fun reservaDisponible(): Boolean = this.disponibilidad() && this.vencido()
+    fun reservaDisponible(): Boolean = this.disponibilidad() && !this.vencido()
 
     fun disponibilidad(): Boolean = this.disponible > 0
 
-    fun vencido(): Boolean = this.fecha.isBefore(LocalDate.now())
+    private fun vencido(): Boolean = this.fecha.isBefore(LocalDate.now())
 
     fun reservarCupo() {this.disponible -= 1}
 

@@ -7,7 +7,7 @@ import java.time.LocalDate
 /**
  * CentroDeLectura.
  *
- * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej Biblioteca Juanito.
+ * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej. Biblioteca Juanito.
  * @param direccion Indica la direccion fisica del centro: [String].
  * @param libroAsignadoALeer Es el Libro: [Libro] asignado al encuentro actual, cuando se cambia el encuentro se actualiza el libro.
  * @param costoDeReserva El valor numerico: [Float] del costo de la reserva.
@@ -36,22 +36,20 @@ abstract class CentroDeLectura(
     }
 
     /*GETTERS*/
-    fun getNombreDeCentroDeLectura(): String = nombreDeCentroDeLectura
-    fun getDireccion(): String = direccion
-    fun getLibroAsignadoALeer(): Libro = libroAsignadoALeer
     fun getCostoDeReserva(): Double = costoDeReserva
+    fun getLibroAsignadoALeer(): Libro = libroAsignadoALeer
     fun getConjuntoDeEncuentros(): MutableSet<Encuentro> = this.conjuntoDeEncuentros
 
     /*METODOS*/
     /**
      *[reserva]:
      *
-     *  En esta funcion ejecuta una reserva siempre y cuando exista cupo en el encuentro y su fecha no este vencida.
+     *  En esta funcion ejecuta una reserva siempre y cuando exista cupo en el encuentro y su fecha no está vencida.
      */
-    fun reserva(encuentro: Encuentro) {
+    fun reserva(encuentro: Encuentro): Double {
         if (encuentro.reservaDisponible()) {
             encuentro.reservarCupo()
-            this.costo(encuentro)
+            return this.costo(encuentro)
         } else {
             throw SinCupo("No hay cupo disponible")
         }
@@ -60,7 +58,7 @@ abstract class CentroDeLectura(
     /**
      *[vencimento]:
      *
-     *  Metodo que indica si se expiro la publicacion/divulgacion actual de encuentros.
+     *  Metodo que indica si se expiró la publicacion/divulgacion actual de encuentros.
      */
     fun vencimento(): Boolean {
         return seVencieronTodasLasFechas() || capacidadMaximaAlcanzada()
@@ -74,11 +72,18 @@ abstract class CentroDeLectura(
     fun agregarEncuentro(encuentro: Encuentro) {
         this.conjuntoDeEncuentros.add(encuentro)
     }
-
+    /**
+     *[eliminarEncuentro]:
+     *
+     *  Metodo que elimina un encuentro al [conjuntoDeEncuentros].
+     */
+    fun eliminarEncuentro(encuentro: Encuentro) {
+        this.conjuntoDeEncuentros.remove(encuentro)
+    }
     /**
      *[maximaCapacidadPorEncuentro]:
      *
-     *  Metodo abstracto que indica, segun su implementacion, el numero maximo permitido de participantes.
+     *  Metodo abstracto que indica, segun su implementacion, el número maximo permitido de participantes.
      */
     abstract fun maximaCapacidadPorEncuentro(): Int
 
@@ -90,18 +95,19 @@ abstract class CentroDeLectura(
     abstract fun costo(encuentro: Encuentro): Double
 
     /*AUX*/
-    fun seVencieronTodasLasFechas(): Boolean {
-        return this.conjuntoDeEncuentros.last().fecha().isBefore(LocalDate.now())
+    private fun seVencieronTodasLasFechas(): Boolean {
+        return this.conjuntoDeEncuentros.all{it.fecha().isBefore(LocalDate.now())}
     }
 
     fun capacidadMaximaAlcanzada(): Boolean = !this.conjuntoDeEncuentros.all { it.disponibilidad() }
+
 
 }
 
 /**
  * Particular: [CentroDeLectura].
  *
- * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej Biblioteca Juanito.
+ * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej. Biblioteca Juanito.
  * @param direccion Indica la direccion fisica del centro: [String].
  * @param libroAsignadoALeer Es el Libro: [Libro] asignado al encuentro actual, cuando se cambia el encuentro se actualiza el libro.
  * @param costoDeReserva El valor numerico: [Float] del costo de la reserva.
@@ -125,8 +131,6 @@ class Particular(
         const val PORCENTAJE = 100
     }
     /*GETTERS*/
-    fun getCapacidadMaximaFijada(): Int =capacidadMaximaFijada
-    fun getPorcentajeMinima(): Double = porcentajeMinimo
 
     /*METODOS*/
     /**
@@ -141,7 +145,7 @@ class Particular(
     /**
      *[costo]:
      *
-     *  Costo definido para la clase [Particular], se calcula apartir de un porcentaje de ocupacion minimo definido,.
+     *  Costo definido para la clase [Particular], se calcula apartir de un porcentaje de ocupacion minimo definido.
      */
     override fun costo(encuentro: Encuentro): Double {
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP
@@ -157,13 +161,13 @@ class Particular(
 /**
  * Particular: [Editorial].
  *
- *@param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej Biblioteca Juanito.
+ *@param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej. Biblioteca Juanito.
  * @param direccion Indica la direccion fisica del centro: [String].
  * @param libroAsignadoALeer Es el Libro: [Libro] asignado al encuentro actual, cuando se cambia el encuentro se actualiza el libro.
  * @param costoDeReserva El valor numerico: [Float] del costo de la reserva.
  * @param conjuntoDeEncuentros Conjunto de Encuentros: [Encuentro].
  * @param montoEspecificoAlcanzar Valor maximo: [Int] fijado.
- * @param autorPresente Indica si el autro va estar presenta en los encuentros
+ * @param autorPresente Indica si el autro va a estar presenta en los encuentros
  * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [montoEspecificoAlcanzar]
  */
 class Editorial(
@@ -173,7 +177,7 @@ class Editorial(
     private val costoDeReserva: Double,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val montoEspecificoAlcanzar: Int,
-    private val autorPresente: Boolean
+    private var autorPresente: Boolean
 ) : CentroDeLectura(nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
 
     companion object {
@@ -181,10 +185,11 @@ class Editorial(
         const val ADICION_RESERVA_POR_AUTOR_NO_BEST_SSELLER = 200
         const val ADICION_PORCENTUAL_BESTSELLER = 0.1
     }
-    /*GETTERS*/
-    fun getMontoEspecificoAlcanzar(): Int = montoEspecificoAlcanzar
-    fun getAutorPresente(): Boolean = autorPresente
-
+    /*SETTERS*/
+    fun setAutorPresente(autorPresente: Boolean) {
+        this.autorPresente = autorPresente
+    }
+    
     /*METODOS*/
     /**
      *[maximaCapacidadPorEncuentro]:
@@ -192,9 +197,8 @@ class Editorial(
      *  Capacidad maxima definida para la clase [Editorial], se calcula a partir del monto fijo a alcanzar y a partir de ahi se reparte entre los encuentros.
      */
     override fun maximaCapacidadPorEncuentro(): Int {
-        return this.montoEspecificoAlcanzar / this.costoDeReserva.toInt() / this.conjuntoDeEncuentros.size
+        return this.montoEspecificoAlcanzar / this.costoDeReserva.toInt()
     }
-
     /**
      *[costo]:
      *
@@ -204,7 +208,7 @@ class Editorial(
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP + ADICION_RESERVA_FIJO
         if (autorPresente) {
             if (this.libroAsignadoALeer.esBestSeller()) {
-                val adicional = (this.libroAsignadoALeer.getVentasSemanales() * ADICION_PORCENTUAL_BESTSELLER).toFloat()
+                val adicional = (this.libroAsignadoALeer.getVentasSemanales() * ADICION_PORCENTUAL_BESTSELLER)
                 return costoFijo + adicional
             }
             return costoFijo + ADICION_RESERVA_POR_AUTOR_NO_BEST_SSELLER
@@ -217,14 +221,14 @@ class Editorial(
 /**
  * Particular: [Biblioteca].
  *
- * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej Biblioteca Juanito.
+ * @param nombreDeCentroDeLectura Es el nombre del centro de lectura: [String], ej. Biblioteca Juanito.
  * @param direccion Indica la direccion fisica del centro: [String].
  * @param libroAsignadoALeer Es el Libro: [Libro] asignado al encuentro actual, cuando se cambia el encuentro se actualiza el libro.
  * @param costoDeReserva El valor numerico: [Float] del costo de la reserva.
  * @param conjuntoDeEncuentros Conjunto de Encuentros: [Encuentro].
  * @param metrosCuadradosSala Valor: [Int] fijado.
  * @param gastoFijo Una lista de gastos fijos: [Float].
- * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [montoEspecificoAlcanzar]
+ * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [gastoFijo] y [metrosCuadradosSala].
  */
 class Biblioteca(
     private val nombreDeCentroDeLectura: String,
@@ -243,7 +247,6 @@ class Biblioteca(
         const val ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS = 0.1
     }
     /*GETTERS*/
-    fun getMetrosCuadradosSala(): Int = metrosCuadradosSala
     fun getGastoFijo(): MutableList<Double> = gastoFijo
 
     /*METODOS*/
