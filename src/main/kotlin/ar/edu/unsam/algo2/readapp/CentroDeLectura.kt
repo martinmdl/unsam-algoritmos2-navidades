@@ -185,7 +185,6 @@ class Editorial(
         const val ADICION_RESERVA_POR_AUTOR_NO_BEST_SSELLER = 200
         const val ADICION_PORCENTUAL_BESTSELLER = 0.1
     }
-    /*GETTERS*/
     /*SETTERS*/
     fun setAutorPresente(autorPresente: Boolean) {
         this.autorPresente = autorPresente
