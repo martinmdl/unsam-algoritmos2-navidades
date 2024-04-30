@@ -64,7 +64,8 @@ class RepositorioLibros : Repository<Libro>() {
 
 class RepositorioUsuario : Repository<Usuario>() {
     override fun search(regex: String): List<Usuario> {
-        val nombrePartialMatch: List<Usuario> = dataMap.values.filter { it.nombre.contains(regex, ignoreCase = true) }
+        val nombrePartialMatch: List<Usuario> =
+            dataMap.values.filter { it.nombre.contains(regex, ignoreCase = true) }
         val apellidoPartialMatch: List<Usuario> =
             dataMap.values.filter { it.apellido.contains(regex, ignoreCase = true) }
         val userNameExactMatch: List<Usuario> = dataMap.values.filter { it.username == regex }

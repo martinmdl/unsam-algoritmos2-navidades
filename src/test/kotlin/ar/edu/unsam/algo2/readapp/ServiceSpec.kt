@@ -4,7 +4,6 @@ package ar.edu.unsam.algo2.readapp
 
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -83,6 +82,83 @@ class ServiceSpec: DescribeSpec({
             repo.create(libroDesafiante2) // [0,1,2]
             val jsonAImprimir = servicioNuevo.getLibros(repo)
             println(jsonAImprimir)
+        }
+    }
+})
+
+class RepositoryTest : DescribeSpec({
+    describe("Repository, en particular RepositorioLibros pero funciona para cualquier Repository") {
+        val repository = RepositorioLibros()
+        val libro = mockk<Libro>()
+
+        describe("create") {
+            it("Agrega un libro al repositorio.") {
+                repository.create(libro)
+                repository.getById(0) shouldBe libro
+            }
+        }
+
+        describe("delete") {
+            it("Remueve un libro del repositorio.") {
+                repository.create(libro)
+                repository.delete(libro)
+                repository.getById(0) shouldBe null
+            }
+        }
+
+        describe("update") {
+            it("Actualiza el estado de un libro en el repositorio.") {
+                val libroOriginal = mockk<Libro>()
+                val libroActualizado = mockk<Libro>()
+
+                every { libroOriginal.getVentasSemanales() } returns 50000
+                every { libroActualizado.getVentasSemanales() } returns 100000
+                every { libroOriginal == libroActualizado } returns true
+                every { libroActualizado == libroOriginal } returns true
+
+                repository.create(libroOriginal)
+                repository.update(libroActualizado)
+
+                val libroEnRepositorio = repository.getById(0)
+                libroEnRepositorio shouldBe libroActualizado
+                libroEnRepositorio?.getVentasSemanales() shouldBe 100000
+            }
+        }
+
+        describe("getById") {
+            it("retrieves correct object from repository") {
+                repository.create(libro)
+                repository.getById(0) shouldBe libro
+            }
+        }
+
+        describe("search, la logica es identica es el resto de los repositorios.") {
+            it("Retorna true si hay un match parcial o exacto en el nombre o apellido del autor.") {
+                val libroMatch = mockk<Libro>()
+                val libroNoMatch = mockk<Libro>()
+                val autorMatch = mockk<Autor>()
+                val autorNoMatch = mockk<Autor>()
+                val repositorySearch = RepositorioLibros()
+
+                every { autorMatch.getApellido() } returns "Pipo"
+                every { autorNoMatch.getApellido() } returns "Opip"
+                every { libroMatch.getNombre() } returns "Es un libro de Prueba"
+                every { libroMatch.autor } returns autorMatch
+                every { libroNoMatch.getNombre() } returns "No Debe Haber Match"
+                every { libroNoMatch.autor } returns autorNoMatch
+
+
+                repositorySearch.create(libroMatch)
+                repositorySearch.create(libroNoMatch)
+
+                println(repositorySearch.dataMap)
+
+                val results = repositorySearch.search("Es un libro de Prueba")
+
+                println("Results: $results")
+                results.contains(libroMatch) shouldBe true
+                results.contains(libroNoMatch) shouldBe false
+            }
         }
     }
 })
