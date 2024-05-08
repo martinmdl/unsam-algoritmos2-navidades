@@ -277,9 +277,9 @@ class Biblioteca(
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP + this.gastoFijo.sum()
 
         if (this.conjuntoDeEncuentros.size > CANTIDAD_MINIMA_ENCUEUNTROS) {
-            return costoFijo + (this.gastoFijo.sum() * ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS)
+            return costoFijo + ((this.gastoFijo.sum() * ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS)/ maximaCapacidadPorEncuentro())
         }
-        return costoFijo + (this.gastoFijo.sum() * ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS * this.gastoFijo.size)
+        return costoFijo + ((this.gastoFijo.sum() * this.conjuntoDeEncuentros.size * ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS * this.gastoFijo.size)/ maximaCapacidadPorEncuentro())
     }
 }
 
