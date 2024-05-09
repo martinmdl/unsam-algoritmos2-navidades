@@ -28,7 +28,7 @@ class Encuentro(
 
     /*METODOS*/
 
-    fun reservaDisponible(): Boolean = this.disponibilidad() && !this.vencido()
+    fun validacionReserva(): Boolean = this.disponibilidad() && !this.vencido()
 
     fun disponibilidad(): Boolean = this.disponible > 0
 

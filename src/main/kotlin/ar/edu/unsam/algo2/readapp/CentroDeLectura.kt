@@ -27,9 +27,7 @@ abstract class CentroDeLectura(
     }
 
     /*SETTERS*/
-    fun setLibroAsignadoALeer(libroNuevo: Libro) {
-        this.libroAsignadoALeer = libroNuevo
-    }
+    fun setLibroAsignadoALeer(libroNuevo: Libro) = apply { this.libroAsignadoALeer = libroNuevo}
 
     fun setCostoDeReserva(costoNuevo: Double) {
         this.costoDeReserva = costoNuevo
@@ -47,7 +45,7 @@ abstract class CentroDeLectura(
      *  En esta funcion ejecuta una reserva siempre y cuando exista cupo en el encuentro y su fecha no está vencida.
      */
     fun reserva(encuentro: Encuentro): Double {
-        if (encuentro.reservaDisponible()) {
+        if (encuentro.validacionReserva()) {
             encuentro.reservarCupo()
             return this.costo(encuentro)
         } else {
@@ -151,7 +149,7 @@ class Particular(
         val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP
         val porcentajeDisponible = (encuentro.disponible() * PORCENTAJE) / this.maximaCapacidadPorEncuentro()
         val porcentajeOcupado = PORCENTAJE - porcentajeDisponible
-        if (porcentajeOcupado > this.porcentajeMinimo) {
+        if (porcentajeOcupado >= this.porcentajeMinimo) {
             return costoFijo + ADICION_RESERVA_POR_ESPACIO
         }
         return costoFijo
@@ -274,14 +272,13 @@ class Biblioteca(
      *  Costo definido para la clase [Biblioteca], existe una lista de gastos, [gastoFijo] a los cuales se adiciona
      */
     override fun costo(encuentro: Encuentro): Double {
-        val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP + this.gastoFijo.sum()
+        val costoFijo = this.costoDeReserva + COSTO_DIVULGACION_APP
 
         if (this.conjuntoDeEncuentros.size > CANTIDAD_MINIMA_ENCUEUNTROS) {
-            return costoFijo + ((this.gastoFijo.sum() * ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS)/ maximaCapacidadPorEncuentro())
+            return costoFijo + ((this.gastoFijo.sum() + this.gastoFijo.sum() * ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS)/ maximaCapacidadPorEncuentro())
         }
-        return costoFijo + ((this.gastoFijo.sum() * this.conjuntoDeEncuentros.size * ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS * this.gastoFijo.size)/ maximaCapacidadPorEncuentro())
+        return costoFijo + ((this.gastoFijo.sum() + this.gastoFijo.sum() * this.conjuntoDeEncuentros.size * ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS) / maximaCapacidadPorEncuentro())
     }
 }
-
 
 class SinCupo(message: String) : Exception(message)
