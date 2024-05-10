@@ -244,9 +244,6 @@ class Biblioteca(
         const val ADICION_PORCENTUAL_MAS_DE_5_ENCUENTROS = 0.5
         const val ADICION_PORCENTUAL_MENOS_DE_5_ENCUENTROS = 0.1
     }
-    /*GETTERS*/
-    fun getGastoFijo(): MutableList<Double> = gastoFijo
-
     /*METODOS*/
     /**
      *[agregarGasto]:

@@ -1,21 +1,37 @@
 package ar.edu.unsam.algo2.readapp
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
 /*Test Unitario*/
 class CentroDeLecturaSpec : DescribeSpec({
     isolationMode = IsolationMode.InstancePerLeaf
-
+    //Funciones auxiliares
     fun crearEncuentroNoVencido(cantidadDeEncuentro: Int, centroAVincular: CentroDeLectura) {
         for (i in 1..cantidadDeEncuentro) {
             val encuentro = Encuentro(LocalDate.now().plusDays(i.toLong()), i, centroAVincular)
             centroAVincular.agregarEncuentro(encuentro)
         }
     }
+    fun crearEncuentroVencido(cantidadDeEncuentro: Int, centroAVincular: CentroDeLectura) {
+        for (i in 1..cantidadDeEncuentro) {
+            val encuentro = Encuentro(LocalDate.now().minusDays(i.toLong()), i, centroAVincular)
+            centroAVincular.agregarEncuentro(encuentro)
+        }
+    }
 
+    fun reservarEncuentroAll(cantidadDeReservas: Int,centro: CentroDeLectura){
+        repeat(cantidadDeReservas){
+            for (encuentro in centro.getConjuntoDeEncuentros()){
+                centro.reserva(encuentro)
+            }
+        }
+    }
+    //Builders
     class AutorBuilder {
         private var nombre: String = ""
         private var apellido: String = ""
@@ -90,7 +106,6 @@ class CentroDeLecturaSpec : DescribeSpec({
                 capacidadMaximaFijada = 40,
                 porcentajeMinimo = 5.0
             )
-
             crearEncuentroNoVencido(3, particular)
 
             it("Maxima capacidad de personas por encuentro") {
@@ -191,15 +206,82 @@ class CentroDeLecturaSpec : DescribeSpec({
                 capacidadMaximaFijada = 40,
                 porcentajeMinimo = 5.0)
 
+            it("Se cambia el libro asignado para un encuentro") {
+                //Arrange
+                crearEncuentroNoVencido(3, particularGeneral)
+                val libroALeer = LibroBuilder().nombre("El Principito").build()
+                //Act
+                particularGeneral.setLibroAsignadoALeer(libroALeer)
+                //Assert
+                particularGeneral.getLibroAsignadoALeer() shouldBe libroALeer
 
-            it("Se intenta reservar un cupo exitosamente.") {
-                true shouldBe true
+            }
+
+            it("Se cambia el costo de la reserva") {
+                //Arrange
+                crearEncuentroNoVencido(3, particularGeneral)
+                //Act
+                particularGeneral.setCostoDeReserva(3000.0)
+                //Assert
+                particularGeneral.getCostoDeReserva() shouldBe 3000
+
+            }
+            it("Se intenta reservar un cupo exitosamente, la cantidad de encuentros disponibles es igual a 39") {
+                //Arrange
+                crearEncuentroNoVencido(3, particularGeneral)
+                //Act
+                particularGeneral.reserva(particularGeneral.getConjuntoDeEncuentros().first())
+                //Assert
+                particularGeneral.getConjuntoDeEncuentros().first().disponible() shouldBe 39
+
             }
 
             it("Se intenta reservar un cupo en un encuentro cuya fecha esta vencida") {
-                true shouldBe true
+                //Arrange
+                crearEncuentroVencido(3, particularGeneral)
+                //Assert
+                shouldThrow<SinCupo> { particularGeneral.reserva(particularGeneral.getConjuntoDeEncuentros().first()) }
             }
 
+            it("Se verifican si todas los encuentros estan vencidos.") {
+                //Arrange
+                crearEncuentroVencido(3, particularGeneral)
+                //Assert
+                particularGeneral.vencimento() shouldBeEqual true
+            }
+
+            it("Se verifican si todas los encuentros estan vencidos.") {
+                //Arrange
+                crearEncuentroVencido(3, particularGeneral)
+                //Assert
+                particularGeneral.vencimento() shouldBeEqual true
+            }
+
+            it("Los encuentros no estan vencidos y pero no hay cupo disponibles.") {
+                //Arrange
+                crearEncuentroNoVencido(3, particularGeneral)
+                //Act
+                reservarEncuentroAll(40, particularGeneral)
+                //Assert
+                shouldThrow<SinCupo> { particularGeneral.reserva(particularGeneral.getConjuntoDeEncuentros().first()) }
+            }
+
+            it("No hay cupos disponibles.") {
+                //Arrange
+                crearEncuentroNoVencido(3, particularGeneral)
+                //Act
+                reservarEncuentroAll(40, particularGeneral)
+                //Assert
+                particularGeneral.capacidadMaximaAlcanzada() shouldBe true
+            }
+            it("Se quitan purga un encuentro de la 'collection' de encuentros.") {
+                //Arrange
+                crearEncuentroNoVencido(3, particularGeneral)
+                //Act
+                particularGeneral.eliminarEncuentro(particularGeneral.getConjuntoDeEncuentros().first())
+                //Assert
+                particularGeneral.getConjuntoDeEncuentros().size shouldBe 2
+            }
         }
 
     }
