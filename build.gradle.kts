@@ -17,6 +17,7 @@ val kotestVersion = "5.8.0"
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation ("com.google.code.gson:gson:2.10.1")
     testImplementation("io.mockk:mockk:${mockkVersion}")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")

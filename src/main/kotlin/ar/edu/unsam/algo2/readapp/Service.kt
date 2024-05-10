@@ -2,24 +2,19 @@
 
 package ar.edu.unsam.algo2.readapp
 
-interface ServiceLibros {
-    fun getLibros(repositorioLibros: RepositorioLibros): MutableList<Map<String, Int>>
+import com.google.gson.Gson
+
+
+
+interface Service {
+    fun getLibros(repositorioLibros: RepositorioLibros): String
 }
 
-class Service: ServiceLibros {
-    override fun getLibros(repositorioLibros: RepositorioLibros): MutableList<Map<String, Int>> {
-        val getIDFromRepository = repositorioLibros.dataMap.keys.toList()
-        val getValuesFromRepository = repositorioLibros.dataMap.values.toList()
-        val json: MutableList<Map<String, Int>> = mutableListOf()
-        for (i in getIDFromRepository.indices) {
-            val libro = getValuesFromRepository[i]
-            val parseJSON = mapOf(
-                "id" to getIDFromRepository[i],
-                "ediciones" to libro.getEdiciones(),
-                "ventasSemanales" to libro.getVentasSemanales()
-            )
-            json.add(parseJSON)
-        }
-        return json
+class ServiceLibro: Service {
+    private val gson = Gson()
+    override fun getLibros(repositorioLibros: RepositorioLibros): String {
+        val jsonMap: MutableList<Map<String, Int>> = ApiFakeLibro.callApi(repositorioLibros)
+        return gson.toJson(jsonMap)
     }
 }
+
