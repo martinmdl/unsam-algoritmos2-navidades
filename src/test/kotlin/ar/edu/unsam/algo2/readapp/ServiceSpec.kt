@@ -69,7 +69,7 @@ class ServiceSpec: DescribeSpec({
         }
 
     }
-/*
+
     describe("Funcionamiento service"){
         it("lista de libros"){
             //Assert
@@ -81,9 +81,9 @@ class ServiceSpec: DescribeSpec({
             repo.delete(libroDesafiante2) // [0,2]
             repo.create(libroDesafiante2) // [0,1,2]
             val jsonAImprimir = servicioNuevo.getLibros(repo)
-            println(jsonAImprimir)
+            jsonAImprimir shouldBe "esto es un json de prueba"
         }
-    }*/
+    }
 })
 
 class RepositoryTest : DescribeSpec({
@@ -162,12 +162,9 @@ class RepositoryTest : DescribeSpec({
         }
     }
 })
-/*
+
 fun stubRepository(): Service {
     val service = mockk<Service>(relaxUnitFun = true)
-    every { service.getLibros(any()) } returns mutableListOf(
-        mapOf("id" to 0,"ediciones" to 1, "ventasSemanales" to 1),
-        mapOf("id" to 1,"ediciones" to 2, "ventasSemanales" to 2),
-        mapOf("id" to 2,"ediciones" to 3, "ventasSemanales" to 3))
+    every { service.getLibros(any()) } returns "esto es un json de prueba"
     return service
-}*/
+}
