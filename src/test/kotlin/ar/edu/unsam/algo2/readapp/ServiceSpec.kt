@@ -71,7 +71,7 @@ class ServiceSpec: DescribeSpec({
     }
 
     describe("Funcionamiento service"){
-        it("lista de libros"){
+        it("lista de libros en formato json String"){
             //Assert
             val servicioNuevo = stubRepository()
             //Act
@@ -82,6 +82,22 @@ class ServiceSpec: DescribeSpec({
             repo.create(libroDesafiante2) // [0,1,2]
             val jsonAImprimir = servicioNuevo.getLibros(repo)
             jsonAImprimir shouldBe "esto es un json de prueba"
+        }
+        it("retorana un objeto librosActualizados"){
+            //Arrange
+            val servicio = stubRepositoryLibroActualizado()
+            //Act
+            val jsonAImprimir = servicio.getObjectLibros(repo)
+            //Assert
+            jsonAImprimir shouldBe LibrosActualizados(
+                listOf(
+                    LibroActualizado(0, 0, 0),
+                    LibroActualizado(1, 0, 0),
+                    LibroActualizado(2, 0, 0)
+                )
+            )
+
+
         }
     }
 })
@@ -166,5 +182,19 @@ class RepositoryTest : DescribeSpec({
 fun stubRepository(): Service {
     val service = mockk<Service>(relaxUnitFun = true)
     every { service.getLibros(any()) } returns "esto es un json de prueba"
+    return service
+}
+
+fun stubRepositoryLibroActualizado(): ServiceLibro {
+    val service = mockk<ServiceLibro>(relaxUnitFun = true)
+    every { service.getObjectLibros(any()) } answers {
+        LibrosActualizados(
+            listOf(
+                LibroActualizado(0, 0, 0),
+                LibroActualizado(1, 0, 0),
+                LibroActualizado(2, 0, 0)
+            )
+        )
+    }
     return service
 }
