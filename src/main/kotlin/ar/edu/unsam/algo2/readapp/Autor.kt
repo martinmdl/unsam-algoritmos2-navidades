@@ -7,6 +7,7 @@ import java.time.*
 import java.time.temporal.ChronoUnit
 
 class Autor(
+    override var id: Int? = null,
     private var nombre: String,
     private var apellido: String,
     private var seudonimo: String,
@@ -14,7 +15,7 @@ class Autor(
     var librosEscritos: MutableSet<Libro> = mutableSetOf(),
     val lenguaNativa: Lenguaje,
     private val premios: Int
-) {
+): Identidad {
     /*GETTERS*/
     fun getNombre() = nombre
     fun getApellido() = apellido

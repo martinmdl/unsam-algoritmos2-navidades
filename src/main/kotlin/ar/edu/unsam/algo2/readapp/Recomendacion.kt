@@ -5,7 +5,7 @@ package ar.edu.unsam.algo2.readapp
 /*
  * Los usuarios del sistema pueden crear recomendaciones de una serie de libros para publicar en ReadApp.
  * Estas recomendaciones pueden ser públicas (disponibles para cualquier usuario de la app) o privadas (solo para los amigos).
- * Las recomendaciones, sólo pueden ser editadas por el usuario creador, o por un amigo, si es que este último leyó todos los libros recomendados.
+ * Las recomendaciones, solo pueden ser editadas por el usuario creador, o por un amigo, si es que este último leyó todos los libros recomendados.
  * El creador no puede agregar libros que no haya leído, y en el caso de que un amigo edite una recomendación, no puede agregar un libro que no haya leído él y el creador.
 En todos los casos se debe emitir una reseña o detalle, necesaria/o para cautivar a otros usuarios.
  * Debemos poder determinar el tiempo de lectura que puede llevarle a un usuario leer todos los libros recomendados, el tiempo que se puede ahorrar (si ya leyó alguno/s) y el tiempo neto (si al leer los libros de la recomendación evita la relectura).
@@ -15,7 +15,7 @@ Por otro lado, los usuarios que no sean el creador podrán dejarle una valoraci�
 /**
  * Recomendaciones.
  *
- * @property esPrivado Indica si la recomendacion es de acceso publico o privado
+ * @property esPrivado Indica si la recomendacion es de acceso público o privado
  * @property creador Indica el nombre del autor de la recomendacion
  * @property librosRecomendados Conjunto de libros incluidos en la recomendacion
  * @property descripcion Indica una pequeña reseña de la recomendacion
@@ -23,19 +23,20 @@ Por otro lado, los usuarios que no sean el creador podrán dejarle una valoraci�
  */
 
 class Recomendacion(
+    override var id: Int? = null,
     var esPrivado: Boolean,
     val creador: Usuario,
     var librosRecomendados: MutableSet<Libro>,
     var descripcion: String,
     var valoraciones: MutableMap<Usuario, Valoracion>
-) {
+) : Identidad {
 
 
     /*SETTERS*/
     /**
      *[editarPrivacidad]:
      *
-     *  Solo el [creador] puede cambiar la privacidad ([esPrivado]).
+     *  Solo él [creador] puede cambiar la privacidad ([esPrivado]).
      */
     fun editarPrivacidad(usuarioQueEdita: Usuario) {
         if (esCreador(usuarioQueEdita)) {
@@ -47,7 +48,7 @@ class Recomendacion(
     /**
      * [editarDescripcion]:
      *
-     * Solo el [creador] y el amigo, pueden editar la [descripcion].
+     * Solo él [creador] y el amigo, pueden editarla [descripcion].
      */
     fun editarDescripcion(usuarioQueEdita: Usuario, descripcionNueva: String) {
         if (esCreador(usuarioQueEdita) || esAmigo(usuarioQueEdita)) {
@@ -59,9 +60,9 @@ class Recomendacion(
     /**
      * [agregarALibrosDeRecomendacion]:
      *
-     * Agregar un [libro] por el [creador] solo si lo leyo.
+     * Agregar un [libro] por él [creador] solo si lo leyo.
      *
-     * Agregar un [Libro] por un amigo solo si leyo el libro el y el [creador] y leyo todos los libros de la recomendacion.
+     * Agregar un [Libro] por un amigo solo si leyo el libro y él [creador] y leyo todos los libros de la recomendacion.
      */
     fun agregarALibrosDeRecomendacion(usuarioQueEdita: Usuario, libro: Libro) {
         if (validarEdicion(usuarioQueEdita, libro)) {

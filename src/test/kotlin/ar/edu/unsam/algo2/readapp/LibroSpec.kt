@@ -10,6 +10,7 @@ class LibroSpec : DescribeSpec({
     describe("Test de libro") {
         //Arrange
         val autor1 = Autor(
+            id= null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
@@ -18,6 +19,7 @@ class LibroSpec : DescribeSpec({
         it("El libro es desafiante") {
             //Arrange
             val harryPotter = Libro(
+                id= null,
                 "HarryPotter",
                 "Salamandra",
                 800,
@@ -35,6 +37,7 @@ class LibroSpec : DescribeSpec({
         it("El libro es BestSeller") {
             //Arrange
             val skander = Libro(
+                id= null,
                 "Skander",
                 "Salamandra",
                 300,
@@ -52,6 +55,7 @@ class LibroSpec : DescribeSpec({
         it("El libro no es BestSeller") {
             //Arrange
             val jojos = Libro(
+                id= null,
                 "jojos",
                 "Salamandra",
                 300,

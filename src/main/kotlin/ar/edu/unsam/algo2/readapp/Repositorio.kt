@@ -5,17 +5,17 @@ package ar.edu.unsam.algo2.readapp
 import java.util.SortedMap
 import java.util.SortedSet
 
-abstract class Repository<T> {
+abstract class Repository<T : Identidad> {
     private var currentId: Int = 0
-    private val setRemoveId: SortedSet<Int> = sortedSetOf()
     val dataMap: SortedMap<Int, T> = sortedMapOf()
 
     fun create(obj: T) {
-        if (setRemoveId.isEmpty()) {
+        if (obj.id == null) {
             dataMap[currentId] = obj
+            obj.id = currentId
             currentId++
         } else {
-            dataMap[setRemoveId.first()] = obj
+            throw Businessexception("$obj ya creado")
         }
     }
 
@@ -33,43 +33,35 @@ abstract class Repository<T> {
     fun getById(id: Int) = dataMap[id]
 
     abstract fun search(regex: String): List<T>
-
-    /*AUX*/
-    /** [checkExistance]
-     * Verifica la existencia de un [T] en la coleccion [dataMap]
-     *  @param  obj que es un [T]
-     *  @return 'true' si existe o 'false' si no.
-     */
-    private fun checkExistance(obj: T): Boolean = dataMap.filterValues { it == obj }.isNotEmpty()
-
-    /** [getIndex]
-     * Devuelve el índice de [T]
-     * @param  obj de tipo [T]
-     * @return [Int]
-     */
-    private fun getIndex(obj: T): Int = dataMap.entries.find { it.value == obj }!!.key
-
 }
 
 class RepositorioLibros : Repository<Libro>() {
-    override fun search(regex: String): List<Libro> {
-        val nombrePartialMatch: List<Libro> =
-            dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = true) }
-        val apellidoPartialMatch: List<Libro> =
-            dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = true) }
-        return nombrePartialMatch + apellidoPartialMatch
-    }
+
+    override fun search(regex: String): List<Libro> =
+        matchNombrePartial(regex) + matchApellidoPartial(regex)
+
+    /*AUX*/
+    private fun matchNombrePartial(regex: String): List<Libro> =
+        dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = true) }
+
+    private fun matchApellidoPartial(regex: String): List<Libro> =
+        dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = true) }
 }
 
 class RepositorioUsuario : Repository<Usuario>() {
-    override fun search(regex: String): List<Usuario> {
-        val nombrePartialMatch: List<Usuario> =
-            dataMap.values.filter { it.nombre.contains(regex, ignoreCase = true) }
-        val apellidoPartialMatch: List<Usuario> =
-            dataMap.values.filter { it.apellido.contains(regex, ignoreCase = true) }
-        val userNameExactMatch: List<Usuario> = dataMap.values.filter { it.username == regex }
-        return (nombrePartialMatch + apellidoPartialMatch + userNameExactMatch).distinct()
-    }
+
+    override fun search(regex: String): List<Usuario> =
+        (matchNombrePartial(regex) + matchApellidoParcial(regex) + matchUserNameCompleto(regex)).distinct()
+
+    /*AUX*/
+    private fun matchNombrePartial(regex: String): List<Usuario> =
+        dataMap.values.filter { it.nombre.contains(regex, ignoreCase = true) }
+
+    private fun matchApellidoParcial(regex: String): List<Usuario> =
+        dataMap.values.filter { it.apellido.contains(regex, ignoreCase = true) }
+
+    private fun matchUserNameCompleto(regex: String): List<Usuario> =
+        dataMap.values.filter { it.username == regex }
 }
 
 class RepositorioAutores : Repository<Autor>() {
@@ -104,9 +96,12 @@ class RepositorioRecomendaciones : Repository<Recomendacion>() {
 }
 
 class RepositorioCentroDeLectura : Repository<CentroDeLectura>() {
-    override fun search(regex: String): List<CentroDeLectura> {
-        val libroExactMatch: List<CentroDeLectura> =
-            dataMap.values.filter { it.getLibroAsignadoALeer().getNombre() == regex }
-        return libroExactMatch.distinct()
-    }
+
+    override fun search(regex: String): List<CentroDeLectura> = libroExactMatch(regex).distinct()
+
+    /*AUX*/
+    private fun libroExactMatch(regex: String): List<CentroDeLectura> =
+        dataMap.values.filter { it.getLibroAsignadoALeer().getNombre() == regex }
 }
+
+class Businessexception(message: String) : Exception(message)

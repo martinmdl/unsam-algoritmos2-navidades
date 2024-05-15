@@ -33,6 +33,7 @@ class CentroDeLecturaSpec : DescribeSpec({
     }
     //Builders
     class AutorBuilder {
+        private var id : Int? = null
         private var nombre: String = ""
         private var apellido: String = ""
         private var seudonimo: String = ""
@@ -41,6 +42,7 @@ class CentroDeLecturaSpec : DescribeSpec({
         private var lenguaNativa: Lenguaje = Lenguaje.es_ES
         private var premios: Int = 0
 
+        fun id(id: Int) = apply { this.id = id }
         fun nombre(nombre: String) = apply { this.nombre = nombre }
         fun apellido(apellido: String) = apply { this.apellido = apellido }
         fun seudonimo(seudonimo: String) = apply { this.seudonimo = seudonimo }
@@ -50,6 +52,7 @@ class CentroDeLecturaSpec : DescribeSpec({
         fun premios(premios: Int) = apply { this.premios = premios }
 
         fun build() = Autor(
+            id,
             nombre,
             apellido,
             seudonimo,
@@ -60,6 +63,7 @@ class CentroDeLecturaSpec : DescribeSpec({
     }
 
     class LibroBuilder {
+        private var id : Int? = null
         private var nombre: String = ""
         private var editorial: String = ""
         private var paginas: Int = 0
@@ -70,6 +74,7 @@ class CentroDeLecturaSpec : DescribeSpec({
         private var ventasSemanales: Int = 0
         private var autor: Autor = AutorBuilder().build()
 
+        fun id(id: Int) = apply { this.id = id }
         fun nombre(nombre: String) = apply { this.nombre = nombre }
         fun editorial(editorial: String) = apply { this.editorial = editorial }
         fun paginas(paginas: Int) = apply { this.paginas = paginas }
@@ -81,6 +86,7 @@ class CentroDeLecturaSpec : DescribeSpec({
         fun autor(autor: Autor) = apply { this.autor = autor }
 
         fun build() = Libro(
+            id,
             nombre,
             editorial,
             paginas,

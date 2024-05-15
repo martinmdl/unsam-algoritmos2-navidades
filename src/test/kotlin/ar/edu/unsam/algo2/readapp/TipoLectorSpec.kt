@@ -10,16 +10,19 @@ class TipoLectorSpec : DescribeSpec({
     describe("Test de tiempos de lectura") {
 
         val autorConsagrado = Autor(
+            id= null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
         )
         val autorNoConsagrado = Autor(
+            id= null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0
         )
         val usuario = Usuario(
+            id= null,
             nombre = "Diego",
             apellido = "Alegre",
             username = "pipo",
@@ -31,6 +34,7 @@ class TipoLectorSpec : DescribeSpec({
         )
 
         val libroDesafiante = Libro(
+            id= null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -43,6 +47,7 @@ class TipoLectorSpec : DescribeSpec({
         )
 
         val libroNoDesafiante = Libro(
+            id= null,
             "HarryPotter",
             "Salamandra",
             300,
@@ -55,6 +60,7 @@ class TipoLectorSpec : DescribeSpec({
         )
 
         val libroBestSeller = Libro(
+            id= null,
             "Skander",
             "Salamandra",
             300,
@@ -67,6 +73,7 @@ class TipoLectorSpec : DescribeSpec({
         )
 
         val libroNotBestSeller = Libro(
+            id= null,
             "jojos",
             "Salamandra",
             300,

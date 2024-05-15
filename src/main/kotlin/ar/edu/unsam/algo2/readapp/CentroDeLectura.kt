@@ -15,6 +15,7 @@ import java.time.LocalDate
  */
 
 abstract class CentroDeLectura(
+    override var id: Int? = null,
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,

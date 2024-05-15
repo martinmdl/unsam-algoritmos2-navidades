@@ -7,7 +7,7 @@ package ar.edu.unsam.algo2.readapp
  *
  * @property nombre Indica el nombre del libro
  * @property editorial Indica el nombre de la editorial del libro
- * @property paginas Indica la cantidad de paginas del libro
+ * @property paginas Índica la cantidad de páginas del libro
  * @property cantPalabras Indica la cantidad de palabras del libro
  * @property lecturaCompleja Indica si el libro es complejo
  * @property ediciones Indica la cantidad de ediciones que tiene el libro
@@ -16,6 +16,7 @@ package ar.edu.unsam.algo2.readapp
  */
 
 class Libro(
+    override var id: Int? = null,
     private val nombre: String,
     private val editorial: String,
     val paginas: Int, //necesario en: 'TipoLector.kt/LectorFanatico'
@@ -25,7 +26,7 @@ class Libro(
     var idioma: Set<Lenguaje>,
     private var ventasSemanales: Int,
     val autor: Autor
-) {
+): Identidad {
 
     companion object {
         private const val MINIMO_DE_VENTAS_SEMANALES: Int = 10000

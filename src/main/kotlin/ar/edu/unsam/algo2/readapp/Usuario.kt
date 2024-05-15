@@ -6,6 +6,7 @@ import java.time.*
 import java.time.temporal.ChronoUnit
 
 class Usuario(
+    override var id: Int?= null,
     var nombre: String,
     val apellido: String,
     val username: String,
@@ -18,7 +19,7 @@ class Usuario(
     val recomendacionesPorValorar: MutableSet<Recomendacion> = mutableSetOf(),
     val librosPorLeer: MutableSet<Libro> = mutableSetOf(),
     val lenguaNativa: Lenguaje
-) {
+) : Identidad {
 
 // ##TIPO_LECTOR##
     var tipoLector: TipoLector = LectorPromedio(this)

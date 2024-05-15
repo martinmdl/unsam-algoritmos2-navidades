@@ -29,3 +29,4 @@ class ServiceLibro: Service {
 data class LibroActualizado(val id: Int, val ediciones: Int, val ventasSemanales: Int)
 
 data class LibrosActualizados(val libros: List<LibroActualizado>)
+

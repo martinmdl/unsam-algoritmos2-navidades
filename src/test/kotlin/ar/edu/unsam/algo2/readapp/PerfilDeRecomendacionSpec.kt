@@ -13,11 +13,13 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
 
         // ARRANGE
         val autorConsagrado = Autor(
+            id= null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.ja_JP, 2
         )
         val autorNoConsagrado = Autor(
+            id= null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0
@@ -57,6 +59,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val libroDesafiante = Libro(
+            id= null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -69,6 +72,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val libroTestDesafiante = Libro(
+            id= null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -81,6 +85,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val libroNoDesafiante = Libro(
+            id= null,
             "HarryPotter",
             "Salamandra",
             300,
@@ -93,6 +98,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val libroTestNoDesafiante = Libro(
+            id= null,
             "Tiger",
             "Salamandra",
             300,
@@ -104,6 +110,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
             autorConsagrado
         )
         val libroTesteado = Libro(
+            id= null,
             "HarryPotter",
             "Salamandra",
             300,
@@ -116,6 +123,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val recomendacion1 = Recomendacion(
+            id= null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroDesafiante, libroNoDesafiante),
@@ -124,6 +132,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val recomendacion2 = Recomendacion(
+            id= null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroNoDesafiante, libroTestNoDesafiante),
@@ -132,6 +141,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val recomendacion3 = Recomendacion(
+            id= null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroTestDesafiante, libroDesafiante),
@@ -140,6 +150,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val recomendacion4 = Recomendacion(
+            id= null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroTestDesafiante, libroDesafiante),
@@ -148,6 +159,7 @@ class PerfilDeRecomendacionSpec : DescribeSpec({
         )
 
         val recomendacion5 = Recomendacion(
+            id= null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroTesteado),
