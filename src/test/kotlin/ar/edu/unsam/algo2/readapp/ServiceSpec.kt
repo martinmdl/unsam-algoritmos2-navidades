@@ -13,9 +13,8 @@ class ServiceSpec: DescribeSpec({
 
     isolationMode = IsolationMode.InstancePerLeaf
 
-    //Arrange
     val autorPipoConsagrado =
-        Autor("pipo", "Alegre", "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
+        Autor(null, "pipo", "Alegre", "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
 
     val libroDesafiante = Libro(
         id = null,
@@ -31,6 +30,7 @@ class ServiceSpec: DescribeSpec({
     )
 
     val libroDesafiante2 = Libro(
+        id = null,
         "HarryPotter2",
         "Salamandra",
         800,
@@ -43,6 +43,7 @@ class ServiceSpec: DescribeSpec({
     )
 
     val libroDesafiante3 = Libro(
+        id = null,
         "HarryPotter3",
         "Salamandra",
         800,
@@ -58,32 +59,24 @@ class ServiceSpec: DescribeSpec({
 
     describe("Funcionamiento service"){
         it("lista de libros en formato json String"){
-            //Assert
+
             val servicioNuevo = stubRepository()
-            //Act
-            repo.create(libroDesafiante) // [0]
-            repo.create(libroDesafiante2) // [0,1]
-            repo.create(libroDesafiante3) // [0,1,2]
-            repo.delete(libroDesafiante2) // [0,2]
-            repo.create(libroDesafiante2) // [0,1,2]
+
+            repo.create(libroDesafiante)  // [0]
             val jsonAImprimir = servicioNuevo.getLibros(repo)
             jsonAImprimir shouldBe "esto es un json de prueba"
         }
-        it("retorana un objeto librosActualizados"){
-            //Arrange
+        it("retornara un objeto librosActualizados"){
             val servicio = stubRepositoryLibroActualizado()
-            //Act
             val jsonAImprimir = servicio.getObjectLibros(repo)
-            //Assert
             jsonAImprimir shouldBe LibrosActualizados(
                 listOf(
-                    LibroActualizado(0, 0, 0),
-                    LibroActualizado(1, 0, 0),
-                    LibroActualizado(2, 0, 0)
+                    LibroActualizado(5, 6, 15000),
+                    LibroActualizado(12, 1, 1000),
+                    LibroActualizado(15, 3, 11000),
+                    LibroActualizado(2, 2, 2000)
                 )
             )
-
-
         }
     }
 })
@@ -99,9 +92,10 @@ fun stubRepositoryLibroActualizado(): ServiceLibro {
     every { service.getObjectLibros(any()) } answers {
         LibrosActualizados(
             listOf(
-                LibroActualizado(0, 0, 0),
-                LibroActualizado(1, 0, 0),
-                LibroActualizado(2, 0, 0)
+                LibroActualizado(5, 6, 15000),
+                LibroActualizado(12, 1, 1000),
+                LibroActualizado(15, 3, 11000),
+                LibroActualizado(2, 2, 2000)
             )
         )
     }

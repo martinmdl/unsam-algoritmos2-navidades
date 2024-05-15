@@ -11,6 +11,7 @@ class ValoracionSpec : DescribeSpec({
         //Arrange
         /*Autor*/
         val autor1 = Autor(
+            id = null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
@@ -18,6 +19,7 @@ class ValoracionSpec : DescribeSpec({
 
         /*Libro*/
         val harryPotter = Libro(
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -30,6 +32,7 @@ class ValoracionSpec : DescribeSpec({
         )
 
         val harryPotter2 = Libro(
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -66,6 +69,7 @@ class ValoracionSpec : DescribeSpec({
         )
 
         val recomendacion1 = Recomendacion(
+            id = null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(harryPotter),

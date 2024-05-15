@@ -21,7 +21,7 @@ abstract class CentroDeLectura(
     private var libroAsignadoALeer: Libro,
     private var costoDeReserva: Double,
     private val conjuntoDeEncuentros: MutableSet<Encuentro>
-) {
+) : Identidad {
 
     companion object {
         const val COSTO_DIVULGACION_APP = 1000
@@ -116,6 +116,7 @@ abstract class CentroDeLectura(
  * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [capacidadMaximaFijada]
  */
 class Particular(
+    override var id: Int? = null,
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
@@ -123,7 +124,7 @@ class Particular(
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val capacidadMaximaFijada: Int,
     private val porcentajeMinimo: Double
-) : CentroDeLectura(nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
+) : CentroDeLectura(id, nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
 
     companion object {
         const val ADICION_RESERVA_POR_ESPACIO = 500
@@ -170,6 +171,7 @@ class Particular(
  * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [montoEspecificoAlcanzar]
  */
 class Editorial(
+    override var id: Int? = null,
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
@@ -177,7 +179,7 @@ class Editorial(
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val montoEspecificoAlcanzar: Int,
     private var autorPresente: Boolean
-) : CentroDeLectura(nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
+) : CentroDeLectura(id, nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
 
     companion object {
         const val ADICION_RESERVA_FIJO = 800
@@ -230,6 +232,7 @@ class Editorial(
  * @constructor Se crea un objeto que hereda de :[CentroDeLectura] con el agregado de [gastoFijo] y [metrosCuadradosSala].
  */
 class Biblioteca(
+    override var id: Int? = null,
     private val nombreDeCentroDeLectura: String,
     private val direccion: String,
     private var libroAsignadoALeer: Libro,
@@ -237,7 +240,7 @@ class Biblioteca(
     private val conjuntoDeEncuentros: MutableSet<Encuentro>,
     private val metrosCuadradosSala: Int,
     private val gastoFijo: MutableList<Double>,
-) : CentroDeLectura(nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
+) : CentroDeLectura(id, nombreDeCentroDeLectura, direccion, libroAsignadoALeer, costoDeReserva, conjuntoDeEncuentros) {
 
     companion object {
         const val METROS_CUADRADO_POR_PERSONA = 1

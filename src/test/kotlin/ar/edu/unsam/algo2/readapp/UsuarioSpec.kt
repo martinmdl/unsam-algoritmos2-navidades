@@ -12,12 +12,14 @@ class UsuarioSpec : DescribeSpec({
     describe("Tests de usuario") {
 
         val autorConsagrado = Autor(
+            id = null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
         )
 
         val autorNoConsagrado = Autor(
+            id = null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(2002, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0
@@ -46,6 +48,7 @@ class UsuarioSpec : DescribeSpec({
         )
 
         val libroDesafiante = Libro(
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -58,6 +61,7 @@ class UsuarioSpec : DescribeSpec({
         )
 
         val libroNoDesafiante = Libro(
+            id = null,
             "OnePiece",
             "ivrea",
             150,
@@ -69,6 +73,7 @@ class UsuarioSpec : DescribeSpec({
             autorConsagrado
         )
         val recomendacion1 = Recomendacion(
+            id = null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroDesafiante, libroNoDesafiante),
@@ -77,6 +82,7 @@ class UsuarioSpec : DescribeSpec({
         )
 
         val recomendacion2 = Recomendacion(
+            id = null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(libroNoDesafiante),

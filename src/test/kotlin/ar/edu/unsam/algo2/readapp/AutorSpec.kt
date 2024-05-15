@@ -8,6 +8,7 @@ import java.time.LocalDate
 class AutorSpec : DescribeSpec({
     describe("Testear autor"){
         val autorConsagrado = Autor(
+            id = null,
             "pipo",
             "Alegre",
             "yagoo",
@@ -17,6 +18,7 @@ class AutorSpec : DescribeSpec({
             2
         )
         val autorNoConsagrado1 = Autor(
+            id = null,
             "pipo",
             "Alegre",
             "yagoo",
@@ -26,6 +28,7 @@ class AutorSpec : DescribeSpec({
             0
         )
         val autorNoConsagrado2 = Autor(
+            id = null,
             "marto",
             "rodriguez",
             "marta",

@@ -5,7 +5,6 @@ package ar.edu.unsam.algo2.readapp
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-
 interface Service {
     fun getLibros(repositorioLibros: RepositorioLibros): String
 }

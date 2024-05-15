@@ -3,7 +3,6 @@
 package ar.edu.unsam.algo2.readapp
 
 import java.util.SortedMap
-import java.util.SortedSet
 
 abstract class Repository<T : Identidad> {
     private var currentId: Int = 0
@@ -20,17 +19,25 @@ abstract class Repository<T : Identidad> {
     }
 
     fun delete(obj: T) {
-        setRemoveId.add(getIndex(obj))
-        dataMap.remove(getIndex(obj))
-    }
-
-    fun update(obj: T) {
-        if (checkExistance(obj)) {
-            dataMap[getIndex(obj)] = obj
+        if (obj.id != null) {
+            dataMap.remove(obj.id)
+            obj.id = null
+        } else {
+            throw Businessexception("$obj no existe")
         }
     }
 
-    fun getById(id: Int) = dataMap[id]
+    fun update(obj: T) {
+        if (obj.id != null) {
+            dataMap[obj.id] = obj
+        } else {
+            throw Businessexception("$obj no existe")
+        }
+    }
+
+    fun getById(id: Int): T =
+        dataMap[id] ?: throw Businessexception("No existe un objeto con id $id")
+
 
     abstract fun search(regex: String): List<T>
 }
@@ -65,34 +72,37 @@ class RepositorioUsuario : Repository<Usuario>() {
 }
 
 class RepositorioAutores : Repository<Autor>() {
-    override fun search(regex: String): List<Autor> {
-        val nombrePartialMatch: List<Autor> =
-            dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = true) }
-        val apellidoPartialMatch: List<Autor> =
-            dataMap.values.filter { it.getApellido().contains(regex, ignoreCase = true) }
-        val userNameExactMatch: List<Autor> = dataMap.values.filter { it.getSeudonimo() == regex }
-        return (nombrePartialMatch + apellidoPartialMatch + userNameExactMatch).distinct()
-    }
+
+    override fun search(regex: String): List<Autor> =
+        (nombrePartialMatch(regex) + apellidoPartialMatch(regex) + userNameExactMatch(regex)).distinct()
+
+    /*AUX*/
+    private fun nombrePartialMatch(regex: String): List<Autor> =
+        dataMap.values.filter { it.getNombre().contains(regex, ignoreCase = true) }
+
+    private fun apellidoPartialMatch(regex: String): List<Autor> =
+        dataMap.values.filter { it.getApellido().contains(regex, ignoreCase = true) }
+
+    private fun userNameExactMatch(regex: String): List<Autor> =
+        dataMap.values.filter { it.getSeudonimo() == regex }
 }
 
 class RepositorioRecomendaciones : Repository<Recomendacion>() {
-    override fun search(regex: String): List<Recomendacion> {
-        val apellidoExactMatch: List<Recomendacion> = dataMap.values.filter { it.creador.apellido == regex }
 
-        val nombrePartialMatch: List<Recomendacion> = dataMap.values.filter { recomendacion ->
-            recomendacion.librosRecomendados.any {
-                it.getNombre().contains(regex, ignoreCase = true)
-            }
-        }
+    override fun search(regex: String): List<Recomendacion> =
+        (apellidoExactMatch(regex) + nombrePartialMatch(regex) + reseniaPartialMatch(regex)).distinct()
 
-        val reseniaPartialMatch: List<Recomendacion> = dataMap.values.filter { recomendacion ->
-            recomendacion.valoraciones.values.any {
-                it.comentario.contains(regex, ignoreCase = true)
-            }
-        }
+    /*AUX*/
+    private fun apellidoExactMatch(regex: String): List<Recomendacion> =
+        dataMap.values.filter { it.creador.apellido == regex }
 
-        return (apellidoExactMatch + nombrePartialMatch + reseniaPartialMatch).distinct()
-    }
+    private fun nombrePartialMatch(regex: String): List<Recomendacion> =
+        dataMap.values.filter { recomendacion ->
+            recomendacion.librosRecomendados.any { it.getNombre().contains(regex, ignoreCase = true) } }
+
+    private fun reseniaPartialMatch(regex: String): List<Recomendacion> =
+        dataMap.values.filter { recomendacion ->
+            recomendacion.valoraciones.values.any { it.comentario.contains(regex, ignoreCase = true) } }
 }
 
 class RepositorioCentroDeLectura : Repository<CentroDeLectura>() {

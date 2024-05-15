@@ -11,6 +11,7 @@ import java.time.LocalDate
 class CentroDeLecturaSpec : DescribeSpec({
     isolationMode = IsolationMode.InstancePerLeaf
     //Funciones auxiliares
+
     fun crearEncuentroNoVencido(cantidadDeEncuentro: Int, centroAVincular: CentroDeLectura) {
         for (i in 1..cantidadDeEncuentro) {
             val encuentro = Encuentro(LocalDate.now().plusDays(i.toLong()), i, centroAVincular)
@@ -94,7 +95,8 @@ class CentroDeLecturaSpec : DescribeSpec({
             lecturaCompleja,
             ediciones,
             lenguajes,
-            ventasSemanales, autor
+            ventasSemanales,
+            autor
         )
     }
 
@@ -289,6 +291,5 @@ class CentroDeLecturaSpec : DescribeSpec({
                 particularGeneral.getConjuntoDeEncuentros().size shouldBe 2
             }
         }
-
     }
 })
