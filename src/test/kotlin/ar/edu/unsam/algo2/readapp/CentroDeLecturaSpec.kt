@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package ar.edu.unsam.algo2.readapp
 
 import io.kotest.assertions.throwables.shouldThrow
@@ -249,13 +251,6 @@ class CentroDeLecturaSpec : DescribeSpec({
                 crearEncuentroVencido(3, particularGeneral)
                 //Assert
                 shouldThrow<SinCupo> { particularGeneral.reserva(particularGeneral.getConjuntoDeEncuentros().first()) }
-            }
-
-            it("Se verifican si todas los encuentros estan vencidos.") {
-                //Arrange
-                crearEncuentroVencido(3, particularGeneral)
-                //Assert
-                particularGeneral.vencimento() shouldBeEqual true
             }
 
             it("Se verifican si todas los encuentros estan vencidos.") {
