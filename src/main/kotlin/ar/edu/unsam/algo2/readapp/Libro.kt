@@ -58,4 +58,6 @@ class Libro(
         (this.ventasSemanales >= MINIMO_DE_VENTAS_SEMANALES && (this.ediciones > MINIMO_DE_EDICIONES) || this.numeroDeLenguajes() >= MINIMO_DE_TRADUCCIONES)
 
     fun setVentaSemanales(ventasSemanales: Int) {this.ventasSemanales = ventasSemanales}
+
+    fun setEditarEdiciones(ediciones: Int) { this.ediciones = ediciones }
 }

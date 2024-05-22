@@ -1,16 +1,19 @@
 @file:Suppress("SpellCheckingInspection")
-
 package ar.edu.unsam.algo2.readapp
 
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.mockk
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
 class RepositorioSpec : DescribeSpec({
     isolationMode = IsolationMode.InstancePerLeaf
-    val repository = RepositorioLibros()
+
+    val serviceParaLibros = mockk<ServiceLibros>()
+    val serviceLibro = UpdateLibros(serviceParaLibros)
+    val repository = RepositorioLibros(serviceLibro)
 
     val autorPipoConsagrado =
         Autor(null, "pipo", "Alegre", "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
@@ -64,11 +67,11 @@ class RepositorioSpec : DescribeSpec({
     }
 
     describe("Repositorio Libro") {
-
-        val repositorySearch = RepositorioLibros()
+        val repositorySearch = RepositorioLibros(serviceLibro)
 
         val autorMatch =
             Autor(null, "Pipo", "Alegre", "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
+
         val autorNoMatch =
             Autor(null, "Opip", "Ergela", "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
 
@@ -138,7 +141,11 @@ class RepositorioSpec : DescribeSpec({
 
     describe("Repositorio Usuario") {
 
-        val repositorySearch = RepositorioUsuario()
+        val serviceParaUsuarios = mockk<ServiceUsuario>()
+
+        val serviceUsuario =  UpdateUsuario(serviceParaUsuarios)
+
+        val repositorySearch = RepositorioUsuario(serviceUsuario)
 
         val autor =
             Autor(null, "Pipo", "Alegre", "yagoo", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2)
@@ -199,8 +206,9 @@ class RepositorioSpec : DescribeSpec({
     }
 
     describe("Repositorio Autor") {
-
-        val repositorySearch = RepositorioAutores()
+        val serviceParaAutor = mockk<ServiceAutor>()
+        val serviceAutor =  UpdateAutor(serviceParaAutor)
+        val repositorySearch = RepositorioAutores(serviceAutor)
 
         val autorMatchNombre =
             Autor(null, "frank", "fabra", "buro", LocalDate.of(1969, 3, 27), mutableSetOf(), Lenguaje.es_ES, 0)
@@ -233,9 +241,11 @@ class RepositorioSpec : DescribeSpec({
 
     describe("Repositorio Recomendaciones.") {
 
-        val repoitorioRecomendaciones = RepositorioRecomendaciones()
+        val serviceParaRecomendaciones = mockk<ServiceRecomendaciones>()
+        val serviceUpdateRecomendacion =  UpdateRecomendaciones(serviceParaRecomendaciones)
+        val repoitorioRecomendaciones = RepositorioRecomendaciones(serviceUpdateRecomendacion)
 
-        val LibrNoMatch = Libro(
+        val librNoMatch = Libro(
             id = null,
             "No Debe",
             "Salamandra",
@@ -285,7 +295,7 @@ class RepositorioSpec : DescribeSpec({
             fechaNac = LocalDate.of(2000, 4, 23),
             direccionEmail = "pipo@gmail.com",
             amigos = mutableSetOf(/* other Usuario instances */),
-            librosLeidos = mutableMapOf(LibrNoMatch to 1),
+            librosLeidos = mutableMapOf(librNoMatch to 1),
             autorFavorito = autorPipoConsagrado,
             recomendacionesPorValorar = mutableSetOf(),
             librosPorLeer = mutableSetOf(),
@@ -301,7 +311,7 @@ class RepositorioSpec : DescribeSpec({
             id = null,
             esPrivado = true,
             creador = usuarioNoMatch,
-            librosRecomendados = mutableSetOf(LibrNoMatch),
+            librosRecomendados = mutableSetOf(librNoMatch),
             descripcion = "Esto una recomendacion.",
             valoraciones = mutableMapOf(usuarioNoMatch to valracionNoMatc)
         )
@@ -328,7 +338,10 @@ class RepositorioSpec : DescribeSpec({
 
     describe("Repositorio Centro de lectura") {
 
-        val repositorySearch = RepositorioCentroDeLectura()
+
+        val serviceParaCentroDeLectura = mockk<ServiceCentroDeLectura>()
+        val serviceUpdateCentroDeLectura=  UpdateCentroDeLectura(serviceParaCentroDeLectura)
+        val repositorySearch = RepositorioCentroDeLectura(serviceUpdateCentroDeLectura)
         val libroMatchNombre = Libro(
             id = null,
             "Es un libro de Prueba",
