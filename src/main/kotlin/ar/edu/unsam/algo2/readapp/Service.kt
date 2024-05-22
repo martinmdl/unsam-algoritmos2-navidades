@@ -9,27 +9,12 @@ interface ServiceLibros {
     fun getLibros(): String
 }
 
-interface ServiceAutor {
-    fun getLibros(): String
-}
-
-interface ServiceUsuario {
-    fun getLibros(): String
-}
-
-interface ServiceRecomendaciones {
-    fun getLibros(): String
-}
-
-interface ServiceCentroDeLectura {
-    fun getLibros(): String
-}
-
+// A REVISAR
 interface ServiceUpdate<T> {
     fun update(obj: T)
 }
 
-class UpdateLibros(private val serviceLibros: ServiceLibros): ServiceUpdate<Libro> {
+class UpdateLibros(private val serviceLibros : ServiceLibros) : ServiceUpdate<Libro> {
 
     private fun parseJson(): LibrosActualizados {
         val gson = Gson()
@@ -41,32 +26,16 @@ class UpdateLibros(private val serviceLibros: ServiceLibros): ServiceUpdate<Libr
         return LibrosActualizados(listaDeLibrosActualizados)
     }
 
+    // A REVISAR
     override fun update(obj: Libro) {
-
         val librosActualizados = this.parseJson()
         val libroConActualizaciones: LibroActualizado? = librosActualizados.libros.find { it.id == obj.id }
 
         if(libroConActualizaciones == null) throw Businessexception("No hay actualizaciones")
 
         obj.setEditarEdiciones(libroConActualizaciones.ediciones!!)
-
         obj.setVentaSemanales(obj.getVentasSemanales() + libroConActualizaciones.ventasSemanales!!)
     }
-}
-
-class UpdateUsuario (private val serviceLibros: ServiceUsuario): ServiceUpdate<Usuario> {
-    override fun update(obj: Usuario) {throw Businessexception("No se puede actualizar")}
-}
-
-class UpdateAutor (private val serviceLibros: ServiceAutor): ServiceUpdate<Autor> {
-    override fun update(obj: Autor) {throw Businessexception("No se puede actualizar")}
-}
-
-class UpdateRecomendaciones (private val serviceLibros: ServiceRecomendaciones): ServiceUpdate<Recomendacion> {
-    override fun update(obj: Recomendacion) {throw Businessexception("No se puede actualizar")}
-}
-class UpdateCentroDeLectura (private val serviceLibros: ServiceCentroDeLectura): ServiceUpdate<CentroDeLectura> {
-    override fun update(obj: CentroDeLectura) {throw Businessexception("No se puede actualizar")}
 }
 
 data class LibroActualizado(val id: Int?, val ediciones: Int?, val ventasSemanales: Int?)

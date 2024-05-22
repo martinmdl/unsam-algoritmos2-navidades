@@ -4,7 +4,7 @@ package ar.edu.unsam.algo2.readapp
 
 import java.util.SortedMap
 
-abstract class Repository<T : Identidad> (private val service: ServiceUpdate<T>) {
+abstract class Repository<T : Identidad> {
     private var currentId: Int = 0
     val dataMap: SortedMap<Int, T> = sortedMapOf()
 
@@ -26,19 +26,12 @@ abstract class Repository<T : Identidad> (private val service: ServiceUpdate<T>)
     fun getById(id: Int): T =
         dataMap[id] ?: throw Businessexception("No existe un objeto con id $id")
 
-    fun update(obj: T) {
-        try {
-            getById(obj.id!!)
-            service.update(obj)
-        } catch (e: Businessexception) {
-            throw Businessexception("No se puede actualizar")
-        }
-    }
+    abstract fun update(obj: T)
 
     abstract fun search(regex: String): List<T>
 }
 
-class RepositorioLibros(service: ServiceUpdate<Libro>) : Repository<Libro>(service) {
+class RepositorioLibros(private val updateLibros: UpdateLibros) : Repository<Libro>() {
 
     override fun search(regex: String): List<Libro> =
         matchNombrePartial(regex) + matchApellidoPartial(regex)
@@ -49,9 +42,18 @@ class RepositorioLibros(service: ServiceUpdate<Libro>) : Repository<Libro>(servi
 
     private fun matchApellidoPartial(regex: String): List<Libro> =
         dataMap.values.filter { it.autor.getApellido().contains(regex, ignoreCase = true) }
+
+    override fun update(obj: Libro) {
+        try {
+            getById(obj.id!!)
+            updateLibros.update(obj)
+        } catch (e: Businessexception) {
+            throw Businessexception("No se puede actualizar")
+        }
+    }
 }
 
-class RepositorioUsuario(service: ServiceUpdate<Usuario>) : Repository<Usuario>(service) {
+class RepositorioUsuario : Repository<Usuario>() {
 
     override fun search(regex: String): List<Usuario> =
         (matchNombrePartial(regex) + matchApellidoParcial(regex) + matchUserNameCompleto(regex)).distinct()
@@ -65,9 +67,11 @@ class RepositorioUsuario(service: ServiceUpdate<Usuario>) : Repository<Usuario>(
 
     private fun matchUserNameCompleto(regex: String): List<Usuario> =
         dataMap.values.filter { it.username == regex }
+
+    override fun update(obj: Usuario) { }
 }
 
-class RepositorioAutores(service: ServiceUpdate<Autor>) : Repository<Autor>(service) {
+class RepositorioAutores : Repository<Autor>() {
 
     override fun search(regex: String): List<Autor> =
         (nombrePartialMatch(regex) + apellidoPartialMatch(regex) + userNameExactMatch(regex)).distinct()
@@ -81,9 +85,11 @@ class RepositorioAutores(service: ServiceUpdate<Autor>) : Repository<Autor>(serv
 
     private fun userNameExactMatch(regex: String): List<Autor> =
         dataMap.values.filter { it.getSeudonimo() == regex }
+
+    override fun update(obj: Autor) {}
 }
 
-class RepositorioRecomendaciones(service: ServiceUpdate<Recomendacion>) : Repository<Recomendacion>(service) {
+class RepositorioRecomendaciones : Repository<Recomendacion>() {
 
     override fun search(regex: String): List<Recomendacion> =
         (apellidoExactMatch(regex) + nombrePartialMatch(regex) + reseniaPartialMatch(regex)).distinct()
@@ -99,15 +105,20 @@ class RepositorioRecomendaciones(service: ServiceUpdate<Recomendacion>) : Reposi
     private fun reseniaPartialMatch(regex: String): List<Recomendacion> =
         dataMap.values.filter { recomendacion ->
             recomendacion.valoraciones.values.any { it.comentario.contains(regex, ignoreCase = true) } }
+
+    override fun update(obj: Recomendacion) {}
 }
 
-class RepositorioCentroDeLectura(service: ServiceUpdate<CentroDeLectura>) : Repository<CentroDeLectura>(service) {
+class RepositorioCentroDeLectura : Repository<CentroDeLectura>() {
 
     override fun search(regex: String): List<CentroDeLectura> = libroExactMatch(regex).distinct()
 
     /*AUX*/
     private fun libroExactMatch(regex: String): List<CentroDeLectura> =
         dataMap.values.filter { it.getLibroAsignadoALeer().getNombre() == regex }
+
+    override fun update(obj: CentroDeLectura) {}
 }
+
 
 class Businessexception(message: String) : Exception(message)
