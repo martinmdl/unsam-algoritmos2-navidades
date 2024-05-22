@@ -9,14 +9,9 @@ interface ServiceLibros {
     fun getLibros(): String
 }
 
-// A REVISAR
-interface ServiceUpdate<T> {
-    fun update(obj: T)
-}
+class UpdateLibros(private val serviceLibros : ServiceLibros) {
 
-class UpdateLibros(private val serviceLibros : ServiceLibros) : ServiceUpdate<Libro> {
-
-    private fun parseJson(): LibrosActualizados {
+    fun parseJson(): LibrosActualizados {
         val gson = Gson()
         val parse: String = serviceLibros.getLibros()
         val type = object : TypeToken<List<Map<String, Int>>>() {}.type
@@ -27,7 +22,7 @@ class UpdateLibros(private val serviceLibros : ServiceLibros) : ServiceUpdate<Li
     }
 
     // A REVISAR
-    override fun update(obj: Libro) {
+    fun update(obj: Libro) {
         val librosActualizados = this.parseJson()
         val libroConActualizaciones: LibroActualizado? = librosActualizados.libros.find { it.id == obj.id }
 

@@ -2,8 +2,11 @@
 
 package ar.edu.unsam.algo2.readapp
 
+import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
 import java.time.LocalDate
 
 class RecomendacionesSpec : DescribeSpec({
@@ -11,14 +14,14 @@ class RecomendacionesSpec : DescribeSpec({
         //Arrange
         /*Autor*/
         val autor1 = Autor(
-            id= null,
+            id = null,
             "pipo",
             "Alegre",
             "yagoo", LocalDate.of(1990, 3, 27), mutableSetOf(), Lenguaje.es_ES, 2
         )
         /*LIBROS*/
         val harryPotter = Libro(
-            id= null,
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -30,7 +33,7 @@ class RecomendacionesSpec : DescribeSpec({
             autor1
         )
         val harryPotter2 = Libro(
-            id= null,
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -42,7 +45,7 @@ class RecomendacionesSpec : DescribeSpec({
             autor1
         )
         val harryPotter3 = Libro(
-            id= null,
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -54,7 +57,7 @@ class RecomendacionesSpec : DescribeSpec({
             autor1
         )
         val harryPotter4 = Libro(
-            id= null,
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -66,7 +69,7 @@ class RecomendacionesSpec : DescribeSpec({
             autor1
         )
         val harryPotter5 = Libro(
-            id= null,
+            id = null,
             "HarryPotter",
             "Salamandra",
             800,
@@ -127,7 +130,7 @@ class RecomendacionesSpec : DescribeSpec({
         /*RECOMENDACIONES*/
 
         val recomendacion1 = Recomendacion(
-            id= null,
+            id = null,
             esPrivado = true,
             creador = usuario1,
             librosRecomendados = mutableSetOf(harryPotter2),
@@ -135,7 +138,7 @@ class RecomendacionesSpec : DescribeSpec({
             mutableMapOf()
         )
         val recomendacion2 = Recomendacion(
-            id= null,
+            id = null,
             esPrivado = false,
             creador = usuario2,
             librosRecomendados = mutableSetOf(harryPotter2, harryPotter3),
@@ -143,7 +146,7 @@ class RecomendacionesSpec : DescribeSpec({
             mutableMapOf()
         )
         val recomendacion3 = Recomendacion(
-            id= null,
+            id = null,
             esPrivado = true,
             creador = usuario3,
             librosRecomendados = mutableSetOf(harryPotter, harryPotter2),

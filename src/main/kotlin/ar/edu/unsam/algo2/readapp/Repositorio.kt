@@ -19,8 +19,14 @@ abstract class Repository<T : Identidad> {
     }
 
     fun delete(obj: T) {
-        dataMap.remove(getById(obj.id!!).id)
-        obj.id = null
+        try {
+            val objeto = getById(obj.id!!)
+            dataMap.remove(objeto.id)
+            obj.id = null
+        } catch (e: NullPointerException) {
+            throw Businessexception("No se puede eliminar")
+        }
+
     }
 
     fun getById(id: Int): T =
