@@ -335,6 +335,36 @@ class RepositorioSpec : DescribeSpec({
             repoitorioRecomendaciones.create(recomendacionNoMatch)
             repoitorioRecomendaciones.search("Esta es una resenia match") shouldBe listOf(recomendacionMatch)
         }
+
+        it("Deberia de actualizar libro") {
+            val updateLibros = mockk<UpdateLibros>(relaxUnitFun = true)
+            val repositorioLibros = RepositorioLibros(updateLibros)
+            val libroActualizado = Libro(
+                id = 0,
+                "No Debe",
+                "Salamandra",
+                800,
+                100000,
+                true,
+                4,
+                setOf(Lenguaje.es_ES),
+                1000,
+                autorPipoConsagrado
+            )
+            //Crear Libro en repo
+            repositorioLibros.create(librNoMatch)
+            // Definir el comportamiento de update()
+            every{updateLibros.update(any())} returns (libroActualizado)
+
+            // Llamar a update con el objeto Libro
+            repositorioLibros.update(librNoMatch)
+
+            // Verificar que los valores de Libro se hayan actualizado correctamente
+            val libroGuardado = repositorioLibros.getById(0)
+            libroGuardado.getEdiciones() shouldBe 4
+            libroGuardado.getVentasSemanales() shouldBe 1000
+        }
+
     }
 
     describe("Repositorio Centro de lectura") {
