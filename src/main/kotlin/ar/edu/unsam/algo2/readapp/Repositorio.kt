@@ -52,7 +52,8 @@ class RepositorioLibros(private val updateLibros: UpdateLibros) : Repository<Lib
     override fun update(obj: Libro) {
         try {
             getById(obj.id!!)
-            updateLibros.update(obj)
+            val cambios = updateLibros.update(obj)
+            dataMap[cambios.id] = cambios
         } catch (e: Businessexception) {
             throw Businessexception("No se puede actualizar")
         }
