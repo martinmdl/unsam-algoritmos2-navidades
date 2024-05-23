@@ -2,6 +2,7 @@
 
 package ar.edu.unsam.algo2.readapp
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -157,59 +158,49 @@ class RecomendacionesSpec : DescribeSpec({
         describe("Test de edicion de la privacidad") {
 
             it("El creador puede editar la privacidad en la recomendacion") {
-                //Act
                 recomendacion3.editarPrivacidad(usuario3)
-                //Assert
+
                 recomendacion3.esPrivado shouldBe false
             }
             it("El amigo no puede editar la privacidad en la recomendacion") {
-                //Act
-                recomendacion3.editarPrivacidad(usuario2)
-                //Assert
-                recomendacion3.esPrivado shouldBe false
+                shouldThrow<Businessexception> { recomendacion3.editarPrivacidad(usuario2) }
             }
         }
 
         describe("Test de edicion de la descripcion") {
 
             it("El creador puede editar la descripcion en la recomendacion") {
-                //Act
+
                 recomendacion3.editarDescripcion(usuario3, "nueva descripcion")
-                //Assert
+
                 recomendacion3.descripcion shouldBe "nueva descripcion"
             }
             it("El amigo puede editar la descripcion en la recomendacion") {
-                //Act
+
                 recomendacion3.editarDescripcion(usuario2, "cambio de descripcion")
-                //Assert
+
                 recomendacion3.descripcion shouldBe "cambio de descripcion"
             }
             it("El usuario no puede editar la descripcion en la recomendacion") {
-                //Act
-                recomendacion1.editarDescripcion(usuario2, "cambio de descripcion")
-                //Assert
-                recomendacion1.descripcion shouldBe "no se leer"
+                shouldThrow<Businessexception> { recomendacion1.editarDescripcion(usuario2, "cambio de descripcion") }
             }
         }
 
         describe("Test de agregar un libro") {
 
             it("El creador puede agregar un libro (a la recomendacion)") {
-                //Act
+
                 recomendacion3.agregarALibrosDeRecomendacion(usuario3, harryPotter3)
-                //Assert
+
                 recomendacion3.librosRecomendados shouldBe mutableSetOf(harryPotter, harryPotter2, harryPotter3)
             }
             it("El creador no puede agregar un libro a la recomendacion porque no leyo ese libro") {
-                //Act
-                recomendacion1.agregarALibrosDeRecomendacion(usuario1, harryPotter5)
-                //Assert
-                recomendacion1.librosRecomendados shouldBe mutableSetOf(harryPotter2)
+                shouldThrow<Businessexception> { recomendacion1.agregarALibrosDeRecomendacion(usuario1, harryPotter5) }
             }
             it("El amigo puede agregar un libro (a la recomendacion)") {
-                //Act
+
                 recomendacion3.agregarALibrosDeRecomendacion(usuario3, harryPotter4)
-                //Assert
+
                 recomendacion3.librosRecomendados shouldBe mutableSetOf(
                     harryPotter,
                     harryPotter2,
@@ -218,78 +209,46 @@ class RecomendacionesSpec : DescribeSpec({
                 )
             }
             it("El amigo no puede agregar un libro (a la recomendacion) porque no leyo ese libro") {
-                //Act
-                recomendacion3.agregarALibrosDeRecomendacion(usuario1, harryPotter5)
-                //Assert
-                recomendacion3.librosRecomendados shouldBe mutableSetOf(
-                    harryPotter,
-                    harryPotter2,
-                    harryPotter3,
-                    harryPotter4
-                )
+                shouldThrow<Businessexception> { recomendacion3.agregarALibrosDeRecomendacion(usuario1, harryPotter5) }
             }
             it("El usuario no puede agregar un libro (a la recomendacion) porque es privada (la recomendacion)") {
-                //Act
-                recomendacion1.agregarALibrosDeRecomendacion(usuario2, harryPotter3)
-                //Assert
-                recomendacion1.librosRecomendados shouldBe mutableSetOf(harryPotter2)
+                shouldThrow<Businessexception> { recomendacion1.agregarALibrosDeRecomendacion(usuario2, harryPotter3) }
             }
             it("El amigo no puede agregar un libro (a la recomencadion) porque no leyo todos los libros (de la recomendacion)") {
-                //Act
-                recomendacion3.agregarALibrosDeRecomendacion(usuario2, harryPotter5)
-                //Assert
-                recomendacion3.librosRecomendados shouldBe mutableSetOf(
-                    harryPotter,
-                    harryPotter2,
-                    harryPotter3,
-                    harryPotter4
-                )
+                shouldThrow<Businessexception> { recomendacion3.agregarALibrosDeRecomendacion(usuario2, harryPotter5) }
             }
         }
 
         describe("Test de leer recomendacion") {
 
             it("Creador puede leer la recomendacion") {
-                //Act
-                //Assert
+
                 recomendacion1.leerRecomendacion(usuario1) shouldBe true
             }
             it("amigo puede leer la recomendacion") {
-                //Act
-                //Assert
+
                 recomendacion3.leerRecomendacion(usuario1) shouldBe true
             }
             it("usuario puede leer la recomendacion") {
-                //Act
-                //Assert
+
                 recomendacion2.leerRecomendacion(usuario3) shouldBe true
             }
             it("usuario no puede leer la recomendacion") {
-                //Act
-                //Assert
+
                 recomendacion1.leerRecomendacion(usuario2) shouldBe false
             }
         }
         describe("Test de Tiempos de lectura") {
 
             it("Tiempo de lectura total; Recomendacion tiene 4 libros") {
-                //Act
-                //val comp: Int = 50000 / (150 / 2) + 55000 / (150 / 2) + 60000 / (150 / 2) + 65000 / (150 / 2)
-                //Assert
                 recomendacion3.tiempoDeLecturaTotal(usuario1).toInt() shouldBe 3066
             }
+
             it("Tiempo de lectura neto; Recomendacion tiene 4 libros") {
-                //Act
-                //val comp: Int = 50000 / (200 / 2) + 65000 / (200 / 2)
-                //Assert
                 recomendacion3.tiempoDeLecturaNeto(usuario2).toInt() shouldBe 1150
             }
+
             it("Tiempo de lectura ahorrado; Recomendacion tiene 4 libros") {
-                //Act
-                //val total: Int = 50000 / (200 / 2) + 55000 / (200 / 2) + 60000 / (200 / 2) + 65000 / (200 / 2)
-                //val neto: Int = 50000 / (200 / 2) + 65000 / (200 / 2)
-                //val comp: Int = total - neto
-                //Assert
                 recomendacion3.tiempoDeLecturaAhorrado(usuario2).toInt() shouldBe 1150
             }
         }

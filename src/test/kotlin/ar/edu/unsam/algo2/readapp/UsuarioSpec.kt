@@ -1,5 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 package ar.edu.unsam.algo2.readapp
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -198,8 +199,7 @@ class UsuarioSpec : DescribeSpec({
                 usuario1.recomendacionesPorValorar shouldBe mutableSetOf(recomendacion2)
             }
             it("El usuario puede valorar una recomendación y esta se eliminará de la lista") {
-                usuario1.valorarRecomendacion(recomendacion2, 4, "me fue mal")
-                usuario1.recomendacionesPorValorar shouldBe mutableSetOf()
+                shouldThrow<Businessexception> { usuario1.valorarRecomendacion(recomendacion2, 4, "me fue mal") }
             }
         }
     }

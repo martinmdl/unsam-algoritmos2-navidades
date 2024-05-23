@@ -31,6 +31,10 @@ class Recomendacion(
     var valoraciones: MutableMap<Usuario, Valoracion>
 ) : Identidad {
 
+    /*OBSERVERS*/
+    private val observadores: MutableList<RecomendacionObserver> = mutableListOf()
+    fun agregarObserver(observer: RecomendacionObserver) { observadores.add(observer) }
+    fun sacarObserver(observer: RecomendacionObserver) { observadores.remove(observer) }
 
     /*SETTERS*/
     /**
@@ -41,8 +45,8 @@ class Recomendacion(
     fun editarPrivacidad(usuarioQueEdita: Usuario) {
         if (esCreador(usuarioQueEdita)) {
             alternarPrivacidad()
-        }
-        //Captura error
+        } else {throw Businessexception("No es el creador")}
+
     }
 
     /**
@@ -53,8 +57,7 @@ class Recomendacion(
     fun editarDescripcion(usuarioQueEdita: Usuario, descripcionNueva: String) {
         if (esCreador(usuarioQueEdita) || esAmigo(usuarioQueEdita)) {
             cambioDeValoracion(descripcionNueva)
-        }
-        //Captura error
+        } else { throw Businessexception("No es el creador o no es amigo") }
     }
 
     /**
@@ -66,16 +69,15 @@ class Recomendacion(
      */
     fun agregarALibrosDeRecomendacion(usuarioQueEdita: Usuario, libro: Libro) {
         if (validarEdicion(usuarioQueEdita, libro)) {
+            observadores.forEach { it.libroAgregado(libro, usuarioQueEdita, this) }
             librosRecomendados.add(libro)
-        }
-        //Captura error
+        } else { throw Businessexception("No se puede agregar un libro a la recomendacion") }
     }
 
     fun crearValoracion(valor: Int, comentario: String, usuario: Usuario) {
         if ((amigoleidosTodos(usuario) || collecionAutorFavorito(usuario)) && usuario != creador) {
             valoraciones[usuario] = Valoracion(usuario, valor, comentario)
-        }
-        //Captura error
+        } else { throw Businessexception("No se puede crear valoración") }
     }
 
     private fun collecionAutorFavorito(usuario: Usuario): Boolean =
@@ -97,10 +99,9 @@ class Recomendacion(
         return if (valoraciones.isNotEmpty()) {
             (valoraciones.values.sumOf { it.valor } / valoraciones.size).toDouble()
         } else {
-            throw Exception("Division por cero")
+            throw Businessexception("Division por cero")
         }
     }
-
 
     /*AUX*/
     private fun esCreador(usuario: Usuario): Boolean = creador == usuario

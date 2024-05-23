@@ -24,7 +24,7 @@ class UpdateLibros(private val serviceLibros : ServiceLibros) {
     fun update(obj: Libro): Libro {
         val librosActualizados = this.parseJson()
         val libroConActualizaciones: LibroActualizado? = librosActualizados.libros.find { it.id == obj.id }
-        if(libroConActualizaciones == null) throw Businessexception("No hay actualizaciones")
+        if(libroConActualizaciones == null) throw Businessexception("No hay actualizaciones.")
         obj.setEditarEdiciones(libroConActualizaciones.ediciones!!)
         obj.setVentaSemanales(obj.getVentasSemanales() + libroConActualizaciones.ventasSemanales!!)
         return obj
