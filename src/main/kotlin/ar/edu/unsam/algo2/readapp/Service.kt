@@ -21,7 +21,6 @@ class UpdateLibros(private val serviceLibros : ServiceLibros) {
         return LibrosActualizados(listaDeLibrosActualizados)
     }
 
-    // A REVISAR
     fun update(obj: Libro): Libro {
         val librosActualizados = this.parseJson()
         val libroConActualizaciones: LibroActualizado? = librosActualizados.libros.find { it.id == obj.id }
