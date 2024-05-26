@@ -11,7 +11,6 @@ open class NotificarCreador(private val mailSender: MailSender) : RecomendacionO
     override fun libroAgregado(libro: Libro, usuario: Usuario, recomendacion: Recomendacion) {
 
         if (usuario != recomendacion.creador) {
-            // CORREGIR "listadoDeTitulosSinElAgregado"
             val listadoDeTitulosSinElAgregado = recomendacion.librosRecomendados.joinToString(", ") { it.getNombre() }
             val msj =
                 "El usuario: ${usuario.nombre} agrego el Libro ${libro.getNombre()} a la recomendación que tenía estos Títulos: $listadoDeTitulosSinElAgregado"
@@ -26,7 +25,7 @@ open class NotificarCreador(private val mailSender: MailSender) : RecomendacionO
     }
 }
 
-open class Registro() : RecomendacionObserver {
+open class Registro : RecomendacionObserver {
 
     private val registroAportes: MutableMap<Usuario, MutableList<Libro>> = mutableMapOf()
 
@@ -45,15 +44,18 @@ open class BannearSpammer(private val limiteDeLibro: Int) : RecomendacionObserve
     override fun libroAgregado(libro: Libro, usuario: Usuario, recomendacion: Recomendacion) {
         val valorActual = registroContador.getOrDefault(usuario, 0)
         registroContador[usuario] = valorActual + 1
-        if (registroContador[usuario] == limiteDeLibro) {
+        if (llegoLimite(usuario) && noEsCreador(usuario, recomendacion)) {
             recomendacion.creador.eliminarAmigo(usuario)
         }
     }
 
+    private fun llegoLimite(usuario: Usuario) = registroContador[usuario] == limiteDeLibro
+    private fun noEsCreador(usuario: Usuario, recomendacion: Recomendacion) = usuario != recomendacion.creador
+
     fun getRegistro(): MutableMap<Usuario, Int> = this.registroContador
 }
 
-open class ValoracionAutomatica() : RecomendacionObserver {
+open class ValoracionAutomatica : RecomendacionObserver {
 
     override fun libroAgregado(libro: Libro, usuario: Usuario, recomendacion: Recomendacion) {
         if(noEsCreador(usuario, recomendacion) && noValoro(recomendacion, usuario)) {

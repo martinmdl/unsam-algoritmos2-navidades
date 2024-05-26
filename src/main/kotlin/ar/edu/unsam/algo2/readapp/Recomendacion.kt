@@ -32,7 +32,9 @@ class Recomendacion(
 ) : Identidad {
 
     /*OBSERVERS*/
+    // en "agregarALibrosDeRecomendacion" se recorre esta lista
     private val observadores: MutableList<RecomendacionObserver> = mutableListOf()
+
     fun agregarObserver(observer: RecomendacionObserver) { observadores.add(observer) }
     fun sacarObserver(observer: RecomendacionObserver) { observadores.remove(observer) }
 
