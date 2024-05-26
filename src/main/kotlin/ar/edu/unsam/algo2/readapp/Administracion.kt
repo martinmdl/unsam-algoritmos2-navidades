@@ -2,11 +2,20 @@
 
 package ar.edu.unsam.algo2.readapp
 
-class AdministracionInvoker {
+class Administracion {
 
-//    fun run(program: List<ProcesoAdministracion>) {
-//        program.forEach { instruction -> instruction.ejecutar(this) }
-//    }
+    val usuariosRegistrados: MutableSet<Usuario> = mutableSetOf()
+    val autoresRegistrados: MutableSet<Autor> = mutableSetOf()
+    val centrosDeLecturaRegistrados: MutableSet<CentroDeLectura> = mutableSetOf()
+
+    fun run(program: List<ProcesoAdministracion>) {
+        program.forEach { it.ejecutar(this) }
+    }
+
+    fun usuarioSinRecomendaciones() {
+
+    }
+
 
 
 }

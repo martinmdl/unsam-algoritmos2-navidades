@@ -94,7 +94,7 @@ abstract class CentroDeLectura(
     abstract fun costo(encuentro: Encuentro): Double
 
     /*AUX*/
-    private fun seVencieronTodasLasFechas(): Boolean {
+    fun seVencieronTodasLasFechas(): Boolean {
         return this.conjuntoDeEncuentros.all{it.fecha().isBefore(LocalDate.now())}
     }
 

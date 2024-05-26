@@ -72,9 +72,13 @@ class Usuario(
         autorFavorito = autor
     }
 
+
 //  ##AMIGOS##
-    fun agregarAmigo(amigo: Usuario) {
-        amigos.add(amigo)
+    fun agregarAmigo(amigoParaAgregar: Usuario) {
+        if(!amigoParaAgregar.amigos.contains(this)) {
+            amigos.add(amigoParaAgregar)
+            amigoParaAgregar.agregarAmigo(this)
+        }
     }
 
     fun eliminarAmigo(amigo: Usuario) {
@@ -98,4 +102,9 @@ class Usuario(
     fun eliminarRecomendacionPorValorar(recomendacion: Recomendacion) {
         recomendacionesPorValorar.remove(recomendacion)
     }
+
+//  ##PROCESO DE ADMINISTRACION##
+    val listaDeRecomendacionesCreada = mutableListOf<Recomendacion>()
+    val listaDeValoracionesDadas = mutableListOf<Valoracion>()
+    fun esActivo(): Boolean = amigos.isEmpty() && listaDeRecomendacionesCreada.isEmpty() && listaDeValoracionesDadas.isEmpty()
 }

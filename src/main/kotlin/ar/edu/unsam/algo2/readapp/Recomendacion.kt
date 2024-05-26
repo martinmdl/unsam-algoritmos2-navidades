@@ -78,7 +78,9 @@ class Recomendacion(
 
     fun crearValoracion(valor: Int, comentario: String, usuario: Usuario) {
         if ((amigoleidosTodos(usuario) || collecionAutorFavorito(usuario)) && usuario != creador) {
-            valoraciones[usuario] = Valoracion(usuario, valor, comentario)
+            val nuevaVal = Valoracion(usuario, valor, comentario)
+            valoraciones[usuario] = nuevaVal
+            usuario.listaDeValoracionesDadas.add(nuevaVal)
         } else { throw Businessexception("No se puede crear valoración") }
     }
 
