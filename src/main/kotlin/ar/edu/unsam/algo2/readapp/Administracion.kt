@@ -11,11 +11,4 @@ class Administracion {
     fun run(program: List<ProcesoAdministracion>) {
         program.forEach { it.ejecutar(this) }
     }
-
-    fun usuarioSinRecomendaciones() {
-
-    }
-
-
-
 }

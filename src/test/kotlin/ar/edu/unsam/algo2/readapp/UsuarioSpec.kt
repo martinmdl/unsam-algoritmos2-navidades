@@ -3,6 +3,7 @@ package ar.edu.unsam.algo2.readapp
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.junit.jupiter.api.assertThrows
@@ -171,6 +172,11 @@ class UsuarioSpec : DescribeSpec({
 
         describe("Recomendaciones") {
 
+            it("El usuario crea una recomendacion"){
+                val recomendacion = usuario1.crearRecomendacion(mutableSetOf(libroDesafiante), "libro buenardo", true)
+                usuario1.listaDeRecomendacionesCreada shouldBe mutableListOf(recomendacion)
+            }
+
             it("Por defecto tiene el perfil de recomendación de Leedor") {
                 usuario1.perfilDeRecomendacion.shouldBeInstanceOf<Leedor>()
             }
@@ -198,8 +204,15 @@ class UsuarioSpec : DescribeSpec({
 
                 usuario1.recomendacionesPorValorar shouldBe mutableSetOf(recomendacion2)
             }
-            it("El usuario puede valorar una recomendación y esta se eliminará de la lista") {
-                shouldThrow<Businessexception> { usuario1.valorarRecomendacion(recomendacion2, 4, "me fue mal") }
+
+            it("El usuario valora una recomendación y se agrega a la lista de valoraciones creadas, y se elimina de la lista de recomendaciones por valorar") {
+                usuario2.leerLibro(libroDesafiante)
+                usuario2.leerLibro(libroNoDesafiante)
+
+                usuario2.valorarRecomendacion(recomendacion1, 2, "test aceptado")
+
+                usuario2.listaDeValoracionesDadas shouldNotBe emptyList<Valoracion>()
+                usuario2.recomendacionesPorValorar shouldBe mutableSetOf()
             }
         }
     }

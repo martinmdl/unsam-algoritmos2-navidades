@@ -86,11 +86,7 @@ class Usuario(
     }
 
 //  ##VALORACIONES##
-    fun valorarRecomendacion(
-        recomendacion: Recomendacion,
-        valor: Int,
-        comentario: String,
-    ) {
+    fun valorarRecomendacion(recomendacion: Recomendacion, valor: Int, comentario: String, ) {
         recomendacion.crearValoracion(valor, comentario, this)
         eliminarRecomendacionPorValorar(recomendacion)
     }
@@ -103,8 +99,23 @@ class Usuario(
         recomendacionesPorValorar.remove(recomendacion)
     }
 
+//  ##RECOMENDACION##
+    fun crearRecomendacion(libros: MutableSet<Libro>, descripcion: String, privacidad: Boolean): Recomendacion {
+
+        val nuevaRecomendacion: Recomendacion = RecomendacionBuilder()
+            .esPrivado(privacidad)
+            .descripcion(descripcion)
+            .librosRecomendados(libros)
+            .creador(this)
+            .build()
+
+        listaDeRecomendacionesCreada.add(nuevaRecomendacion)
+
+        return nuevaRecomendacion
+    }
+
 //  ##PROCESO DE ADMINISTRACION##
     val listaDeRecomendacionesCreada = mutableListOf<Recomendacion>()
     val listaDeValoracionesDadas = mutableListOf<Valoracion>()
-    fun esActivo(): Boolean = amigos.isEmpty() && listaDeRecomendacionesCreada.isEmpty() && listaDeValoracionesDadas.isEmpty()
+    fun esActivo(): Boolean = amigos.isNotEmpty() || listaDeRecomendacionesCreada.isNotEmpty() || listaDeValoracionesDadas.isNotEmpty()
 }
