@@ -167,7 +167,7 @@ class ProcesosAdministracionSpec : DescribeSpec ({
 
             val command = BorrarUsuarioInactivo(mockMailSender)
 
-            command.enviarMail(mockMailSender)
+            command.ejecutar(adm)
 
             verify (exactly = 1) {
                 mockMailSender.sendMail(Mail(
@@ -186,7 +186,7 @@ class ProcesosAdministracionSpec : DescribeSpec ({
             val repository = RepositorioLibros(serviceLibro)
             val command = ActualizacionDeLibro(mockMailSender, repository)
 
-            command.enviarMail(mockMailSender)
+            command.ejecutar(adm)
 
             verify (exactly = 1) {
                 mockMailSender.sendMail(Mail(
@@ -202,7 +202,7 @@ class ProcesosAdministracionSpec : DescribeSpec ({
 
             val command = BorrarCentroDeLecturaExpirados(mockMailSender)
 
-            command.enviarMail(mockMailSender)
+            command.ejecutar(adm)
 
             verify (exactly = 1) {
                 mockMailSender.sendMail(Mail(
@@ -219,7 +219,7 @@ class ProcesosAdministracionSpec : DescribeSpec ({
             val autores = mutableSetOf(autor1, autor2)
             val command = AgregarAutores(mockMailSender, autores)
 
-            command.enviarMail(mockMailSender)
+            command.ejecutar(adm)
 
             verify (exactly = 1) {
                 mockMailSender.sendMail(Mail(
