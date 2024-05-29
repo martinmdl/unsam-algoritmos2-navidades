@@ -11,7 +11,7 @@ abstract class ProcesoAdministracion(private val mailSender: MailSender) {
         this.accionarProceso(adm)
     }
 
-    fun enviarMail(mailSender:MailSender) {
+    private fun enviarMail(mailSender:MailSender) {
         val mail = Mail(
             from = "System@not.com",
             to = "admin@readapp.com.ar",
