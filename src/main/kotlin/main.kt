@@ -169,7 +169,7 @@ class EsInteresada() : ObserverEntrega {
 
     override fun regaloEntregado(persona: Persona, regalo: Regalo) {
         if(regalo.precio > PRECIO_LIMITE) {
-           // persona.resetearPreferencias()
+            persona.resetearPreferencias()
             persona.agregarPreferencia(Interesada(5000.0))
         }
     }
