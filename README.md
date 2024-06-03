@@ -3,7 +3,7 @@
 
 ## Diagrama de clases
 
-<img src="" height="500" />
+![diagrama-parcial-navidades](https://github.com/martinmdl/parcial-2022/assets/78437578/f01b3cd2-f69d-4898-96c2-2ee67cc9bc42)
 
 ## Ideas de diseño
 
@@ -20,4 +20,4 @@
 - Por el enunciado parece que el flete tuviera su propia API para obtener datos especificos. Por comodidad yo convine que el informe se consetruyera con String. Esto me permitió resolver el hecho de que cada regalo tuviera un código especifico, usando "lateinit" y sobrescribiendo el dato en cada clase.
 
 ### Punto 3.3.3
-- Agregué un método que limpia la colección de Preferencias antes de agregarle "Interesada" porque la consigna hace ver nuevamente la Preferencia es única. Al no quedar claro si es única o múltiple, elijo dejar el set con un solo objeto: mutableSetOf<Preferencia>(Interesada(5000.0)) 
+- Agregué un método que limpia la colección de Preferencias antes de agregarle "Interesada" porque la consigna hace ver nuevamente la Preferencia es única. Al no quedar claro si es única o múltiple, elijo dejar el set con un solo objeto: mutableSetOf<Preferencia>(Interesada(5000.0))
