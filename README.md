@@ -1,5 +1,4 @@
-## Parcial Navidades
-[**Enunciado**](https://docs.google.com/document/d/1hswq2ZZCRL-SWZNavJ3oW93JwBYxcBUfBbgTsgipPvY/edit)
+## [Enunciado](https://docs.google.com/document/d/1hswq2ZZCRL-SWZNavJ3oW93JwBYxcBUfBbgTsgipPvY/edit)
 
 ## Diagrama de clases
 
